@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileMart", "MobileMart\MobileMart.csproj", "{FD46C178-D4C5-482E-AA14-885E6B7BCB91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileMart.BL", "MobileMart.BL\MobileMart.BL.csproj", "{D505B157-25CD-4BA8-8813-868745C08D27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileMart.Repository", "MobileMart.Repository\MobileMart.Repository.csproj", "{60511336-4F1E-433C-BDA9-D630352B3DCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileMart.DB", "MobileMart.DB\MobileMart.DB.csproj", "{3EFA18B8-3549-4901-9404-9629E6172CB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD46C178-D4C5-482E-AA14-885E6B7BCB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD46C178-D4C5-482E-AA14-885E6B7BCB91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD46C178-D4C5-482E-AA14-885E6B7BCB91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD46C178-D4C5-482E-AA14-885E6B7BCB91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D505B157-25CD-4BA8-8813-868745C08D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D505B157-25CD-4BA8-8813-868745C08D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D505B157-25CD-4BA8-8813-868745C08D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D505B157-25CD-4BA8-8813-868745C08D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60511336-4F1E-433C-BDA9-D630352B3DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60511336-4F1E-433C-BDA9-D630352B3DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60511336-4F1E-433C-BDA9-D630352B3DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60511336-4F1E-433C-BDA9-D630352B3DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EFA18B8-3549-4901-9404-9629E6172CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFA18B8-3549-4901-9404-9629E6172CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFA18B8-3549-4901-9404-9629E6172CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFA18B8-3549-4901-9404-9629E6172CB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
