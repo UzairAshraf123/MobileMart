@@ -5,18 +5,50 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <div class="nav navbar-nav navbar-right">
+            <div class="top-link clearfix">
+                <ul class="link f-right">
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="zmdi zmdi-favorite"></i>
+                            Wish List (0)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Manage/Index" title="Manage">
+                            <i class="zmdi zmdi-account"></i>
+                            Hello! @User.Identity.GetUserName()
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="zmdi zmdi-power-off"></i>
+                            Log off
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <div class="nav navbar-nav navbar-right">
+        <div class="top-link clearfix">
+            <ul class="link f-right">
+                <li>
+                    <a href="">
+                        <i class="zmdi zmdi-favorite"></i>
+                        Wish List (0)
+                    </a>
+                </li>
+                <li>
+                    <a href="Account/Register" id="registerLink">
+                        <i class="zmdi zmdi-lock"></i>
+                        Register
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 }

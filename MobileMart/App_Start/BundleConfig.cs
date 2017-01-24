@@ -15,11 +15,8 @@ namespace MobileMart
                         ));
             bundles.Add(new ScriptBundle("~/bundles/JSs").Include(
                         "~/Scripts/plugins.js",
-                        "~/Scripts/main.js",
-                         "~/Content/AdminPlugins/morris-data.js",
-                        "~/Content/AdminPlugins/morris.min.js",
-                        "~/Content/AdminPlugins/raphael.min.js"
-                ));
+                        "~/Scripts/main.js"
+                        ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -43,10 +40,7 @@ namespace MobileMart
                       "~/Content/nivo-slider.css",
                       "~/Content/responsive.css",
                       "~/Content/default.css",
-                      "~/Content/style.css",
-                      "~/Content/sb-admin.css",
-                      "~/Content/AdminPlugins/morris.css",
-                      "~/Content/AwesomeFonts/css/font-awesome.min.css"));
+                      "~/Content/style.css"));
         }
     }
 }

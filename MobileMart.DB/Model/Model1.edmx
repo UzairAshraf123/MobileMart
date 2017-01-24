@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -97,6 +97,7 @@
           <Property Name="OwnerName" Type="varchar" MaxLength="50" />
           <Property Name="OwnerContact" Type="varchar" MaxLength="50" />
           <Property Name="OwnerPicture" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -138,6 +139,7 @@
           <Property Name="StateID" Type="int" />
           <Property Name="CityID" Type="int" />
           <Property Name="ShopLogo" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="states">
           <Key>
@@ -526,8 +528,7 @@
             <End Role="Supplier" EntitySet="Supplier" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MobileMartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -643,6 +644,7 @@
           <Property Name="OwnerPicture" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Shops" Relationship="Self.FK_Shop_Owner" FromRole="Owner" ToRole="Shop" />
           <NavigationProperty Name="Suppliers" Relationship="Self.FK_Supplier_Owner1" FromRole="Owner" ToRole="Supplier" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -694,6 +696,7 @@
           <Property Name="ShopLogo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Owner" Relationship="Self.FK_Shop_Owner" FromRole="Shop" ToRole="Owner" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_Shop" FromRole="Shop" ToRole="Stock" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="state">
           <Key>
@@ -1192,6 +1195,7 @@
           <EntitySetMapping Name="Owners">
             <EntityTypeMapping TypeName="MobileMartModel.Owner">
               <MappingFragment StoreEntitySet="Owner">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
                 <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
@@ -1234,6 +1238,7 @@
           <EntitySetMapping Name="Shops">
             <EntityTypeMapping TypeName="MobileMartModel.Shop">
               <MappingFragment StoreEntitySet="Shop">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="ShopID" ColumnName="ShopID" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="ShopName" ColumnName="ShopName" />

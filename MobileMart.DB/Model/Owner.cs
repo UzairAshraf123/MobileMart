@@ -26,6 +26,7 @@ namespace MobileMart.DB.Model
         public string OwnerName { get; set; }
         public string OwnerContact { get; set; }
         public string OwnerPicture { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shop> Shops { get; set; }
