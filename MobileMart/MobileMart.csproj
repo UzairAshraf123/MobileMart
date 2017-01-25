@@ -331,6 +331,7 @@
     <Content Include="Views\Shared\_AdminSideMenuPartial.cshtml" />
     <Content Include="Views\Shared\_ShopSideMenuPartial.cshtml" />
     <Content Include="Views\Admin\CreateShop.cshtml" />
+    <Content Include="Views\Admin\AdminLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

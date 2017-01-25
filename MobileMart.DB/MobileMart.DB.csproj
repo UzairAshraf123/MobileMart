@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="DataBase\asd" />
+    <None Include="DataBase\MobileShop%28new%29.bak" />
     <None Include="DataBase\MobileShop.bak" />
     <None Include="Model\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>

@@ -14,5 +14,6 @@ namespace MobileMart.DB.ViewModel
         public string Mobile { get; set; }
         public string ProfilePhotoPath { get; set; }
         public DateTime CreatedOn { get; set; }
+        public int MyProperty { get; set; }
     }
 }

@@ -79,6 +79,10 @@ namespace MobileMart.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (model.Email == "admin123@admin.com")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
