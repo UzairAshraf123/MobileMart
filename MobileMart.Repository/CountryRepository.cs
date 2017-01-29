@@ -7,14 +7,13 @@ using MobileMart.DB.Model;
 
 namespace MobileMart.Repository
 {
-    public class ShopRepository : IShopRepository
+    public class CountryRepository : ICountryRepository
     {
         private MobileMartEntities _context;
-        public void Insert(Shop entity)
+        public IEnumerable<country> Get()
         {
             _context = new MobileMartEntities();
-            _context.Shops.Add(entity);
-            _context.SaveChanges();
+            return _context.countries.ToList();
         }
     }
 }

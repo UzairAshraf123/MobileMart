@@ -10,5 +10,6 @@ namespace MobileMart.Repository
     public interface IOwnerRepository
     {
         void Insert(Owner entity);
+        IEnumerable<Owner> Get();
     }
 }

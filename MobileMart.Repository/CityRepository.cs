@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MobileMart.DB.Model;
-
 namespace MobileMart.Repository
 {
-    public class ShopRepository : IShopRepository
+    public class CityRepository: ICityRepository
     {
         private MobileMartEntities _context;
-        public void Insert(Shop entity)
+        public IEnumerable<city> Get()
         {
             _context = new MobileMartEntities();
-            _context.Shops.Add(entity);
-            _context.SaveChanges();
+            return _context.cities.ToList();
         }
     }
 }
