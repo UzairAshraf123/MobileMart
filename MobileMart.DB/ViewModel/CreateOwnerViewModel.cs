@@ -24,6 +24,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
         public string UserID { get; set; }
         public int OwnerID { get; set; }
         public string OwnerName { get; set; }

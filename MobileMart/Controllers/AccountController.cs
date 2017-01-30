@@ -78,12 +78,21 @@ namespace MobileMart.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var user = await UserManager.FindAsync(model.Email, model.Password);
             switch (result)
             {
                 case SignInStatus.Success:
                     if (model.Email == "admin123@admin.com")
                     {
                         return RedirectToAction("Index", "Admin");
+                    }
+                    else if (UserManager.IsInRole(user.Id, "ShopKeeper"))
+                    {
+                        return RedirectToAction("Index", "ShopOwner");
+                    }
+                    else if (UserManager.IsInRole(user.Id, "Customer"))
+                    {
+                        return RedirectToAction("Home", "Index");
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -97,7 +106,47 @@ namespace MobileMart.Controllers
             }
         }
 
-        //
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ShopLogin(LoginViewModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //    // This doesn't count login failures towards account lockout
+        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+        //    var user = await UserManager.FindAsync(model.Email, model.Password);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //            if (model.Email == "admin123@admin.com")
+        //            {
+        //                return RedirectToAction("Index", "Admin");
+        //            }
+        //            else if (UserManager.IsInRole(user.Id, "ShopKeeper"))
+        //            {
+        //                return RedirectToAction("Admin", "Index");
+        //            }
+        //            else if(UserManager.IsInRole(user.Id, "Customer"))
+        //            {
+        //                return RedirectToAction("Home", "Index");
+        //            }
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return View(model);
+        //    }
+        //}
+        ////
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)

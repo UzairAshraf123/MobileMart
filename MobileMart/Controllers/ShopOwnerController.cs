@@ -13,5 +13,11 @@ namespace MobileMart.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
     }
 }
