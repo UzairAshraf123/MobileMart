@@ -39,8 +39,10 @@ namespace MobileMart.BL
 
         public int GetOwnerByUserID(string userID)
         {
+
+            //var owner = ownerRepo.Get().FirstOrDefault(s => s.AspNetUserID == userID).OwnerID
             IOwnerRepository ownerRepo = new OwnerRepository();
-            var owner = ownerRepo.Get().Where(s => s.AspNetUserID == userID).Select(s=>s.OwnerID).FirstOrDefault();
+            var owner = ownerRepo.Get().FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
             return owner;
         }
         public IEnumerable<country> GetCountries()

@@ -334,6 +334,7 @@
     <Content Include="Views\Admin\CreateOwner.cshtml" />
     <Content Include="Views\Admin\CreateShop.cshtml" />
     <Content Include="Views\ShopOwner\Login.cshtml" />
+    <Content Include="Views\Home\RegisterAndLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

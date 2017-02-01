@@ -100,7 +100,7 @@ a,
 button,
 input {
   outline: medium none;
-  color: #666666;
+  color: #555;
 }
 .uppercase { 
   text-transform: uppercase
@@ -159,7 +159,7 @@ p {
   font-size: 13px;
   font-weight: normal;
   line-height: 20px;
-  color: #999999;
+  color: #555;
   margin-bottom: 15px;
 }
 hr {
