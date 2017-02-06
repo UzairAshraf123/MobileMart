@@ -53,9 +53,9 @@ namespace MobileMart.Controllers
             {
                 AdminBL adminBL = new AdminBL();
                 adminBL.CreateShop(viewModel);
-                return View("Index");
+                return RedirectToAction("DisplayShop","Admin", new {ownerID = viewModel.OwnerID });
             }
-            return View();
+            return RedirectToAction("CreateShop", "Admin");
         }
         public JsonResult StatesByCountryID(int id)
         {
@@ -82,5 +82,51 @@ namespace MobileMart.Controllers
             var city = new SelectList(cities, "Id", "Text");
             return Json(new { city }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AllShops()
+        {
+            return View();
+        }
+
+        public ActionResult DisplayShop(int ownerID)
+        {
+            AdminBL BL = new AdminBL();
+            var owner = BL.GetShopByOwnerID(ownerID);
+            return View(owner);
+
+        }
+
+        public ActionResult DisplayAllShops()
+        {
+                AdminBL BL = new AdminBL();
+                var shop = BL.GetAllShops();
+                return View(shop);
+            
+        }
+
+        public ActionResult DeleteShop (int? ID)
+        {
+            AdminBL BL = new AdminBL();
+           string status = BL.DeleteShop(ID);
+            return RedirectToAction("DisplayAllShops", "Admin");
+
+        }
+        [HttpGet]
+        public ActionResult EditShop (int? ID)
+        {
+            AdminBL BL = new AdminBL();
+            var Owner = BL.EditShopView(ID);
+            return View(Owner);
+        }
+
+        public ActionResult EditShop (EditShopViewModel ViewModel)
+        {
+            AdminBL BL = new AdminBL();
+            string status = BL.EditShop(ViewModel);
+            return RedirectToAction("DisplayAllShops", "Admin");
+        }
+
+       
+
     }
 }
