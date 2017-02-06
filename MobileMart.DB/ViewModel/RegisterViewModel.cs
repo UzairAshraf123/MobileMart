@@ -33,5 +33,6 @@ namespace MobileMart.DB.ViewModel
         public int CityID { get; set; }
         public string Mobile { get; set; }
         public string AspNetUserID { get; set; }
+        //public string CustomerConfirmation { get; set; }
     }
 }

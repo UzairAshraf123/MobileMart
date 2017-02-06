@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,11 +56,13 @@
     <Compile Include="ColorRepository.cs" />
     <Compile Include="CompanyRepository.cs" />
     <Compile Include="CountryRepository.cs" />
+    <Compile Include="CustomerRepository.cs" />
     <Compile Include="ICategoryRepository.cs" />
     <Compile Include="ICityRepository.cs" />
     <Compile Include="IColorRepository.cs" />
     <Compile Include="ICompanyRepository.cs" />
     <Compile Include="ICountryRepository.cs" />
+    <Compile Include="ICustomerRepository.cs" />
     <Compile Include="IOwnerRepository.cs" />
     <Compile Include="IProductRepository.cs" />
     <Compile Include="IShopRepository.cs" />
