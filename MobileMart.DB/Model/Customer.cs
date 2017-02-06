@@ -21,7 +21,6 @@ namespace MobileMart.DB.Model
         }
     
         public int CustomerID { get; set; }
-        public int CustomerProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -335,6 +335,11 @@
     <Content Include="Views\Admin\CreateShop.cshtml" />
     <Content Include="Views\ShopOwner\Login.cshtml" />
     <Content Include="Views\Home\RegisterAndLogin.cshtml" />
+    <Content Include="Views\ShopOwner\AddCompany.cshtml" />
+    <Content Include="Views\ShopOwner\AddCategory.cshtml" />
+    <Content Include="Views\ShopOwner\AddProduct.cshtml" />
+    <Content Include="Views\ShopOwner\DisplayProduct.cshtml" />
+    <Content Include="Views\ShopOwner\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

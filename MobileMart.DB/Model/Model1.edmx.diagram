@@ -5,23 +5,23 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="eefb073a24f14947bd59c7559d69aa2c" Name="Diagram1">
-        <EntityTypeShape EntityType="MobileMartModel.Category" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.Category" Width="1.5" PointX="4.625" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.city" Width="1.5" PointX="1.5" PointY="17.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Color" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MobileMartModel.Company" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.Company" Width="1.5" PointX="9" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.country" Width="1.5" PointX="1.5" PointY="23.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Customer" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Order" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MobileMartModel.OrderDetail" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.OrderDetail" Width="1.5" PointX="1" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Owner" Width="1.5" PointX="1.5" PointY="33.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Payment" Width="1.5" PointX="0.75" PointY="27.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MobileMartModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.Product" Width="1.5" PointX="6.875" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Shipper" Width="1.5" PointX="0.75" PointY="29.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Shop" Width="1.5" PointX="3.75" PointY="32.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.state" Width="1.5" PointX="1.5" PointY="20.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.Stock" Width="1.5" PointX="6" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MobileMartModel.StockDetail" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MobileMartModel.Supplier" Width="1.5" PointX="3.75" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.StockDetail" Width="1.5" PointX="10.875" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobileMartModel.Supplier" Width="1.5" PointX="8.25" PointY="34.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MobileMartModel.sysdiagram" Width="1.5" PointX="2.75" PointY="8" IsExpanded="true" />
         <AssociationConnector Association="MobileMartModel.FK_Product_Category" ManuallyRouted="false" />
         <AssociationConnector Association="MobileMartModel.FK_StockDetail_Category" ManuallyRouted="false" />
