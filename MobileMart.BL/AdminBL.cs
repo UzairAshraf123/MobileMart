@@ -36,29 +36,11 @@ namespace MobileMart.BL
             entity.CreatedOn = model.CreatedOn;
             ownerRepo.Insert(entity);
         }
-        public void CreateCustomer(RegisterViewModel model)
-        {
-            ICustomerRepository customerRepo = new CustomerRepository();
-            Customer customer = new Customer();
-            customer.ProfilePicture = model.ProfilePicture;
-            customer.AspNetUserID = model.AspNetUserID;
-            customer.FirstName = model.FirstName;
-            customer.LastName = model.LastName;
-            customer.Address1 = model.Address;
-            customer.Email = model.Email;
-            customer.CreatedOn = model.CreatedOn;
-            customer.PhoneNo = model.Mobile;
-            customer.DOB = model.DOB;
-
-            customerRepo.Insert(customer);
-        }
 
         public int GetOwnerByUserID(string userID)
         {
-
-            //var owner = ownerRepo.Get().FirstOrDefault(s => s.AspNetUserID == userID).OwnerID
             IOwnerRepository ownerRepo = new OwnerRepository();
-            var owner = ownerRepo.Get().FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
+            var owner = ownerRepo.Get().Where(s => s.AspNetUserID == userID).Select(s => s.OwnerID).FirstOrDefault();
             return owner;
         }
         public IEnumerable<country> GetCountries()
@@ -77,6 +59,126 @@ namespace MobileMart.BL
         {
             ICityRepository cityRepo = new CityRepository();
             return cityRepo.Get().Where(s => s.state_id == id).ToList();
+        }
+        public void CreateCustomer(RegisterViewModel model)
+        {
+            ICustomerRepository customerRepo = new CustomerRepository();
+            Customer customer = new Customer();
+            customer.ProfilePicture = model.ProfilePicture;
+            customer.AspNetUserID = model.AspNetUserID;
+            customer.FirstName = model.FirstName;
+            customer.LastName = model.LastName;
+            customer.Address1 = model.Address;
+            customer.Email = model.Email;
+            customer.CreatedOn = model.CreatedOn;
+            customer.PhoneNo = model.Mobile;
+            customer.DOB = model.DOB;
+
+            customerRepo.Insert(customer);
+        }
+        public DisplayShopViewModel GetShopByOwnerID(int ownerID)
+        {
+            IShopRepository shopRepo = new ShopRepository();
+            IOwnerRepository ownerRepo = new OwnerRepository();
+            var owner = ownerRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
+            var shop = shopRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
+            DisplayShopViewModel viewmodel = new DisplayShopViewModel();
+
+            viewmodel.OwnerID = owner.OwnerID;
+            viewmodel.OwnerName = owner.OwnerName;
+            viewmodel.Contact = owner.OwnerContact;
+            viewmodel.OwnerCreatedOn = owner.CreatedOn;
+            viewmodel.Profile = owner.OwnerPicture;
+
+            viewmodel.ShopID = shop.ShopID;
+            viewmodel.ShopName = shop.ShopName;
+            viewmodel.ShopAddress = shop.ShopAddress;
+            viewmodel.ShopLogo = shop.ShopLogo;
+            viewmodel.ShopCreatedOn = shop.CreatedOn;
+
+            return viewmodel;
+        }
+
+        public List<DisplayShopViewModel> GetAllShops()
+        {
+            IShopRepository shopRepo = new ShopRepository();
+            IOwnerRepository ownerRepo = new OwnerRepository();
+            var shop = shopRepo.Get();
+
+            List<DisplayShopViewModel> list = new List<DisplayShopViewModel>();
+            foreach (var item in shop)
+            {
+                DisplayShopViewModel viewmodel = new DisplayShopViewModel();
+                viewmodel.OwnerID = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerID;
+                viewmodel.OwnerName = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerName;
+
+                // viewmodel.Contact = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerContact;
+                // viewmodel.OwnerCreatedOn = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).CreatedOn;
+
+                viewmodel.ShopID = item.ShopID;
+                viewmodel.ShopName = item.ShopName;
+                viewmodel.ShopAddress = item.ShopAddress;
+                viewmodel.ShopLogo = item.ShopLogo;
+                viewmodel.ShopCreatedOn = item.CreatedOn;
+
+                list.Add(viewmodel);
+            }
+
+            return list;
+
+
+        }
+
+        public string DeleteShop(int? ID)
+        {
+            IOwnerRepository ownerRepo = new OwnerRepository();
+            IShopRepository shopRepo = new ShopRepository();
+
+            ownerRepo.Delete(ID);
+            shopRepo.Delete(ID);
+            return "shop deleted";
+
+
+        }
+        public EditShopViewModel EditShopView(int? ID)
+        {
+            IShopRepository shopRepo = new ShopRepository();
+            var Shop = shopRepo.GetShopByID(ID);
+            var EShop = new EditShopViewModel();
+            EShop.OwnerID = Shop.OwnerID;
+            EShop.ShopID = Shop.ShopID;
+            EShop.ShopAddress = Shop.ShopAddress;
+            EShop.ShopName = Shop.ShopName;
+            EShop.ShopLogo = Shop.ShopLogo;
+
+            return EShop;
+        }
+
+        public string EditShop(EditShopViewModel ViewModel)
+        {
+            IOwnerRepository OwnerRepo = new OwnerRepository();
+            IShopRepository ShopRepo = new ShopRepository();
+
+            Shop shop = new Shop();
+            Owner owner = new Owner();
+            owner.OwnerID = ViewModel.OwnerID;
+            owner.OwnerName = ViewModel.OwnerName;
+            owner.OwnerPicture = ViewModel.ProfilePhotoPath;
+            owner.OwnerContact = ViewModel.Mobile;
+
+
+            shop.ShopID = ViewModel.ShopID;
+            shop.ShopName = ViewModel.ShopName;
+            shop.ShopAddress = ViewModel.ShopAddress;
+            shop.ShopLogo = ViewModel.ShopLogo;
+            shop.CountryID = ViewModel.Country;
+            shop.StateID = ViewModel.State;
+            shop.CityID = ViewModel.City;
+
+            OwnerRepo.Edit(owner);
+            ShopRepo.Edit(shop);
+
+            return "Profile Updated";
         }
     }
 }
