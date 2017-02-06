@@ -53,8 +53,10 @@
   <ItemGroup>
     <Compile Include="CityRepository.cs" />
     <Compile Include="CountryRepository.cs" />
+    <Compile Include="CustomerRepository.cs" />
     <Compile Include="ICityRepository.cs" />
     <Compile Include="ICountryRepository.cs" />
+    <Compile Include="ICustomerRepository.cs" />
     <Compile Include="IOwnerRepository.cs" />
     <Compile Include="IShopRepository.cs" />
     <Compile Include="IStateRepository.cs" />

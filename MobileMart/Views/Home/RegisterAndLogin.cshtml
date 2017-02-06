@@ -1,0 +1,140 @@
+﻿@using MobileMart.DB.ViewModel
+@model  LoginRegiseterViewModel
+
+@{
+    ViewBag.Title = "RegisterAndLogin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page-content" class="page-wrapper">
+    <!-- LOGIN SECTION START -->
+    <div class="login-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="registered-customers">
+                        <h6 class="widget-title border-left mb-50">REGISTERED CUSTOMERS</h6>
+                        <section id="loginForm" class="login-account p-30 box-shadow">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <p>If you have an account with us, Please log in.</p>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control"  , @placeholder = "Email" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                            @Html.LabelFor(m => m.RememberMe)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Log in" class="btn btn-default submit-btn-1 btn-hover-1" />
+                                    </div>
+                                </div>
+                                @* Enable this once you have account confirmation enabled for password reset functionality
+                                <p>
+                                    @Html.ActionLink("Forgot your password?", "ForgotPassword"   )
+                                </p>*@
+                            }
+                        </section>
+                    </div>
+                </div>
+                <!-- new-customers -->
+                <div class="col-md-6">
+                    <div class="new-customers">
+                        <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
+                        <div class="login-account p-30 box-shadow">
+                        @using (Html.BeginForm("CustomerRegister", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <p>Create a new account.</p>
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            
+                            <input type="hidden" name="CreatedOn" value="@DateTime.Now" />
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.ProfilePicture, new { @class = "form-control"})
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", @placeholder = "Email" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.PasswordFor(m => m.RegisterViewModel.Password, new { @class = "form-control", @placeholder = "Password" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.PasswordFor(m => m.RegisterViewModel.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="custom-select">
+                                        <option value="defalt">country</option>
+                                        <option value="c-1">Australia</option>
+                                        <option value="c-2">Bangladesh</option>
+                                        <option value="c-3">Unitd States</option>
+                                        <option value="c-4">Unitd Kingdom</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="custom-select">
+                                        <option value="defalt">State</option>
+                                        <option value="c-1">Melbourne</option>
+                                        <option value="c-2">Dhaka</option>
+                                        <option value="c-3">New York</option>
+                                        <option value="c-4">London</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="custom-select">
+                                        <option value="defalt">Town/City</option>
+                                        <option value="c-1">Victoria</option>
+                                        <option value="c-2">Chittagong</option>
+                                        <option value="c-3">Boston</option>
+                                        <option value="c-4">Cambridge</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.Address, new { @class = "form-control", @placeholder = "Address" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.RegisterViewModel.Mobile, new { @class = "form-control", @placeholder = "03*********" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <input type="submit" class="btn btn-default submit-btn-1 mt-20 btn-hover-1" value="Register" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="reset" class="btn btn-default submit-btn-1 mt-20 btn-hover-1 f-right" value="Clear" />
+                                </div>
+                            </div>
+                        }   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN SECTION END -->
+</div>
+    </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

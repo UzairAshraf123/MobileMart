@@ -78,12 +78,21 @@ namespace MobileMart.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var user = await UserManager.FindAsync(model.Email, model.Password);
             switch (result)
             {
                 case SignInStatus.Success:
                     if (model.Email == "admin123@admin.com")
                     {
                         return RedirectToAction("Index", "Admin");
+                    }
+                    else if (UserManager.IsInRole(user.Id, "ShopKeeper"))
+                    {
+                        return RedirectToAction("Index", "ShopOwner");
+                    }
+                    else if (UserManager.IsInRole(user.Id, "Customer"))
+                    {
+                        return RedirectToAction("Index", "Home");
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -97,7 +106,47 @@ namespace MobileMart.Controllers
             }
         }
 
-        //
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ShopLogin(LoginViewModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //    // This doesn't count login failures towards account lockout
+        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+        //    var user = await UserManager.FindAsync(model.Email, model.Password);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //            if (model.Email == "admin123@admin.com")
+        //            {
+        //                return RedirectToAction("Index", "Admin");
+        //            }
+        //            else if (UserManager.IsInRole(user.Id, "ShopKeeper"))
+        //            {
+        //                return RedirectToAction("Admin", "Index");
+        //            }
+        //            else if(UserManager.IsInRole(user.Id, "Customer"))
+        //            {
+        //                return RedirectToAction("Home", "Index");
+        //            }
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return View(model);
+        //    }
+        //}
+        ////
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -153,7 +202,7 @@ namespace MobileMart.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(Models.RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -196,20 +245,49 @@ namespace MobileMart.Controllers
                         adminBl.CreateOwner(model);
                         return RedirectToAction("CreateShop", "Admin" , new { userID = user.Id });
                     }
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("CreateOwner","Admin");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CustomerRegister(LoginRegiseterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.RegisterViewModel.Email, Email = model.RegisterViewModel.Email };
+                var result = await UserManager.CreateAsync(user, model.RegisterViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                        AdminBL adminBl = new AdminBL();
+                        UserManager.AddToRole(user.Id, "Customer");
+                        model.RegisterViewModel.AspNetUserID = user.Id;
+                        adminBl.CreateCustomer(model.RegisterViewModel);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToAction("Index", "Home");
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("CreateOwner","Admin");
+            return RedirectToAction("RegisterAndLogin", "Home");
         }
 
         //

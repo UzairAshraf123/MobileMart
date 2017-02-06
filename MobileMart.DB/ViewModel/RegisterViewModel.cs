@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MobileMart.DB.ViewModel
 {
-    public class CreateOwnerViewModel
+    public class RegisterViewModel
     {
         [Required]
         [EmailAddress]
@@ -19,18 +19,20 @@ namespace MobileMart.DB.ViewModel
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-    
+
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        public string UserID { get; set; }
-        public int OwnerID { get; set; }
-        public string OwnerName { get; set; }
-        public string Mobile { get; set; }
-        public string ProfilePhotoPath { get; set; }
+        public string ProfilePicture { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DOB { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string OwnerConformation { get; set; }
+        public string Address { get; set; }
+        public int CityID { get; set; }
+        public string Mobile { get; set; }
+        public string AspNetUserID { get; set; }
+        //public string CustomerConfirmation { get; set; }
     }
 }
