@@ -36,6 +36,22 @@ namespace MobileMart.BL
             entity.CreatedOn = model.CreatedOn;
             ownerRepo.Insert(entity);
         }
+        public void CreateCustomer(RegisterViewModel model)
+        {
+            ICustomerRepository customerRepo = new CustomerRepository();
+            Customer customer = new Customer();
+            customer.ProfilePicture = model.ProfilePicture;
+            customer.AspNetUserID = model.AspNetUserID;
+            customer.FirstName = model.FirstName;
+            customer.LastName = model.LastName;
+            customer.Address1 = model.Address;
+            customer.Email = model.Email;
+            customer.CreatedOn = model.CreatedOn;
+            customer.PhoneNo = model.Mobile;
+            customer.DOB = model.DOB;
+
+            customerRepo.Insert(customer);
+        }
 
         public int GetOwnerByUserID(string userID)
         {
@@ -62,5 +78,6 @@ namespace MobileMart.BL
             ICityRepository cityRepo = new CityRepository();
             return cityRepo.Get().Where(s => s.state_id == id).ToList();
         }
+
     }
 }
