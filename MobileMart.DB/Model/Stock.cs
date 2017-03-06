@@ -21,11 +21,10 @@ namespace MobileMart.DB.Model
         }
     
         public int StockID { get; set; }
-        public Nullable<int> ShopID { get; set; }
-        public Nullable<int> SupplierID { get; set; }
+        public int ShopID { get; set; }
+        public bool IsCreated { get; set; }
     
         public virtual Shop Shop { get; set; }
-        public virtual Supplier Supplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockDetail> StockDetails { get; set; }
     }

@@ -8,21 +8,34 @@
 
 <h2>CreateShop</h2>
 
-@using (Html.BeginForm("CreateShop", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>CreateShopViewModel</h4>
+<div class="row">
+    <div class="col-sm-7">
+    @using (Html.BeginForm("CreateShop", "Admin", FormMethod.Post,
+            new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        <input type="hidden" name="UserID" value="@ViewBag.UserID" />
         <input type="hidden" name="OwnerID" value="@ViewBag.OwnerID" />
         <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
-        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShopLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                <label class="btn btn-default btn-file">
+                    Upload Photo..
+                    <i class="glyphicon glyphicon-folder-open"></i>
+                    <input type="file" name="ShopLogo" accept="image/*" onchange="loadFile(event)">
+                </label>
+                @Html.ValidationMessageFor(model => model.ShopLogo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.ShopName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-8">
                 @Html.EditorFor(model => model.ShopName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ShopName, "", new { @class = "text-danger" })
             </div>
@@ -30,7 +43,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ShopAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-8">
                 @Html.EditorFor(model => model.ShopAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ShopAddress, "", new { @class = "text-danger" })
             </div>
@@ -38,7 +51,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-8">
                 @Html.DropDownListFor(Model => Model.Country,
                     (SelectList)ViewBag.CountryDropDown,
                     "--Select Country--",
@@ -49,7 +62,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-8">
                 @Html.DropDownListFor(Model => Model.State ,
                     new SelectList(string.Empty, "Value" , "Text"),
                     "--Select State--" ,
@@ -60,7 +73,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-8">
                 @Html.DropDownListFor(Model => Model.City ,
                     new SelectList(string.Empty , "Value", "Text"),
                     "--Select City--",
@@ -70,21 +83,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ShopLogo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ShopLogo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ShopLogo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+    }
     </div>
-}
-
+    <div class="col-md-3">
+        <img id="output" class="img-responsive img-thumbnail" height="250" width="250" />
+    </div>
+</div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
@@ -92,10 +100,14 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 @section Scripts {
 <script type="text/javascript">
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
     $("#SelectedCountry").change(function () {
         var countryId = $('#SelectedCountry').val();
         $.ajax({
-            url: "/Admin/StatesByCountryID/"+ countryId ,
+            url: "/Ajax/StatesByCountryID/"+ countryId ,
             type: "Get",
             contentType: "application/json; charset=utf-8",
             datatype: 'JSON',
@@ -111,7 +123,7 @@
     $("#States").change(function () {
         var stateId = $('#States').val();
         $.ajax({
-            url: "/Admin/CitesByStateID/" + stateId,
+            url: "/Ajax/CitesByStateID/" + stateId,
             type: "Get",
             contentType: "application/json; charset=utf-8",
             datatype: 'JSON',
@@ -123,7 +135,7 @@
             }
         });
     });
-</script>
 
+</script>
     @Scripts.Render("~/bundles/jqueryval")
 }

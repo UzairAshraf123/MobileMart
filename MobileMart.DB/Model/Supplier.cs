@@ -17,17 +17,18 @@ namespace MobileMart.DB.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supplier()
         {
-            this.Stocks = new HashSet<Stock>();
+            this.StockDetails = new HashSet<StockDetail>();
         }
     
         public int SupplierID { get; set; }
         public string SupplierName { get; set; }
         public string SupplierAddress { get; set; }
-        public string SupplierNo { get; set; }
-        public Nullable<int> OwnerID { get; set; }
+        public string SupplierContact { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public string CNIC { get; set; }
     
-        public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stock> Stocks { get; set; }
+        public virtual ICollection<StockDetail> StockDetails { get; set; }
     }
 }

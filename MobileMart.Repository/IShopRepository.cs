@@ -13,6 +13,7 @@ namespace MobileMart.Repository
         void Insert(Shop entity);
         void Edit(Shop entity);
         void Delete(int? ID);
-        Shop GetShopByID(int? ID);
+        Shop GetShopByOwnerID(int? ID);
+        void Update(Shop entity);
     }
 }

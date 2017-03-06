@@ -51,12 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUser.cs" />
     <Compile Include="CategoryRepository.cs" />
     <Compile Include="CityRepository.cs" />
     <Compile Include="ColorRepository.cs" />
     <Compile Include="CompanyRepository.cs" />
     <Compile Include="CountryRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
+    <Compile Include="IAspNetUser.cs" />
     <Compile Include="ICategoryRepository.cs" />
     <Compile Include="ICityRepository.cs" />
     <Compile Include="IColorRepository.cs" />
