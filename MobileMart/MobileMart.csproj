@@ -333,18 +333,24 @@
     <Content Include="Views\Admin\AdminLogin.cshtml" />
     <Content Include="Views\Admin\CreateOwner.cshtml" />
     <Content Include="Views\Admin\CreateShop.cshtml" />
-	<Content Include="Views\Admin\AllShops.cshtml" />
+    <Content Include="Views\Admin\AllShops.cshtml" />
     <Content Include="Views\Admin\DisplayShop.cshtml" />
     <Content Include="Views\Admin\DisplayAllShops.cshtml" />
     <Content Include="Views\Admin\EditShop.cshtml" />
     <Content Include="Views\Admin\EditSHopDetails.cshtml" />
-	<Content Include="Views\ShopOwner\Login.cshtml" />
+    <Content Include="Views\ShopOwner\Login.cshtml" />
     <Content Include="Views\Home\RegisterAndLogin.cshtml" />
     <Content Include="Views\ShopOwner\AddCompany.cshtml" />
     <Content Include="Views\ShopOwner\AddCategory.cshtml" />
     <Content Include="Views\ShopOwner\AddProduct.cshtml" />
     <Content Include="Views\ShopOwner\DisplayProduct.cshtml" />
     <Content Include="Views\ShopOwner\Edit.cshtml" />
+    <Content Include="Views\Admin\GetAllCustomers.cshtml" />
+    <Content Include="Views\Account\AdminLogin.cshtml" />
+    <Content Include="Views\Account\OwnerLogin.cshtml" />
+    <Content Include="Views\Account\CustomerLogin.cshtml" />
+    <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Views\ShopOwner\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

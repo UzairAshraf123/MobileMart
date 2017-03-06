@@ -91,7 +91,7 @@ namespace MobileMart.BL
             productrepo.delete(id);
             return "product delete";
         }
-        public AddProductViewModel  UpdteProduct(int id)
+        public AddProductViewModel  UpdateProduct(int id)
         {
             var product = productrepo.GetProduct().Where(s => s.ProductID == id).FirstOrDefault();
             AddProductViewModel viewmodel = new AddProductViewModel();

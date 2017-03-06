@@ -124,7 +124,7 @@ namespace MobileMart.Controllers
             ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
             ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
             ViewBag.ColorDropDown = new SelectList(colors, "id", "text");
-            var product= shopBL.UpdteProduct(id);
+            var product= shopBL.UpdateProduct(id);
             return View(product);
         }
 
@@ -135,5 +135,6 @@ namespace MobileMart.Controllers
             return RedirectToAction("DisplayProduct");
         }
 
+        
     }
 }

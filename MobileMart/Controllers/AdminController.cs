@@ -11,6 +11,7 @@ namespace MobileMart.Controllers
     
     public class AdminController : Controller
     {
+        AdminBL adminBL = new AdminBL();
         // GET: Admin
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -32,7 +33,7 @@ namespace MobileMart.Controllers
         {
             if (userID != null)
             {
-                AdminBL adminBL = new AdminBL();
+               
                 var countries = adminBL.GetCountries().Select(s => new
                 {
                     Text = s.name,
@@ -90,43 +91,50 @@ namespace MobileMart.Controllers
 
         public ActionResult DisplayShop(int ownerID)
         {
-            AdminBL BL = new AdminBL();
-            var owner = BL.GetShopByOwnerID(ownerID);
+            
+            var owner = adminBL.GetShopByOwnerID(ownerID);
             return View(owner);
 
         }
 
         public ActionResult DisplayAllShops()
         {
-                AdminBL BL = new AdminBL();
-                var shop = BL.GetAllShops();
-                return View(shop);
+            var shop = adminBL.GetAllShops();
+            return View(shop);
             
         }
 
+
         public ActionResult DeleteShop (int? ID)
         {
-            AdminBL BL = new AdminBL();
-           string status = BL.DeleteShop(ID);
+            string status = adminBL.DeleteShop(ID);
             return RedirectToAction("DisplayAllShops", "Admin");
 
         }
         [HttpGet]
         public ActionResult EditShop (int? ID)
         {
-            AdminBL BL = new AdminBL();
-            var Owner = BL.EditShopView(ID);
+            var Owner = adminBL.EditShopView(ID);
             return View(Owner);
         }
 
         public ActionResult EditShop (EditShopViewModel ViewModel)
         {
-            AdminBL BL = new AdminBL();
-            string status = BL.EditShop(ViewModel);
+            string status = adminBL.EditShop(ViewModel);
             return RedirectToAction("DisplayAllShops", "Admin");
         }
 
-       
+        public ActionResult GetAllCustomers()
+        {
+            var customers = adminBL.AllCustomers();
+            return View(customers);
+        }
+
+        public ActionResult _AdminSideMenuPartial()
+        {
+            var count = adminBL.Counts();
+            return PartialView(count);
+        }
 
     }
 }

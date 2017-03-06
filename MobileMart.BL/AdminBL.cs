@@ -6,18 +6,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MobileMart.DB.Model;
+using System.IO;
+using System.Web;
+
 namespace MobileMart.BL
 {
     public class AdminBL
     {
         public void CreateOwner(CreateOwnerViewModel model)
         {
+            var fileName = Path.GetFileNameWithoutExtension(model.ProfilePhotoPath.FileName);
+            fileName += DateTime.Now.Ticks + Path.GetExtension(model.ProfilePhotoPath.FileName);
+            var basePath = "~/Content/ShopOwner/Profile/Images/";
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/Profile/Images/"));
+            model.ProfilePhotoPath.SaveAs(path);
+
             IOwnerRepository ownerRepo = new OwnerRepository();
             Owner entity = new Owner();
             entity.AspNetUserID = model.UserID;
             entity.OwnerName = model.OwnerName;
             entity.OwnerContact = model.Mobile;
-            entity.OwnerPicture = model.ProfilePhotoPath;
+            entity.OwnerPicture = basePath + fileName;
             entity.CreatedOn = model.CreatedOn;
             ownerRepo.Insert(entity);
         }
@@ -80,6 +90,7 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             IOwnerRepository ownerRepo = new OwnerRepository();
+            IProductRepository product = new ProductRepository();
             var owner = ownerRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             var shop = shopRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             DisplayShopViewModel viewmodel = new DisplayShopViewModel();
@@ -179,6 +190,24 @@ namespace MobileMart.BL
             ShopRepo.Edit(shop);
 
             return "Profile Updated";
+        }
+        public List<Customer> AllCustomers()
+        {
+            ICustomerRepository Customer = new CustomerRepository();
+            return Customer.Get().ToList();
+        }
+
+        public AdminMenuViewModel Counts()
+        {
+            ICustomerRepository customer = new CustomerRepository();
+            IShopRepository shop = new ShopRepository();
+            AdminMenuViewModel viewmodel = new AdminMenuViewModel();
+           
+            viewmodel.CountShops = shop.Get().Count();
+            viewmodel.CountCustomers = customer.Get().Count();
+         
+            return viewmodel;
+
         }
     }
 }

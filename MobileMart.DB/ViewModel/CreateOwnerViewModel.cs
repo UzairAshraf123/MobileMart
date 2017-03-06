@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MobileMart.DB.ViewModel
 {
@@ -29,7 +30,7 @@ namespace MobileMart.DB.ViewModel
         public int OwnerID { get; set; }
         public string OwnerName { get; set; }
         public string Mobile { get; set; }
-        public string ProfilePhotoPath { get; set; }
+        public HttpPostedFileBase ProfilePhotoPath { get; set; }
         public DateTime CreatedOn { get; set; }
         public string OwnerConformation { get; set; }
     }

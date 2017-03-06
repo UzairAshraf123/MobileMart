@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿
+@using Microsoft.AspNet.Identity
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
     @Html.AntiForgeryToken()
@@ -120,9 +121,15 @@
             <li>
                 <a href="/Admin/CreateOwner"><i class="fa fa-fw fa-plus"></i>Insert New Shop</a>
             </li>
+            
             <li>
-                <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+                <a href="/Admin/DisplayAllShops"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">0</span></a>
             </li>
+
+            <li>
+                <a href="/Admin/GetAllCustomers"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">0</span></a>
+            </li>
+
         </ul>
     </div>
 }

@@ -47,7 +47,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProductName)
         </td>
-        <td><img src="~/Content/ShopOwner/Product/Images/@item.ProductImage" alt="nologo"  class="img-thumbnail img"  /></td>
+        <td><img src="@Url.Content(item.ProductImage)" alt="nologo"  class="img img-rounded img-responsive" height="50" width="50"  /></td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductDetail)
         </td>
