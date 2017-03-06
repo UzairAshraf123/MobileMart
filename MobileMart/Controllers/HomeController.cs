@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using MobileMart.BL;
 using System.Web.Mvc;
 
 namespace MobileMart.Controllers
 {
     public class HomeController : Controller
     {
+        HomeBL BL = new HomeBL();
+        
+
         public ActionResult Index()
         {
-            return View();
+
+            return View(BL.index());
         }
 
         public ActionResult RegisterAndLogin()
@@ -31,5 +32,30 @@ namespace MobileMart.Controllers
 
             return View();
         }
+
+        public ActionResult Products()
+        {
+            return View();
+        }
+
+        public ActionResult Categories()
+        {
+            return View();
+        }
+
+        public ActionResult Companies ()
+        {
+            return View();
+        }
+
+        public ActionResult UserProfile(int ID)
+        {
+           
+            AdminBL BL = new AdminBL();
+            var profile = BL.GetShopByOwnerID(ID);
+            return View(profile);
+        }
+
+       
     }
 }

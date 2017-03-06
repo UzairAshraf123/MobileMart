@@ -1,16 +1,23 @@
-﻿using MobileMart.BL;
+﻿using Microsoft.AspNet.Identity;
+using MobileMart.BL;
 using MobileMart.DB.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using MobileMart.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MobileMart.Controllers
 {
     
     public class AdminController : Controller
     {
+        AdminBL adminBL = new AdminBL();
         // GET: Admin
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -22,24 +29,26 @@ namespace MobileMart.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult CreateOwner()
+        [HttpGet]
+        public ActionResult CreateOwner(int? ownerID)
         {
             return View();
         }
+
         [HttpGet]
         public ActionResult CreateShop(string userID)
         {
+            AdminBL adminBL = new AdminBL();
             if (userID != null)
             {
-                AdminBL adminBL = new AdminBL();
                 var countries = adminBL.GetCountries().Select(s => new
                 {
                     Text = s.name,
                     Value = s.id
                 }).ToList();
+                ViewBag.OwnerID = adminBL.GetOwnerIDByUserID(userID);
+                ViewBag.UserID = userID;
                 ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text"); 
-                ViewBag.OwnerID = adminBL.GetOwnerByUserID(userID);
                 return View();
             }
             return RedirectToAction("CreateOwner", "Admin");
@@ -57,43 +66,12 @@ namespace MobileMart.Controllers
             }
             return RedirectToAction("CreateShop", "Admin");
         }
-        public JsonResult StatesByCountryID(int id)
-        {
-            AdminBL bl = new AdminBL();
-            List<SelectListItem> list = new List<SelectListItem>();
-            var states = bl.GetStatesByCountryId(id).Select(s => new
-            {
-                Text = s.name,
-                Id = s.id
-            }).ToList();
-            var state = new SelectList(states, "Id", "Text");
-            return Json(new { state }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CitesByStateID(int id)
-        {
-            AdminBL bl = new AdminBL();
-            List<SelectListItem> list = new List<SelectListItem>();
-            var cities = bl.GetCitiesByStateId(id).Select(s => new
-            {
-                Text = s.name,
-                Id = s.id
-            }).ToList();
-            var city = new SelectList(cities, "Id", "Text");
-            return Json(new { city }, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult AllShops()
-        {
-            return View();
-        }
 
         public ActionResult DisplayShop(int ownerID)
         {
             AdminBL BL = new AdminBL();
             var owner = BL.GetShopByOwnerID(ownerID);
             return View(owner);
-
         }
 
         public ActionResult DisplayAllShops()
@@ -109,10 +87,10 @@ namespace MobileMart.Controllers
             AdminBL BL = new AdminBL();
            string status = BL.DeleteShop(ID);
             return RedirectToAction("DisplayAllShops", "Admin");
-
         }
+
         [HttpGet]
-        public ActionResult EditShop (int? ID)
+        public ActionResult EditOwner(int? ownerID)
         {
             AdminBL BL = new AdminBL();
             var Owner = BL.EditShopView(ID);
@@ -128,5 +106,35 @@ namespace MobileMart.Controllers
 
        
 
+        [HttpGet]
+        public ActionResult EditShop(int? ownerID)
+        {
+            AdminBL adminBL = new AdminBL();
+            if (ownerID != null)
+            {
+                var shop = adminBL.GetShopByOwnerID(ownerID);
+                var countries = adminBL.GetCountries().Select(s => new
+                {
+                    Text = s.name,
+                    Value = s.id
+                }).ToList();
+                ViewBag.OwnerID = ownerID;
+                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                return View(shop);
+            }
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditShop(CreateShopViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                AdminBL adminBL = new AdminBL();
+                adminBL.UpdateEditedShop(viewModel);
+                return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
+            }
+            return RedirectToAction("CreateShop", "Admin");
+        }
     }
 }

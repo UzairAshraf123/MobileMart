@@ -32,18 +32,25 @@ namespace MobileMart.Repository
             _context.Owners.Remove(owner);
            // _context.SaveChanges();
         }
-        public void Edit(Owner entity)
+        public void Update(Owner entity)
         {
             _context = new MobileMartEntities();
-            _context.Entry(entity).State = EntityState.Modified;
+            var owner = _context.Owners.FirstOrDefault(s => s.OwnerID == entity.OwnerID);
+            owner.OwnerID = entity.OwnerID;
+            owner.OwnerName = entity.OwnerName;
+            owner.OwnerContact = entity.OwnerContact;
+            owner.CreatedOn = entity.CreatedOn;
             _context.SaveChanges();
-
         }
         public Owner GetOwnerByID(int? ID)
         {
             _context = new MobileMartEntities();
-            var owner = _context.Owners.Where(o => o.OwnerID == ID).FirstOrDefault();
-            return owner;
+            return _context.Owners.FirstOrDefault(o => o.OwnerID == ID);
+        }
+        public int GetOwnerIDByUserID(string userID)
+        {
+            _context = new MobileMartEntities();
+            return _context.Owners.FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
         }
     }
 }

@@ -170,6 +170,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ShopOwnerController.cs" />
@@ -336,7 +337,7 @@
     <Content Include="Views\Admin\AllShops.cshtml" />
     <Content Include="Views\Admin\DisplayShop.cshtml" />
     <Content Include="Views\Admin\DisplayAllShops.cshtml" />
-    <Content Include="Views\Admin\EditShop.cshtml" />
+    <Content Include="Views\Admin\EditOwner.cshtml" />
     <Content Include="Views\Admin\EditSHopDetails.cshtml" />
     <Content Include="Views\ShopOwner\Login.cshtml" />
     <Content Include="Views\Home\RegisterAndLogin.cshtml" />
@@ -351,6 +352,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\plugins\" />
+    <Folder Include="Views\Ajax\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

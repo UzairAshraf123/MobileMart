@@ -8,9 +8,10 @@ namespace MobileMart.DB.ViewModel
 {
     public class DisplayShopViewModel
     {
+        public string UserID { get; set; }
         public int OwnerID { get; set; }
         public string OwnerName { get; set; }
-        public string Profile { get; set; }
+        public string OwnerProfile { get; set; }
         public string Contact { get; set; }
         public DateTime? OwnerCreatedOn { get; set; }
 
@@ -19,8 +20,6 @@ namespace MobileMart.DB.ViewModel
         public string ShopLogo { get; set; }
         public string ShopAddress { get; set; }
         public DateTime? ShopCreatedOn { get; set; }
-
-
     }
 }
 

@@ -61,7 +61,7 @@ namespace MobileMart.Controllers
                 return RedirectToAction("DisplaySupplier");
             }
             return View();
-        }
+            }
         //Delete Supplier
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult DeleteSupplier(int id)
@@ -126,7 +126,7 @@ namespace MobileMart.Controllers
             }
             return View();
         }
-        //Delete Product
+       //Delete Product
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult Delete(int id)
         {
@@ -160,6 +160,7 @@ namespace MobileMart.Controllers
             var product= shopBL.UpdteProductlist(id);
             return View(product);
         }
+
         [HttpPost]
         public ActionResult Edit(AddProductViewModel viewmodel)
         {
@@ -167,5 +168,6 @@ namespace MobileMart.Controllers
             return RedirectToAction("DisplayProduct");
         }
 
+        
     }
 }

@@ -128,13 +128,15 @@
     <Compile Include="ViewModel\AddCompanyViewModel.cs" />
     <Compile Include="ViewModel\AddProductViewModel.cs" />
     <Compile Include="ViewModel\AddSupplierViewModel.cs" />
+    <Compile Include="ViewModel\AdminMenuViewModel.cs" />
     <Compile Include="ViewModel\CreateOwnerViewModel.cs" />
     <Compile Include="ViewModel\CreateShopViewModel.cs" />
-    <Compile Include="ViewModel\DisplayShopViewModel.cs" />
+	<Compile Include="ViewModel\DisplayShopViewModel.cs" />
     <Compile Include="ViewModel\DisplaySupplierViewModel.cs" />
     <Compile Include="ViewModel\EditShopViewModel.cs" />
     <Compile Include="ViewModel\DisplayProductViewModel.cs" />
     <Compile Include="ViewModel\EditSupplierViewModel.cs" />
+    <Compile Include="ViewModel\IndexViewModel.cs" />
     <Compile Include="ViewModel\LoginRegiseterViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
   </ItemGroup>
@@ -155,6 +157,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

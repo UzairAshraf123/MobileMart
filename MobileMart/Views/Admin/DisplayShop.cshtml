@@ -11,13 +11,13 @@
     <h4>DisplayShopViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.OwnerID)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.OwnerID)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.OwnerName)
@@ -28,11 +28,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Profile)
+            @Html.DisplayNameFor(model => model.OwnerProfile)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Profile)
+            <img src="@Url.Content(Model.OwnerProfile)" alt="Alternate Text" class="img-rounded"  height="100"/> 
+            @*@Html.DisplayFor(model => model.OwnerProfile)*@
         </dd>
 
         <dt>
@@ -50,15 +51,6 @@
         <dd>
             @Html.DisplayFor(model => model.OwnerCreatedOn)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShopID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShopID)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.ShopName)
         </dt>
@@ -72,7 +64,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ShopLogo)
+            <img src="@Url.Content(Model.ShopLogo)" alt="Alternate Text" class="img-rounded" height="100" />
         </dd>
 
         <dt>

@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MobileMart.Models;
+using MobileMart.BL;
+using MobileMart.DB.ViewModel;
 
 namespace MobileMart.Controllers
 {
@@ -74,7 +76,6 @@ namespace MobileMart.Controllers
             };
             return View(model);
         }
-
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -243,7 +244,31 @@ namespace MobileMart.Controllers
             AddErrors(result);
             return View(model);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditOwner(EditShopViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("EditOwner", "Admin");
+            }
+            var user = await UserManager.FindByIdAsync(model.UserID);
+            var result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                AdminBL BL = new AdminBL();
+                BL.InsertEditedOwner(model);
+                return RedirectToAction("EditShop", "Admin" , new { ownerID = model.OwnerID , Message = ManageMessageId.ChangePasswordSuccess });
+                
+                //if (user != null)
+                //{
+                //    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                //}
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            }
+            AddErrors(result);
+            return RedirectToAction("EditOwner","Admin",new { model });
+        }
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()

@@ -63,6 +63,8 @@ namespace MobileMart.Controllers
             return View();
         }
 
+
+        
         //
         // POST: /Account/Login
         [HttpPost]
@@ -82,6 +84,7 @@ namespace MobileMart.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+
                     if (model.Email == "admin123@admin.com")
                     {
                         return RedirectToAction("Index", "Admin");
@@ -94,7 +97,10 @@ namespace MobileMart.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
+                    
+
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -105,6 +111,83 @@ namespace MobileMart.Controllers
                     return View(model);
             }
         }
+
+        //public ActionResult OwnerLogin(string returnUrl)
+        //{
+        //    ViewBag.ReturnUrl = returnUrl;
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> OwnerLogin(LoginViewModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //    // This doesn't count login failures towards account lockout
+        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+        //    var user = await UserManager.FindAsync(model.Email, model.Password);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+
+                    
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return View(model);
+        //    }
+        //}
+
+
+        //public ActionResult CustomerLogin(string returnUrl)
+        //{
+        //    ViewBag.ReturnUrl = returnUrl;
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> CustomerLogin(LoginViewModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //    // This doesn't count login failures towards account lockout
+        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+        //    var user = await UserManager.FindAsync(model.Email, model.Password);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+
+                    
+
+        //            return RedirectToLocal(returnUrl);
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return View(model);
+        //    }
+        //}
+
 
         //[HttpPost]
         //[AllowAnonymous]
@@ -237,14 +320,12 @@ namespace MobileMart.Controllers
                
                 if (result.Succeeded)
                 {
-                    if (model.OwnerConformation == "Owner")
-                    {
-                        AdminBL adminBl = new AdminBL();
-                        UserManager.AddToRole(user.Id, "ShopKeeper");
-                        model.UserID = user.Id;
-                        adminBl.CreateOwner(model);
-                        return RedirectToAction("CreateShop", "Admin" , new { userID = user.Id });
-                    }
+                    AdminBL adminBl = new AdminBL();
+                    UserManager.AddToRole(user.Id, "ShopKeeper");
+                    model.UserID = user.Id;
+                    adminBl.CreateOwner(model);
+                    return RedirectToAction("CreateShop", "Admin" , new { userID = user.Id });
+                    
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
