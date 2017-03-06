@@ -23,11 +23,18 @@ namespace MobileMart.DB.Model
     
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
-        public Nullable<int> CompanyID { get; set; }
+        public int CompanyID { get; set; }
         public Nullable<int> ColorID { get; set; }
         public string ProductName { get; set; }
-        public string ProductImage { get; set; }
         public string ProductDetails { get; set; }
+        public bool IsActive { get; set; }
+        public decimal Price { get; set; }
+        public string ProductImage1 { get; set; }
+        public string ProductImage2 { get; set; }
+        public string ProductImage3 { get; set; }
+        public string ProductImage4 { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public string IMEI { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Color Color { get; set; }

@@ -13,7 +13,13 @@ namespace MobileMart.DB.ViewModel
         public string Company { get; set; }
         public string Color { get; set; }
         public string ProductName { get; set; }
-        public string ProductImage { get; set; }
+        public string ProductImage1 { get; set; }
+        public string ProductImage2 { get; set; }
+        public string ProductImage3 { get; set; }
+        public string ProductImage4 { get; set; }
         public string ProductDetail { get; set; }
+        public decimal price { get; set; }
+        public string IMEI { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

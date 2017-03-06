@@ -15,14 +15,14 @@ namespace MobileMart.DB.Model
     public partial class StockDetail
     {
         public int StockID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<int> Price { get; set; }
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
         public int StockDetailID { get; set; }
+        public int SupplierID { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Product Product { get; set; }
         public virtual Stock Stock { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

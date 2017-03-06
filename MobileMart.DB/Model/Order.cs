@@ -26,6 +26,8 @@ namespace MobileMart.DB.Model
         public Nullable<int> PaymentID { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<int> ShipperID { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Payment Payment { get; set; }

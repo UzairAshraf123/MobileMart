@@ -4,9 +4,7 @@
     ViewBag.Title = "DisplayProduct";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <h2>DisplayProduct</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -25,10 +23,28 @@
             @Html.DisplayNameFor(model => model.ProductName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductImage)
+            @Html.DisplayNameFor(model => model.ProductImage1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImage2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImage3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImage4)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductDetail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMEI)
         </th>
         <th></th>
     </tr>
@@ -47,9 +63,21 @@
         <td>
             @Html.DisplayFor(modelItem => item.ProductName)
         </td>
-        <td><img src="~/Content/ShopOwner/Product/Images/@item.ProductImage" alt="nologo"  class="img-thumbnail img"  /></td>
+        <td><img src="@Url.Content(item.ProductImage1)" width="50" class="img-thumbnail" ></td>
+        <td><img src="@Url.Content(item.ProductImage2)" width="50" class="img-thumbnail"></td>
+        <td><img src="@Url.Content(item.ProductImage3)" width="50" class="img-thumbnail"></td>
+        <td><img src="@Url.Content(item.ProductImage4)" width="50" class="img-thumbnail"></td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductDetail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMEI)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new {  id=item.ProductID }) |

@@ -28,7 +28,8 @@ namespace MobileMart.DB.Model
         public Nullable<int> StateID { get; set; }
         public Nullable<int> CityID { get; set; }
         public string ShopLogo { get; set; }
-        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public Nullable<bool> IsCreated { get; set; }
     
         public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

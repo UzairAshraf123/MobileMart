@@ -18,7 +18,6 @@ namespace MobileMart.DB.Model
         public Owner()
         {
             this.Shops = new HashSet<Shop>();
-            this.Suppliers = new HashSet<Supplier>();
         }
     
         public int OwnerID { get; set; }
@@ -28,9 +27,8 @@ namespace MobileMart.DB.Model
         public string OwnerPicture { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shop> Shops { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supplier> Suppliers { get; set; }
     }
 }

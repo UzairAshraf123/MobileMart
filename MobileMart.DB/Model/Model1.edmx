@@ -4,14 +4,31 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="50" />
-          <Property Name="CategoryImage" Type="varchar" MaxLength="100" />
+          <Property Name="CategoryImage" Type="varchar" MaxLength="800" />
         </EntityType>
         <EntityType Name="cities">
           <Key>
@@ -50,6 +67,7 @@
             <PropertyRef Name="CustomerID" />
           </Key>
           <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerProfileID" Type="int" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
@@ -72,6 +90,8 @@
           <Property Name="PaymentID" Type="int" />
           <Property Name="OrderDate" Type="date" />
           <Property Name="ShipperID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -95,7 +115,7 @@
           <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="OwnerName" Type="varchar" MaxLength="50" />
           <Property Name="OwnerContact" Type="varchar" MaxLength="50" />
-          <Property Name="OwnerPicture" Type="varchar" MaxLength="100" />
+          <Property Name="OwnerPicture" Type="varchar" MaxLength="600" />
           <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Payment">
@@ -112,11 +132,18 @@
           </Key>
           <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="CompanyID" Type="int" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="ColorID" Type="int" />
-          <Property Name="ProductName" Type="varchar" MaxLength="50" />
-          <Property Name="ProductImage" Type="varchar" MaxLength="100" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ProductDetails" Type="varchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductImage1" Type="varchar" MaxLength="800" />
+          <Property Name="ProductImage2" Type="varchar" MaxLength="800" />
+          <Property Name="ProductImage3" Type="varchar" MaxLength="800" />
+          <Property Name="ProductImage4" Type="varchar" MaxLength="800" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IMEI" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Shipper">
           <Key>
@@ -137,8 +164,9 @@
           <Property Name="CountryID" Type="int" />
           <Property Name="StateID" Type="int" />
           <Property Name="CityID" Type="int" />
-          <Property Name="ShopLogo" Type="varchar" MaxLength="100" />
-          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ShopLogo" Type="varchar" MaxLength="700" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="IsCreated" Type="bit" />
         </EntityType>
         <EntityType Name="states">
           <Key>
@@ -153,29 +181,30 @@
             <PropertyRef Name="StockID" />
           </Key>
           <Property Name="StockID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ShopID" Type="int" />
-          <Property Name="SupplierID" Type="int" />
+          <Property Name="ShopID" Type="int" Nullable="false" />
+          <Property Name="IsCreated" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="StockDetail">
           <Key>
             <PropertyRef Name="StockDetailID" />
           </Key>
           <Property Name="StockID" Type="int" Nullable="false" />
-          <Property Name="Quantity" Type="int" />
-          <Property Name="Price" Type="int" />
           <Property Name="ProductID" Type="int" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="StockDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
             <PropertyRef Name="SupplierID" />
           </Key>
           <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SupplierName" Type="varchar" MaxLength="50" />
-          <Property Name="SupplierAddress" Type="varchar" MaxLength="200" />
-          <Property Name="SupplierNo" Type="varchar" MaxLength="50" />
-          <Property Name="OwnerID" Type="int" />
+          <Property Name="SupplierName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SupplierAddress" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SupplierContact" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CNIC" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -196,6 +225,18 @@
             </Principal>
             <Dependent Role="cities">
               <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="AspNetUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -295,6 +336,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Owner_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Owner" Type="Self.Owner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Owner">
+              <PropertyRef Name="AspNetUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -320,7 +375,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
@@ -332,7 +387,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Shop_Owner">
-          <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+          <End Role="Owner" Type="Self.Owner" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Shop" Type="Self.Shop" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Owner">
@@ -356,7 +413,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Stock_Shop">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="Shop" Type="Self.Shop" Multiplicity="1" />
           <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Shop">
@@ -364,18 +421,6 @@
             </Principal>
             <Dependent Role="Stock">
               <PropertyRef Name="ShopID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Stock_Supplier">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
-          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supplier">
-              <PropertyRef Name="SupplierID" />
-            </Principal>
-            <Dependent Role="Stock">
-              <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -415,19 +460,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Supplier_Owner1">
-          <End Role="Owner" Type="Self.Owner" Multiplicity="0..1" />
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+        <Association Name="FK_StockDetail_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="StockDetail" Type="Self.StockDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Owner">
-              <PropertyRef Name="OwnerID" />
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierID" />
             </Principal>
-            <Dependent Role="Supplier">
-              <PropertyRef Name="OwnerID" />
+            <Dependent Role="StockDetail">
+              <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MobileMartModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
@@ -449,6 +495,10 @@
           <AssociationSet Name="FK_cities_states" Association="Self.FK_cities_states">
             <End Role="states" EntitySet="states" />
             <End Role="cities" EntitySet="cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_AspNetUsers" Association="Self.FK_Customer_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_cities" Association="Self.FK_Customer_cities">
             <End Role="cities" EntitySet="cities" />
@@ -482,6 +532,10 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_Owner_AspNetUsers" Association="Self.FK_Owner_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Owner" EntitySet="Owner" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
@@ -506,10 +560,6 @@
             <End Role="Shop" EntitySet="Shop" />
             <End Role="Stock" EntitySet="Stock" />
           </AssociationSet>
-          <AssociationSet Name="FK_Stock_Supplier" Association="Self.FK_Stock_Supplier">
-            <End Role="Supplier" EntitySet="Supplier" />
-            <End Role="Stock" EntitySet="Stock" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockDetail_Category" Association="Self.FK_StockDetail_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="StockDetail" EntitySet="StockDetail" />
@@ -522,22 +572,42 @@
             <End Role="Stock" EntitySet="Stock" />
             <End Role="StockDetail" EntitySet="StockDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_Supplier_Owner1" Association="Self.FK_Supplier_Owner1">
-            <End Role="Owner" EntitySet="Owner" />
+          <AssociationSet Name="FK_StockDetail_Supplier" Association="Self.FK_StockDetail_Supplier">
             <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="StockDetail" EntitySet="StockDetail" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MobileMartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_AspNetUsers" FromRole="AspNetUsers" ToRole="Customer" />
+          <NavigationProperty Name="Owners" Relationship="Self.FK_Owner_AspNetUsers" FromRole="AspNetUsers" ToRole="Owner" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
           <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryImage" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
           <NavigationProperty Name="StockDetails" Relationship="Self.FK_StockDetail_Category" FromRole="Category" ToRole="StockDetail" />
         </EntityType>
@@ -584,6 +654,7 @@
             <PropertyRef Name="CustomerID" />
           </Key>
           <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerProfileID" Type="Int32" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -595,6 +666,7 @@
           <Property Name="CityID" Type="Int32" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Customer_AspNetUsers" FromRole="Customer" ToRole="AspNetUsers" />
           <NavigationProperty Name="city" Relationship="Self.FK_Customer_cities" FromRole="Customer" ToRole="cities" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
         </EntityType>
@@ -608,6 +680,8 @@
           <Property Name="PaymentID" Type="Int32" />
           <Property Name="OrderDate" Type="DateTime" Precision="0" />
           <Property Name="ShipperID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
           <NavigationProperty Name="Payment" Relationship="Self.FK_Order_Payment" FromRole="Order" ToRole="Payment" />
           <NavigationProperty Name="Shipper" Relationship="Self.FK_Order_Shipper" FromRole="Order" ToRole="Shipper" />
@@ -639,10 +713,10 @@
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OwnerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OwnerContact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OwnerPicture" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Shops" Relationship="Self.FK_Shop_Owner" FromRole="Owner" ToRole="Shop" />
-          <NavigationProperty Name="Suppliers" Relationship="Self.FK_Supplier_Owner1" FromRole="Owner" ToRole="Supplier" />
+          <Property Name="OwnerPicture" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Owner_AspNetUsers" FromRole="Owner" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Shops" Relationship="Self.FK_Shop_Owner" FromRole="Owner" ToRole="Shop" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -660,11 +734,18 @@
           </Key>
           <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="ColorID" Type="Int32" />
-          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ProductImage1" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="ProductImage2" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="ProductImage3" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="ProductImage4" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="IMEI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Color" Relationship="Self.FK_Product_Color" FromRole="Product" ToRole="Color" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Product_Company" FromRole="Product" ToRole="Company" />
@@ -691,10 +772,11 @@
           <Property Name="CountryID" Type="Int32" />
           <Property Name="StateID" Type="Int32" />
           <Property Name="CityID" Type="Int32" />
-          <Property Name="ShopLogo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShopLogo" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsCreated" Type="Boolean" />
           <NavigationProperty Name="Owner" Relationship="Self.FK_Shop_Owner" FromRole="Shop" ToRole="Owner" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_Shop" FromRole="Shop" ToRole="Stock" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="state">
           <Key>
@@ -711,10 +793,9 @@
             <PropertyRef Name="StockID" />
           </Key>
           <Property Name="StockID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ShopID" Type="Int32" />
-          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="ShopID" Type="Int32" Nullable="false" />
+          <Property Name="IsCreated" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Shop" Relationship="Self.FK_Stock_Shop" FromRole="Stock" ToRole="Shop" />
-          <NavigationProperty Name="Supplier" Relationship="Self.FK_Stock_Supplier" FromRole="Stock" ToRole="Supplier" />
           <NavigationProperty Name="StockDetails" Relationship="Self.FK_StockDetail_Stock" FromRole="Stock" ToRole="StockDetail" />
         </EntityType>
         <EntityType Name="StockDetail">
@@ -722,26 +803,27 @@
             <PropertyRef Name="StockDetailID" />
           </Key>
           <Property Name="StockID" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Price" Type="Int32" />
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="StockDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_StockDetail_Category" FromRole="StockDetail" ToRole="Category" />
           <NavigationProperty Name="Product" Relationship="Self.FK_StockDetail_Product" FromRole="StockDetail" ToRole="Product" />
           <NavigationProperty Name="Stock" Relationship="Self.FK_StockDetail_Stock" FromRole="StockDetail" ToRole="Stock" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_StockDetail_Supplier" FromRole="StockDetail" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
             <PropertyRef Name="SupplierID" />
           </Key>
           <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OwnerID" Type="Int32" />
-          <NavigationProperty Name="Owner" Relationship="Self.FK_Supplier_Owner1" FromRole="Supplier" ToRole="Owner" />
-          <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_Supplier" FromRole="Supplier" ToRole="Stock" />
+          <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SupplierAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SupplierContact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CNIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="StockDetails" Relationship="Self.FK_StockDetail_Supplier" FromRole="Supplier" ToRole="StockDetail" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -753,6 +835,32 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <Association Name="FK_Customer_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="AspNetUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Owner_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Owner" Type="Self.Owner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Owner">
+              <PropertyRef Name="AspNetUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -826,7 +934,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
@@ -922,25 +1030,15 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Shop_Owner">
-          <End Role="Owner" Type="Self.Owner" Multiplicity="1" />
+          <End Role="Owner" Type="Self.Owner" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Shop" Type="Self.Shop" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Owner">
               <PropertyRef Name="OwnerID" />
             </Principal>
             <Dependent Role="Shop">
-              <PropertyRef Name="OwnerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Supplier_Owner1">
-          <End Role="Owner" Type="Self.Owner" Multiplicity="0..1" />
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Owner">
-              <PropertyRef Name="OwnerID" />
-            </Principal>
-            <Dependent Role="Supplier">
               <PropertyRef Name="OwnerID" />
             </Dependent>
           </ReferentialConstraint>
@@ -958,7 +1056,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Stock_Shop">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="Shop" Type="Self.Shop" Multiplicity="1" />
           <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Shop">
@@ -966,18 +1064,6 @@
             </Principal>
             <Dependent Role="Stock">
               <PropertyRef Name="ShopID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Stock_Supplier">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
-          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supplier">
-              <PropertyRef Name="SupplierID" />
-            </Principal>
-            <Dependent Role="Stock">
-              <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -993,7 +1079,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockDetail_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="StockDetail" Type="Self.StockDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="StockDetail">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MobileMartEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="cities" EntityType="Self.city" />
           <EntitySet Name="Colors" EntityType="Self.Color" />
@@ -1012,6 +1111,14 @@
           <EntitySet Name="StockDetails" EntityType="Self.StockDetail" />
           <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Customer_AspNetUsers" Association="Self.FK_Customer_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Owner_AspNetUsers" Association="Self.FK_Owner_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Owner" EntitySet="Owners" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
@@ -1072,10 +1179,6 @@
             <End Role="Owner" EntitySet="Owners" />
             <End Role="Shop" EntitySet="Shops" />
           </AssociationSet>
-          <AssociationSet Name="FK_Supplier_Owner1" Association="Self.FK_Supplier_Owner1">
-            <End Role="Owner" EntitySet="Owners" />
-            <End Role="Supplier" EntitySet="Suppliers" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockDetail_Product" Association="Self.FK_StockDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="StockDetail" EntitySet="StockDetails" />
@@ -1084,12 +1187,12 @@
             <End Role="Shop" EntitySet="Shops" />
             <End Role="Stock" EntitySet="Stocks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Stock_Supplier" Association="Self.FK_Stock_Supplier">
-            <End Role="Supplier" EntitySet="Suppliers" />
-            <End Role="Stock" EntitySet="Stocks" />
-          </AssociationSet>
           <AssociationSet Name="FK_StockDetail_Stock" Association="Self.FK_StockDetail_Stock">
             <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockDetail" EntitySet="StockDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockDetail_Supplier" Association="Self.FK_StockDetail_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="StockDetail" EntitySet="StockDetails" />
           </AssociationSet>
         </EntityContainer>
@@ -1099,6 +1202,24 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MobileMartModelStoreContainer" CdmEntityContainer="MobileMartEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="MobileMartModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="MobileMartModel.Category">
               <MappingFragment StoreEntitySet="Category">
@@ -1148,6 +1269,7 @@
             <EntityTypeMapping TypeName="MobileMartModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerProfileID" ColumnName="CustomerProfileID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1171,6 +1293,8 @@
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="ShipperID" ColumnName="ShipperID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1192,12 +1316,12 @@
           <EntitySetMapping Name="Owners">
             <EntityTypeMapping TypeName="MobileMartModel.Owner">
               <MappingFragment StoreEntitySet="Owner">
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
                 <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
                 <ScalarProperty Name="OwnerContact" ColumnName="OwnerContact" />
                 <ScalarProperty Name="OwnerPicture" ColumnName="OwnerPicture" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1218,8 +1342,15 @@
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="ColorID" ColumnName="ColorID" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
                 <ScalarProperty Name="ProductDetails" ColumnName="ProductDetails" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductImage1" ColumnName="ProductImage1" />
+                <ScalarProperty Name="ProductImage2" ColumnName="ProductImage2" />
+                <ScalarProperty Name="ProductImage3" ColumnName="ProductImage3" />
+                <ScalarProperty Name="ProductImage4" ColumnName="ProductImage4" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1235,7 +1366,6 @@
           <EntitySetMapping Name="Shops">
             <EntityTypeMapping TypeName="MobileMartModel.Shop">
               <MappingFragment StoreEntitySet="Shop">
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="ShopID" ColumnName="ShopID" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="ShopName" ColumnName="ShopName" />
@@ -1244,6 +1374,8 @@
                 <ScalarProperty Name="StateID" ColumnName="StateID" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="ShopLogo" ColumnName="ShopLogo" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsCreated" ColumnName="IsCreated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1261,7 +1393,7 @@
               <MappingFragment StoreEntitySet="Stock">
                 <ScalarProperty Name="StockID" ColumnName="StockID" />
                 <ScalarProperty Name="ShopID" ColumnName="ShopID" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="IsCreated" ColumnName="IsCreated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1269,11 +1401,10 @@
             <EntityTypeMapping TypeName="MobileMartModel.StockDetail">
               <MappingFragment StoreEntitySet="StockDetail">
                 <ScalarProperty Name="StockID" ColumnName="StockID" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="StockDetailID" ColumnName="StockDetailID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1283,8 +1414,10 @@
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="SupplierAddress" ColumnName="SupplierAddress" />
-                <ScalarProperty Name="SupplierNo" ColumnName="SupplierNo" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="SupplierContact" ColumnName="SupplierContact" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
