@@ -99,30 +99,7 @@ namespace MobileMart.Controllers
             }
             return View("DisplayAllShops");
         }
-
-        //[HttpPost]
-        //public ActionResult EditOwner(EditShopViewModel viewModel)
-        //{
-                //    AdminBL BL = new AdminBL();
-                //    var result = UserManager.ChangePasswordAsync(viewModel.UserID, viewModel.OldPassword, viewModel.NewPassword);
-                //    BL.InsertEditedOwner(viewModel);
-                //    return RedirectToAction("EditShop", "Admin" , new { ownerID = viewModel.OwnerID});
-        //}
-
-        //private ApplicationUserManager _userManager;
-
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
-
+        
         [HttpGet]
         public ActionResult EditShop(int? ownerID)
         {
