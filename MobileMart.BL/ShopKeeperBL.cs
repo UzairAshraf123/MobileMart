@@ -62,7 +62,7 @@ namespace MobileMart.BL
                 viewmodel.Company = companyrepo.GetCompany().FirstOrDefault(s => s.CompanyID == item.CompanyID).CompanyName;
                 viewmodel.Color = colorrepo.GetColors().FirstOrDefault(s => s.ColorID == item.ColorID).ColorName;
                 viewmodel.ProductName = item.ProductName;
-                viewmodel.ProductImage = item.ProductImage;
+                viewmodel.ProductImage = item.ProductImage1;
                 viewmodel.ProductDetail = item.ProductDetails;
                 viewmodellist.Add(viewmodel);
             }
@@ -82,7 +82,7 @@ namespace MobileMart.BL
             entity.CompanyID = viewmodel.Company;
             entity.ColorID = viewmodel.Color;
             entity.ProductName = viewmodel.ProductName;
-            entity.ProductImage = basePath + fileName;
+            entity.ProductImage1 = basePath + fileName;
             entity.ProductDetails = viewmodel.ProductDetail;
             productrepo.insert(entity);
         }
@@ -97,7 +97,7 @@ namespace MobileMart.BL
             AddProductViewModel viewmodel = new AddProductViewModel();
             viewmodel.id = product.ProductID;
             viewmodel.ProductName = product.ProductName;
-            viewmodel.ProductImagePath = product.ProductImage;
+            viewmodel.ProductImagePath = product.ProductImage1;
             viewmodel.ProductDetail = product.ProductDetails;
             return (viewmodel);
         }
@@ -115,7 +115,7 @@ namespace MobileMart.BL
             }
             else
             {
-                entity.ProductImage = viewmodel.ProductImagePath;
+                entity.ProductImage1 = viewmodel.ProductImagePath;
             }
             entity.ProductID = viewmodel.id;
             entity.CategoryID = viewmodel.Category;

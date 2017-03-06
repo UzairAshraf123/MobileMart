@@ -25,6 +25,7 @@ namespace MobileMart.DB.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<city> cities { get; set; }
         public virtual DbSet<Color> Colors { get; set; }

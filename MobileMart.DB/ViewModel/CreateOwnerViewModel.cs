@@ -10,6 +10,8 @@ namespace MobileMart.DB.ViewModel
 {
     public class CreateOwnerViewModel
     {
+        public HttpPostedFileBase ProfilePhotoPath { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -30,7 +32,6 @@ namespace MobileMart.DB.ViewModel
         public int OwnerID { get; set; }
         public string OwnerName { get; set; }
         public string Mobile { get; set; }
-        public HttpPostedFileBase ProfilePhotoPath { get; set; }
         public DateTime CreatedOn { get; set; }
         public string OwnerConformation { get; set; }
     }
