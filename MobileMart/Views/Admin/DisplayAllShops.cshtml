@@ -66,8 +66,8 @@
             @Html.DisplayFor(modelItem => item.ShopCreatedOn)
         </td>
         <td>
-            @Html.ActionLink("Edit ", "EditOwner", new { ownerID = item.OwnerID }) |
-            @Html.ActionLink("Delete", "DeleteShop", new { UserID = item.UserID })
+            @Html.ActionLink("Edit", "EditShop", new {  id=item.OwnerID }) |
+            @Html.ActionLink("Delete", "DeleteShop", new { id = item.OwnerID })
         </td>
     </tr>
 }

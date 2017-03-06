@@ -12,11 +12,11 @@ namespace MobileMart.Controllers
     {
         // GET: ShopOwner
         ShopKeeperBL shopBL = new ShopKeeperBL();
+        [Authorize(Roles = "ShopKeeper")]
         public ActionResult Index()
         {
             return View();
         }
-
         // Shopkeeper Login
         [HttpGet]
         public ActionResult Login()
@@ -24,6 +24,7 @@ namespace MobileMart.Controllers
             return View();
         }
         // add company 
+        [Authorize(Roles = "ShopKeeper")]
         public ActionResult AddCompany()
         {
             return View();
@@ -38,28 +39,58 @@ namespace MobileMart.Controllers
             }
             return View();
         }
-        //Add category
-        public ActionResult AddCategory()
+        //Display Supplier
+        [Authorize(Roles = "ShopKeeper")]
+        public ActionResult DisplaySupplier()
+        {
+
+            return View(shopBL.GetSupplier());
+        }
+        //Add Supplier
+        [Authorize(Roles = "ShopKeeper")]
+        public ActionResult AddSupplier()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult AddCategory(AddCategoryViewModel viewmodel)
+        public ActionResult AddSupplier(AddSupplierViewModel viewmodel)
         {
             if (viewmodel != null)
             {
-                shopBL.AddCategory(viewmodel);
-                return RedirectToAction("AddCategory");
+                shopBL.AddSupplier(viewmodel);
+                return RedirectToAction("DisplaySupplier");
             }
             return View();
             }
+        //Delete Supplier
+        [Authorize(Roles = "ShopKeeper")]
+        public ActionResult DeleteSupplier(int id)
+        {
+            shopBL.DeleteSupplier(id);
+            return RedirectToAction("DisplaySupplier");
+        }
+        //Edit Supplier
+        [Authorize(Roles = "ShopKeeper")]
+        public ActionResult EditSupplier(int id)
+        {
+            var supplier = shopBL.UpdteSupplierlist(id);
+            return View(supplier);
+        }
+        [HttpPost]
+        public ActionResult EditSupplier(EditSupplierViewModel viewmodel)
+        {
+            shopBL.UpdateSupplier(viewmodel);
+            return RedirectToAction("DisplaySupplier");
+        }
         //Display Product
+        [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplayProduct()
         {
             
             return View(shopBL.GetProduct());
         }
         //Add product
+        [Authorize(Roles = "ShopKeeper")]
         [HttpGet]
         public ActionResult AddProduct()
         {
@@ -96,12 +127,14 @@ namespace MobileMart.Controllers
             return View();
         }
        //Delete Product
+        [Authorize(Roles = "ShopKeeper")]
         public ActionResult Delete(int id)
         {
             string delete = shopBL.DeleteProduct(id);
             return RedirectToAction("DisplayProduct");
         }
         //Update Product
+        [Authorize(Roles = "ShopKeeper")]
         public ActionResult Edit(int id)
         {
             var companies = shopBL.GetCompany().Select(s => new
@@ -124,7 +157,7 @@ namespace MobileMart.Controllers
             ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
             ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
             ViewBag.ColorDropDown = new SelectList(colors, "id", "text");
-            var product= shopBL.UpdteProduct(id);
+            var product= shopBL.UpdteProductlist(id);
             return View(product);
         }
 
@@ -135,5 +168,6 @@ namespace MobileMart.Controllers
             return RedirectToAction("DisplayProduct");
         }
 
+        
     }
 }

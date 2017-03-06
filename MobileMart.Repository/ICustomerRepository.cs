@@ -8,6 +8,10 @@ namespace MobileMart.Repository
 {
     public interface ICustomerRepository
     {
+        IEnumerable<Customer> Get();
         void Insert(Customer entity);
+        void Delete(int? ID);
+        void Edit(Customer entity);
+        Customer GetCustomerByID(int? ID);
     }
 }

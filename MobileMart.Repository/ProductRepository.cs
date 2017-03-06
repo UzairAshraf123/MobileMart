@@ -29,8 +29,8 @@ namespace MobileMart.Repository
 
         public void insert(Product entity)
         {
-            _context.Products.Add(entity);
-            _context.SaveChanges();
+                _context.Products.Add(entity);
+                _context.SaveChanges();
         }
 
         public void update(Product entity)

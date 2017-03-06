@@ -17,6 +17,7 @@ namespace MobileMart.Controllers
     
     public class AdminController : Controller
     {
+        AdminBL adminBL = new AdminBL();
         // GET: Admin
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -69,15 +70,15 @@ namespace MobileMart.Controllers
         public ActionResult DisplayShop(int ownerID)
         {
             AdminBL BL = new AdminBL();
-            var owner = BL.ShopAndOwnerByOwnerID(ownerID);
+            var owner = BL.GetShopByOwnerID(ownerID);
             return View(owner);
         }
 
         public ActionResult DisplayAllShops()
         {
-            AdminBL BL = new AdminBL();
-            var shop = BL.GetAllShops();
-            return View(shop);
+                AdminBL BL = new AdminBL();
+                var shop = BL.GetAllShops();
+                return View(shop);
             
         }
 
@@ -91,13 +92,9 @@ namespace MobileMart.Controllers
         [HttpGet]
         public ActionResult EditOwner(int? ownerID)
         {
-            if (ownerID != null)
-            {
-                AdminBL BL = new AdminBL();
-                var owner = BL.GetOwnerByID(ownerID);
-                return View(owner);
-            }
-            return View("DisplayAllShops");
+            AdminBL BL = new AdminBL();
+            var Owner = BL.GetShopByOwnerID(ownerID);
+            return View(Owner);
         }
         
         [HttpGet]

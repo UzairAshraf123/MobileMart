@@ -97,6 +97,7 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             IOwnerRepository ownerRepo = new OwnerRepository();
+            IProductRepository product = new ProductRepository();
             var owner = ownerRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             var shop = shopRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             DisplayShopViewModel viewmodel = new DisplayShopViewModel();
@@ -224,6 +225,24 @@ namespace MobileMart.BL
             shopEntity.CityID = viewModel.City;
             shopEntity.CreatedOn = viewModel.CreatedOn;
             shopRepo.Update(shopEntity);
+        }
+        public List<Customer> AllCustomers()
+        {
+            ICustomerRepository Customer = new CustomerRepository();
+            return Customer.Get().ToList();
+        }
+
+        public AdminMenuViewModel Counts()
+        {
+            ICustomerRepository customer = new CustomerRepository();
+            IShopRepository shop = new ShopRepository();
+            AdminMenuViewModel viewmodel = new AdminMenuViewModel();
+           
+            viewmodel.CountShops = shop.Get().Count();
+            viewmodel.CountCustomers = customer.Get().Count();
+         
+            return viewmodel;
+
         }
     }
 }
