@@ -82,10 +82,10 @@ namespace MobileMart.Controllers
             
         }
 
-        public ActionResult DeleteShop (int? ID)
+        public ActionResult DeleteShop (string UserID)
         {
             AdminBL BL = new AdminBL();
-           string status = BL.DeleteShop(ID);
+            BL.DeleteUser(UserID);
             return RedirectToAction("DisplayAllShops", "Admin");
         }
 
@@ -93,19 +93,10 @@ namespace MobileMart.Controllers
         public ActionResult EditOwner(int? ownerID)
         {
             AdminBL BL = new AdminBL();
-            var Owner = BL.EditShopView(ID);
+            var Owner = BL.GetShopByOwnerID(ownerID);
             return View(Owner);
         }
-
-        public ActionResult EditShop (EditShopViewModel ViewModel)
-        {
-            AdminBL BL = new AdminBL();
-            string status = BL.EditShop(ViewModel);
-            return RedirectToAction("DisplayAllShops", "Admin");
-        }
-
-       
-
+        
         [HttpGet]
         public ActionResult EditShop(int? ownerID)
         {

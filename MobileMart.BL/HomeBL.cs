@@ -31,7 +31,7 @@ namespace MobileMart.BL
                 viewmodel.OwnerName = owners.FirstOrDefault().OwnerName;
                 viewmodel.ShopID = shops.FirstOrDefault().ShopID;
                 viewmodel.ShopName = shops.FirstOrDefault().ShopName;
-                viewmodel.ProductImage = item.ProductImage;
+                viewmodel.ProductImage = item.ProductImage1;
 
                 list.Add(viewmodel);
             }
