@@ -22,9 +22,14 @@ namespace MobileMart.Repository
             _context.SaveChanges();
         }
 
-        public IEnumerable<Product> GetProduct()
+        public IEnumerable<Product> Get()
         {
             return _context.Products.ToList();
+        }
+
+        public IEnumerable<Product> GetProduct(int? shopID)
+        {
+            return _context.Products.Where(s=>s.ShopID == shopID).ToList();
         }
 
         public void insert(Product entity)

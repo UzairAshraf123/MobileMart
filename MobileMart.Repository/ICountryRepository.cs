@@ -9,5 +9,6 @@ namespace MobileMart.Repository
     public interface ICountryRepository
     {
         IEnumerable<country> Get();
+        country GetCountryByID(int? countryID);
     }
 }

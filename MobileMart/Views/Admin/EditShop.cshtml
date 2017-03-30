@@ -8,13 +8,14 @@
 
 <h2>EditShop</h2>
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
         @using (Html.BeginForm("EditShop", "Admin",
             FormMethod.Post,
             new
             {
                 @class = "form-horizontal",
-                role = "form"
+                role = "form",
+                enctype = "multipart/form-data"
             }))
         {
             @Html.AntiForgeryToken()
@@ -24,6 +25,7 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 @Html.HiddenFor(model => model.ShopID)
+                @Html.HiddenFor(model=> model.GetLogo)
 
                 <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
                 <input type="hidden" name="OwnerID" value="@ViewBag.OwnerID" />
@@ -140,6 +142,14 @@
             });
         });
     </script>
+    <script>
+            var loadFile = function (event) {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            };
+    </script>
+
+
 
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -35,5 +35,25 @@ namespace MobileMart.Controllers
             var city = new SelectList(cities, "Id", "Text");
             return Json(new { city }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult SearchSupplier(string Prefix, int ShopID)
+        {
+            var supplier = new ShopKeeperBL().GetSuppliersByShopID(ShopID);
+            Prefix = Prefix.ToLower();
+            //Searching records from list using LINQ query  
+            var searchedUsers = supplier.Where(w => w.SupplierName.ToLower().StartsWith(Prefix)).Select(s => new
+            {
+                Route = "/ShopOwner/AddProduct?SupplierID=" + s.SupplierID,
+                Name = s.SupplierName
+            });
+
+            return Json(searchedUsers, JsonRequestBehavior.AllowGet);
+        }
+        //[HttpPost]
+        //public JsonResult AddItemInCart()
+        //{
+        //    return Json( ,JsonRequestBehavior.AllowGet);
+        //}
     }
 }

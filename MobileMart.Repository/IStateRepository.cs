@@ -9,5 +9,6 @@ namespace MobileMart.Repository
     public interface IStateRepository
     {
         IEnumerable<state> Get();
+        state GetStateByID(int? stateID);
     }
 }

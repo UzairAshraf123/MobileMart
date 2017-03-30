@@ -11,7 +11,8 @@ namespace MobileMart.Repository
     {
         void insert(Product entity);
         void delete(int id);
-        IEnumerable<Product> GetProduct();
+        IEnumerable<Product> Get();
+        IEnumerable<Product> GetProduct(int? shopID);
         void update(Product entity);
         
 

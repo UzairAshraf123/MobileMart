@@ -111,8 +111,8 @@
     </ul>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
-            <li class="active">
-                <a href="Admin/CreateShop"><i class="fa fa-fw fa-plus"></i>Insert New Shop</a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddSupplier" ? "active" : "" )">
+                <a href="@Url.Action("AddSupplier", "ShopOwner")"><i class="fa fa-fw fa-plus"></i>Insert New Product</a>
             </li>
             <li>
                 <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>

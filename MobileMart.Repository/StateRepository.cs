@@ -15,5 +15,11 @@ namespace MobileMart.Repository
             _context = new MobileMartEntities();
             return _context.states.ToList();
         }
+
+        public state GetStateByID(int? stateID)
+        {
+            _context = new MobileMartEntities();
+            return _context.states.FirstOrDefault(s=> s.id == stateID);
+        }
     }
 }

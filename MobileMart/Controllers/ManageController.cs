@@ -248,10 +248,6 @@ namespace MobileMart.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditOwner(EditShopViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("EditOwner", "Admin");
-            }
             var user = await UserManager.FindByIdAsync(model.UserID);
             var result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
             if (result.Succeeded)
@@ -267,7 +263,7 @@ namespace MobileMart.Controllers
                 //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
-            return RedirectToAction("EditOwner","Admin",new { model });
+            return RedirectToAction("EditOwner","Admin",new { ownerID = model.OwnerID , Message ="Please enter valid information..."});
         }
         //
         // GET: /Manage/SetPassword

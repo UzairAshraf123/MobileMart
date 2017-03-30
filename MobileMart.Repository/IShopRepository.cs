@@ -15,5 +15,6 @@ namespace MobileMart.Repository
         void Delete(int? ID);
         Shop GetShopByOwnerID(int? ID);
         void Update(Shop entity);
+        int GetShopIDByOwnerID(int ownerID);
     }
 }

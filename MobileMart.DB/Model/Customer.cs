@@ -21,7 +21,6 @@ namespace MobileMart.DB.Model
         }
     
         public int CustomerID { get; set; }
-        public int CustomerProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -33,6 +32,7 @@ namespace MobileMart.DB.Model
         public Nullable<int> CityID { get; set; }
         public string PhoneNo { get; set; }
         public string AspNetUserID { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual city city { get; set; }

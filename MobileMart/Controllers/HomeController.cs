@@ -1,4 +1,5 @@
 ﻿using MobileMart.BL;
+using MobileMart.Utility;
 using System.Web.Mvc;
 
 namespace MobileMart.Controllers
@@ -6,11 +7,9 @@ namespace MobileMart.Controllers
     public class HomeController : Controller
     {
         HomeBL BL = new HomeBL();
-        
 
         public ActionResult Index()
         {
-
             return View(BL.index());
         }
 
@@ -33,29 +32,20 @@ namespace MobileMart.Controllers
             return View();
         }
 
-        public ActionResult Products()
-        {
-            return View();
-        }
-
-        public ActionResult Categories()
-        {
-            return View();
-        }
-
-        public ActionResult Companies ()
-        {
-            return View();
-        }
-
         public ActionResult UserProfile(int ID)
         {
-           
-            AdminBL BL = new AdminBL();
-            var profile = BL.GetShopByOwnerID(ID);
+
+            HomeBL BL = new HomeBL();
+            var profile = BL.ShopDetails(ID);
             return View(profile);
         }
 
-       
+
+        public ActionResult ProductDetail(int? ID)
+        {
+            HomeBL BL = new HomeBL();
+            var detail = BL.Detail(ID);
+            return View(detail);
+        }
     }
 }

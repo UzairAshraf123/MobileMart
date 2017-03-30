@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="product-info">
                                         <h6 class="product-title">
-                                            <a href="single-product.html">@item.ProductName</a>
+                                            <a href="@Url.Action("ProductDetail", "Home" , new { ID = @item.ProductID})">@item.ProductName</a>
                                         </h6>
                                         <h6 class="brand-name">@Html.ActionLink(@item.OwnerName, "UserProfile",  new { ID = item.OwnerID  })</h6>
                                         <h3 class="pro-price">$ 869.00</h3>
@@ -92,7 +92,7 @@
                                             <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                            <button type="button" value="@item.ProductName"  id="AddToCart" title="Add to cart" onclick="test()"><i class="zmdi zmdi-shopping-cart-plus"></i></button>
                                         </li>
                                     </ul>
                                 </div>
@@ -1526,3 +1526,14 @@
     </div>
     <!-- NEWSLETTER SECTION END -->
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function test () {
+            var itemName = document.getElementById("AddToCart");
+                console.log(itemName.value);
+            };
+      
+    </script>
+}

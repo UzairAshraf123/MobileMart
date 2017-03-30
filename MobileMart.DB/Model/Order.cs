@@ -22,12 +22,13 @@ namespace MobileMart.DB.Model
     
         public int OrderID { get; set; }
         public Nullable<int> CustomerID { get; set; }
-        public Nullable<int> OrderNumber { get; set; }
+        public int TransactionNumber { get; set; }
         public Nullable<int> PaymentID { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
-        public Nullable<int> ShipperID { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> ShipperID { get; set; }
+        public string ShippingAddress { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Payment Payment { get; set; }

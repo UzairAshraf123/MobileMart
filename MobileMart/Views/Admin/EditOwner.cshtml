@@ -1,13 +1,13 @@
 ﻿@model MobileMart.DB.ViewModel.EditShopViewModel
 
 @{
-    ViewBag.Title = "EditShop";
+    ViewBag.Title = "Edit Owner";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit Shop</h2>
+<h2>Edit Owner</h2>
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
         @using (Html.BeginForm("EditOwner", "Manage", FormMethod.Post
             , new { @class = "form-horizontal", role = "form" , enctype = "multipart/form-data" }))
         {
@@ -16,17 +16,18 @@
             @Html.HiddenFor(model => model.OwnerID)
             @Html.HiddenFor(model => model.UserID)
             <input type="hidden" name="CreatedOn" value="@DateTime.Now" />
+            <input type="hidden" name="ProfilePhotoPath" value="@Model.ProfilePhotoPath" />
 
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.ProfilePhotoPath, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.ProfilePhoto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
                     <label class="btn btn-default btn-file">
                         Upload Photo..
                         <i class="glyphicon glyphicon-folder-open"></i>
-                        <input type="file" name="ProfilePhotoPath" accept="image/*" onchange="loadFile(event)">
+                        <input type="file" name="ProfilePhoto" accept="image/*" onchange="loadFile(event)">
                     </label>
-                    @Html.ValidationMessageFor(model => model.ProfilePhotoPath, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.ProfilePhoto, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">

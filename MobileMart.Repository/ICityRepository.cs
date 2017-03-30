@@ -9,5 +9,6 @@ namespace MobileMart.Repository
     public interface ICityRepository
     {
         IEnumerable<city> Get();
+        city GetCityByID(int? cityID);
     }
 }

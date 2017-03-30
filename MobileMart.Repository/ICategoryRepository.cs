@@ -9,7 +9,8 @@ namespace MobileMart.Repository
 {
     public interface ICategoryRepository
     {
+        void insert(Category entity);
+        void delete(int id);
         IEnumerable<Category> GetCategory();
-
     }
 }

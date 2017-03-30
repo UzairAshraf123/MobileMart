@@ -17,11 +17,11 @@ namespace MobileMart.DB.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Shop()
         {
-            this.Stocks = new HashSet<Stock>();
+            this.Products = new HashSet<Product>();
         }
     
         public int ShopID { get; set; }
-        public int OwnerID { get; set; }
+        public Nullable<int> OwnerID { get; set; }
         public string ShopName { get; set; }
         public string ShopAddress { get; set; }
         public Nullable<int> CountryID { get; set; }
@@ -33,6 +33,6 @@ namespace MobileMart.DB.Model
     
         public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stock> Stocks { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

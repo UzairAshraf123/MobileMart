@@ -11,14 +11,14 @@
     <h4>DisplayShopViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
-        @*<dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerProfile)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OwnerID)
-        </dd>*@
-
+            <img src="@Url.Content(Model.OwnerProfile)" alt="Alternate Text" class="img-rounded" height="100" />
+        </dd>
+        
         <dt>
             @Html.DisplayNameFor(model => model.OwnerName)
         </dt>
@@ -26,16 +26,7 @@
         <dd>
             @Html.DisplayFor(model => model.OwnerName)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerProfile)
-        </dt>
-
-        <dd>
-            <img src="@Url.Content(Model.OwnerProfile)" alt="Alternate Text" class="img-rounded"  height="100"/> 
-            @*@Html.DisplayFor(model => model.OwnerProfile)*@
-        </dd>
-
+        
         <dt>
             @Html.DisplayNameFor(model => model.Contact)
         </dt>
@@ -44,20 +35,13 @@
             @Html.DisplayFor(model => model.Contact)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.OwnerCreatedOn)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.OwnerCreatedOn)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShopName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShopName)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.ShopLogo)
@@ -65,6 +49,14 @@
 
         <dd>
             <img src="@Url.Content(Model.ShopLogo)" alt="Alternate Text" class="img-rounded" height="100" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShopName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShopName)
         </dd>
 
         <dt>
@@ -82,10 +74,9 @@
         <dd>
             @Html.DisplayFor(model => model.ShopCreatedOn)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "EditOwner", new { ownerID = Model.OwnerID  }) |
+    @Html.ActionLink("Back to List", "DisplayAllShops")
 </p>

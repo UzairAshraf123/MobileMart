@@ -1,5 +1,7 @@
-﻿
-@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity
+@{ 
+    MobileMart.DB.ViewModel.AdminLayoutViewModel adminData = ViewBag.LayoutData;
+}
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
     @Html.AntiForgeryToken()
@@ -115,19 +117,19 @@
     </ul>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
-            <li class="active">
-                <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                <a href="@Url.Action("Index","Admin")"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
             </li>
-            <li>
-                <a href="/Admin/CreateOwner"><i class="fa fa-fw fa-plus"></i>Insert New Shop</a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "CreateOwner" ? "active" : "")">
+                <a href="@Url.Action("CreateOwner","Admin")"><i class="fa fa-fw fa-plus"></i>Insert New Shop</a>
             </li>
             
-            <li>
-                <a href="/Admin/DisplayAllShops"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">0</span></a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayAllShops" ? "active" : "")">
+                <a href="@Url.Action("DisplayAllShops","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">@adminData.Shops.Count()</span></a>
             </li>
 
-            <li>
-                <a href="/Admin/GetAllCustomers"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">0</span></a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
+                <a href="@Url.Action("AllCustomers","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">@adminData.Customers.Count()</span></a>
             </li>
 
         </ul>

@@ -60,6 +60,7 @@ namespace MobileMart.BL
             IOwnerRepository ownerRepo = new OwnerRepository();
             return ownerRepo.GetOwnerIDByUserID(userID);
         }
+
         public IEnumerable<country> GetCountries()
         {
             ICountryRepository countryRepo = new CountryRepository();
@@ -77,6 +78,7 @@ namespace MobileMart.BL
             ICityRepository cityRepo = new CityRepository();
             return cityRepo.Get().Where(s => s.state_id == id).ToList();
         }
+
         public void CreateCustomer(RegisterViewModel model)
         {
             ICustomerRepository customerRepo = new CustomerRepository();
@@ -93,6 +95,7 @@ namespace MobileMart.BL
 
             customerRepo.Insert(customer);
         }
+
         public DisplayShopViewModel ShopAndOwnerByOwnerID(int ownerID)
         {
             IShopRepository shopRepo = new ShopRepository();
@@ -116,6 +119,7 @@ namespace MobileMart.BL
 
             return viewmodel;
         }
+
         public CreateShopViewModel GetShopByOwnerID(int? ownerID)
         {
             IShopRepository shopRepo = new ShopRepository();
@@ -159,21 +163,57 @@ namespace MobileMart.BL
             }
             return list;
         }
+        public IEnumerable<DisplayAllCustomers> GetAllCustomers()
+        {
+            var customerRepo = new CustomerRepository();
+            var customers = customerRepo.Get();
+            var viewModel = new DisplayAllCustomers();
 
-        //public string DeleteShop(int? ID)
-        //{
-        //    IOwnerRepository ownerRepo = new OwnerRepository();
-        //    IShopRepository shopRepo = new ShopRepository();
+            List<DisplayAllCustomers> customerList = new List<DisplayAllCustomers>();
+            foreach (var item in customers)
+            {
+                viewModel.CustomerID = item.CustomerID;
+                viewModel.FirstName = item.FirstName ;
+                viewModel.LastName = item.LastName ;
+                viewModel.Email = item.Email ;
+                viewModel.DOB = item.DOB ;
+                viewModel.ProfilePicturePath = item.ProfilePicture ;
+                viewModel.CreatedON = item.CreatedOn ;
+                viewModel.Address1 = item.Address1 ;
+                viewModel.Address2 = item.Address2 ;
+                var city = GetCityByID(item.CityID);
+                viewModel.City = city.name ;
+                var state = GetStateByID(city.state_id);
+                viewModel.State = state.name ;
+                var country = GetCountryByID(state.country_id);
+                viewModel.Country = country.name ;
+                viewModel.AspID = item.AspNetUserID ;
+                customerList.Add(viewModel);
+            }
+            return customerList;
+        }
+        private city GetCityByID(int? cityID)
+        {
+            ICityRepository cityRepo = new CityRepository();
+            return cityRepo.GetCityByID(cityID);
+        }
+        private state GetStateByID(int? state)
+        {
+            IStateRepository stateRepo = new StateRepository();
+            return stateRepo.GetStateByID(state);
+        }
+        private country GetCountryByID (int? countryID)
+        {
+            ICountryRepository countryRepo = new CountryRepository();
+            return countryRepo.GetCountryByID(countryID); 
+        }
 
-        //    ownerRepo.Delete(ID);
-        //    shopRepo.Delete(ID);
-        //    return "shop deleted";
-        //}
         public void DeleteUser(string userID)
         {
             IAspNetUser Repo = new Repository.AspNetUser();
             Repo.DeleteUser(userID);            
         }
+
         public EditShopViewModel GetOwnerByID(int? ownerID)
         {
             IOwnerRepository ownerRepo = new OwnerRepository();
@@ -186,26 +226,27 @@ namespace MobileMart.BL
             ownerVM.ProfilePhotoPath = owner.OwnerPicture;
             return ownerVM;
         }
-        //public EditShopViewModel EditShopView(int? ID)
-        //{
-        //    IShopRepository shopRepo = new ShopRepository();
-        //    var Shop = shopRepo.GetShopByOwnerID(ID);
-        //    var EShop = new EditShopViewModel();
-        //    EShop.OwnerID = Shop.OwnerID;
-        //    EShop.ShopID = Shop.ShopID;
-        //    EShop.ShopAddress = Shop.ShopAddress;
-        //    EShop.ShopName = Shop.ShopName;
-        //    EShop.ShopLogo = Shop.ShopLogo;
-        //    return EShop;
-        //}
 
         public void InsertEditedOwner(EditShopViewModel viewModel)
         {
             IOwnerRepository OwnerRepo = new OwnerRepository();
             Owner owner = new Owner();
+            if (viewModel.ProfilePhoto != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(viewModel.ProfilePhoto.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ProfilePhoto.FileName);
+                var basePath = "~/Content/ShopOwner/" + viewModel.UserID + "/Profile/Images/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/" + viewModel.UserID + "/Profile/Images/"));
+                viewModel.ProfilePhoto.SaveAs(path);
+                owner.OwnerPicture = basePath + fileName;
+            }
+            else
+            {
+                owner.OwnerPicture = viewModel.ProfilePhotoPath;
+            }
             owner.OwnerID = viewModel.OwnerID;
             owner.OwnerName = viewModel.OwnerName;
-            owner.OwnerPicture = viewModel.ProfilePhotoPath;
             owner.OwnerContact = viewModel.Mobile;
             owner.CreatedOn = viewModel.CreatedOn;
             OwnerRepo.Update(owner);
@@ -215,33 +256,67 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             Shop shopEntity = new Shop();
+            if (viewModel.ShopLogo != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(viewModel.ShopLogo.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ShopLogo.FileName);
+                var basePath = "~/Content/ShopOwner/" + viewModel.UserID + "/" + viewModel.OwnerID + "/ShopLogo/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/" + viewModel.UserID + "/" + viewModel.OwnerID + "/ShopLogo/"));
+                viewModel.ShopLogo.SaveAs(path);
+                shopEntity.ShopLogo = basePath + fileName;
+            }
+            else
+            {
+                shopEntity.ShopLogo = viewModel.GetLogo;
+            }
             shopEntity.OwnerID = viewModel.OwnerID;
             shopEntity.ShopID = viewModel.ShopID;
             shopEntity.ShopName = viewModel.ShopName;
             shopEntity.ShopAddress = viewModel.ShopAddress;
-            //shopEntity.ShopLogo = viewModel.ShopLogo;
             shopEntity.CountryID = viewModel.Country;
             shopEntity.StateID = viewModel.State;
             shopEntity.CityID = viewModel.City;
             shopEntity.CreatedOn = viewModel.CreatedOn;
             shopRepo.Update(shopEntity);
         }
-        public List<Customer> AllCustomers()
+
+        public IEnumerable<Customer> AllCustomers()
         {
             ICustomerRepository Customer = new CustomerRepository();
             return Customer.Get().ToList();
         }
-
-        public AdminMenuViewModel Counts()
+        
+        public IEnumerable<Shop> AllShops()
         {
-            ICustomerRepository customer = new CustomerRepository();
-            IShopRepository shop = new ShopRepository();
-            AdminMenuViewModel viewmodel = new AdminMenuViewModel();
-           
-            viewmodel.CountShops = shop.Get().Count();
-            viewmodel.CountCustomers = customer.Get().Count();
-         
-            return viewmodel;
+            IShopRepository repo = new ShopRepository();
+            return repo.Get().ToList();
+        }
+
+        public void AddCompany(AddCompanyViewModel viewModel)
+        {
+            ICompanyRepository companyrepo = new CompanyRepository();
+            Company entity = new Company();
+            entity.CompanyName = viewModel.CompanyName;
+            entity.CompanyLogo = viewModel.CompanyLogo;
+            companyrepo.insert(entity);
+        }
+
+        public void AddCategory(AddCategoryViewModel viewmodel)
+        {
+            ICategoryRepository categoryrepo = new CategoryRepository();
+            Category entity = new Category();
+            if (viewmodel.CategoryImage != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(viewmodel.CategoryImage.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewmodel.CategoryImage.FileName);
+                var basePath = "~/Content/Admin/Category/Images/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Category/Product/Images/"));
+                entity.CategoryImage = basePath + fileName;
+            }
+            entity.CategoryName = viewmodel.CategoryName;
+            categoryrepo.insert(entity);
 
         }
     }

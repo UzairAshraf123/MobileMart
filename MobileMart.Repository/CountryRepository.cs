@@ -15,5 +15,11 @@ namespace MobileMart.Repository
             _context = new MobileMartEntities();
             return _context.countries.ToList();
         }
+
+        public country GetCountryByID(int? countryID)
+        {
+            _context = new MobileMartEntities();
+            return _context.countries.FirstOrDefault(s=>s.id == countryID);
+        }
     }
 }

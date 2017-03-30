@@ -18,13 +18,9 @@ namespace MobileMart.DB.Model
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
-            this.StockDetails = new HashSet<StockDetail>();
         }
     
         public int ProductID { get; set; }
-        public int CategoryID { get; set; }
-        public int CompanyID { get; set; }
-        public Nullable<int> ColorID { get; set; }
         public string ProductName { get; set; }
         public string ProductDetails { get; set; }
         public bool IsActive { get; set; }
@@ -35,13 +31,19 @@ namespace MobileMart.DB.Model
         public string ProductImage4 { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string IMEI { get; set; }
+        public Nullable<bool> IsOld { get; set; }
+        public Nullable<int> CompanyID { get; set; }
+        public string ProductColor { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<int> ShopID { get; set; }
+        public Nullable<int> SupplierID { get; set; }
+        public Nullable<int> CategoryID { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual Color Color { get; set; }
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockDetail> StockDetails { get; set; }
+        public virtual Shop Shop { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

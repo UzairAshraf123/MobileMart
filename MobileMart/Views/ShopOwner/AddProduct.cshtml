@@ -1,55 +1,50 @@
 ﻿@model MobileMart.DB.ViewModel.AddProductViewModel
 
 @{
-    ViewBag.Title = "AddProduct";
+    ViewBag.Title = "Add Product";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<h2>AddProduct</h2>
-
-
 @using (Html.BeginForm("AddProduct", "ShopOwner",FormMethod.Post,
             new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>AddProductViewModel</h4>
+        <h4>Add New Product Here</h4>
         <hr />
         <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
+        <input type="hidden" name="SupplierID" value="@ViewBag.supplierID" />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(Model => Model.Category,
+                @Html.DropDownListFor(Model => Model.CategoryID,
                     (SelectList)ViewBag.CategoryDropDown,
                     "--Select Category--",
                     new { @class = "form-control", @id = "SelectedCatogory" })
-                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CompanyID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Company,
+                @Html.DropDownListFor(model => model.CompanyID,
                (SelectList)ViewBag.CompanyDropDown,
                "--Select Category--",
                new { @class = "form-control", @id = "SelectedCompany" })
-                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CompanyID, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Color, 
-               (SelectList)ViewBag.ColorDropDown,
-               "--Select Color--", 
-               new { @class = "form-control",@id="SelectedColor"  })
-                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                @Html.RadioButtonFor(model => model.IsOld, "false", new { htmlAttributes = new { @class = "form-control" } })
+                <label class="label label-default">New</label>
+                @Html.RadioButtonFor(model => model.IsOld, "true", new { htmlAttributes = new { @class = "form-control" } })
+                <label class="label label-default">Old</label>
+                @Html.ValidationMessageFor(model => model.IsOld, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -62,32 +57,43 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductImage1, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="ProductImage1" value="ProductImage1" class="btn btn-default" />
+                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductImage2, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group ">
+            <label class = "control-label col-md-2">Upload Product Images</label>
             <div class="col-md-10">
-                <input type="file" name="ProductImage2" value="ProductImage2" class="btn btn-default" />
+                <div id="imgpreview1" class="col-md-3 img-thumbnail image-preview">
+                    <label for="image-upload" id="image-label" class="image-preview-label"> 
+                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                    </label>
+                    <input type="file" name="ProductImage1" value="ProductImage1" id="image-upload" class="image-preview-input" onchange="showpreview(this, 1)"/>
+                </div>
+                <div id="imgpreview2" class="col-md-3 img-thumbnail image-preview">
+                    <label for="image-upload" id="image-label" class="image-preview-label">
+                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                    </label>
+                    <input type="file" name="ProductImage2" value="ProductImage2" id="image-upload"  class="image-preview-input" onchange="showpreview(this, 2)"/>
+                </div>
+                <div id="imgpreview3" class="col-md-3 img-thumbnail image-preview">
+                    <label for="image-upload" id="image-label" class="image-preview-label">
+                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                    </label>
+                    <input type="file" name="ProductImage3" value="ProductImage3" id="image-upload" class="image-preview-input" onchange="showpreview(this, 3)"/>
+                </div>
+                <div id="imgpreview4" class="col-md-3 img-thumbnail image-preview">
+                    <label for="image-upload" id="image-label" class="image-preview-label">
+                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                    </label>
+                    <input type="file" name="ProductImage4" value="ProductImage4" id="image-upload" class="image-preview-input" onchange="showpreview(this, 4)"/>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductImage3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="ProductImage3" value="ProductImage3" class="btn btn-default" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductImage4, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="ProductImage4" value="ProductImage4" class="btn btn-default" />
-            </div>
-        </div>
+        
         <div class="form-group">
             @Html.LabelFor(model => model.ProductDetail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -103,6 +109,7 @@
                 @Html.ValidationMessageFor(model => model.IMEI, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -110,11 +117,22 @@
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add" class="btn btn-default" />
             </div>
         </div>
+    
+        
     </div>
 }
 
@@ -123,5 +141,26 @@
 </div>
 
 @section Scripts {
+    
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="~/Scripts/jquery.uploadPreview.min.js"></script>*@
     @Scripts.Render("~/bundles/jqueryval")
-}
+    <script type="text/javascript">
+        function showpreview(input, num)
+        {
+            if (input.files && input.files[0])
+            {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var loadedFile = e.target;
+                    $('#imgpreview' + num).css("background-image", "url(" + loadedFile.result + ")");
+                    $('#imgpreview' + num).css("background-size", "cover");
+                    $('#imgpreview' + num).css("background-position", "center center");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    }

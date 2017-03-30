@@ -17,7 +17,7 @@ namespace MobileMart.DB.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supplier()
         {
-            this.StockDetails = new HashSet<StockDetail>();
+            this.Products = new HashSet<Product>();
         }
     
         public int SupplierID { get; set; }
@@ -25,10 +25,10 @@ namespace MobileMart.DB.Model
         public string SupplierAddress { get; set; }
         public string SupplierContact { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public System.DateTime CreatedOn { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
         public string CNIC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockDetail> StockDetails { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

@@ -14,8 +14,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MobileMart.Controllers
 {
-    
-    public class AdminController : Controller
+    [Authorize(Roles ="Admin")]
+    public class AdminController : AdminBaseController
     {
         AdminBL adminBL = new AdminBL();
         // GET: Admin
@@ -24,13 +24,14 @@ namespace MobileMart.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         public ActionResult AdminLogin()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult CreateOwner(int? ownerID)
+        public ActionResult CreateOwner()
         {
             return View();
         }
@@ -62,7 +63,7 @@ namespace MobileMart.Controllers
             {
                 AdminBL adminBL = new AdminBL();
                 adminBL.CreateShop(viewModel);
-                return RedirectToAction("DisplayShop","Admin", new {ownerID = viewModel.OwnerID });
+                return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
             }
             return RedirectToAction("CreateShop", "Admin");
         }
@@ -70,7 +71,7 @@ namespace MobileMart.Controllers
         public ActionResult DisplayShop(int ownerID)
         {
             AdminBL BL = new AdminBL();
-            var owner = BL.GetShopByOwnerID(ownerID);
+            var owner = BL.ShopAndOwnerByOwnerID(ownerID);
             return View(owner);
         }
 
@@ -80,6 +81,11 @@ namespace MobileMart.Controllers
                 var shop = BL.GetAllShops();
                 return View(shop);
             
+        }
+        
+        public ActionResult AllCustomers()
+        {
+            return View(adminBL.GetAllCustomers());
         }
 
         public ActionResult DeleteShop (string UserID)
@@ -92,11 +98,15 @@ namespace MobileMart.Controllers
         [HttpGet]
         public ActionResult EditOwner(int? ownerID)
         {
-            AdminBL BL = new AdminBL();
-            var Owner = BL.GetShopByOwnerID(ownerID);
-            return View(Owner);
+            if (ownerID != null)
+            {
+                AdminBL BL = new AdminBL();
+                var owner = BL.GetOwnerByID(ownerID);
+                return View(owner);
+            }
+            return View("DisplayAllShops");
         }
-        
+
         [HttpGet]
         public ActionResult EditShop(int? ownerID)
         {
@@ -126,6 +136,38 @@ namespace MobileMart.Controllers
                 return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
             }
             return RedirectToAction("CreateShop", "Admin");
+        }
+        public ActionResult AddCompany()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddCompany(AddCompanyViewModel viewmodel)
+        {
+            if (viewmodel != null)
+            {
+                AdminBL BL = new AdminBL();
+                BL.AddCompany(viewmodel);
+                return RedirectToAction("AddCompany" , "Admin");
+            }
+            return View();
+        }
+        //Add category
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddCategory(AddCategoryViewModel viewmodel)
+        {
+
+            if (viewmodel != null)
+            {
+                AdminBL BL = new AdminBL();
+                BL.AddCategory(viewmodel);
+                return RedirectToAction("AddCategory", "Admin");
+            }
+            return View();
         }
     }
 }

@@ -6,10 +6,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>CreateShop</h2>
+<h2>Create Shop</h2>
 
 <div class="row">
-    <div class="col-sm-7">
+    <div class="col-sm-8">
     @using (Html.BeginForm("CreateShop", "Admin", FormMethod.Post,
             new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
@@ -92,9 +92,6 @@
     <div class="col-md-3">
         <img id="output" class="img-responsive img-thumbnail" height="250" width="250" />
     </div>
-</div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

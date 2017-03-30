@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MobileMart.DB.ViewModel
 {
@@ -24,11 +25,24 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
         public string UserID { get; set; }
+
         public int OwnerID { get; set; }
+        [Required]
+        [Display(Name = "Name")]
         public string OwnerName { get; set; }
+        [Required]
+        [Display(Name = "Mobile")]
         public string Mobile { get; set; }
+        [Required]
+        [Display(Name = "Profile Picture")]
+        public HttpPostedFileBase ProfilePhoto { get; set; }
+
         public string ProfilePhotoPath { get; set; }
+
+        [Required]
+        [Display(Name = "Created On")]
         public DateTime CreatedOn { get; set; }
     }
 }

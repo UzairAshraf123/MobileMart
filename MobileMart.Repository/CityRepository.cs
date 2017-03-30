@@ -14,5 +14,11 @@ namespace MobileMart.Repository
             _context = new MobileMartEntities();
             return _context.cities.ToList();
         }
+
+        public city GetCityByID(int? cityID)
+        {
+            _context = new MobileMartEntities();
+            return _context.cities.FirstOrDefault(s => s.id == cityID);
+        }
     }
 }

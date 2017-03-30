@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MobileMart.Utility;
 
 namespace MobileMart.Controllers
 {
-    public class ShopOwnerController : Controller
+    public class ShopOwnerController : ShopOwnerBaseController
     {
         // GET: ShopOwner
         ShopKeeperBL shopBL = new ShopKeeperBL();
@@ -57,11 +58,10 @@ namespace MobileMart.Controllers
         {
             if (viewmodel != null)
             {
-                shopBL.AddSupplier(viewmodel);
-                return RedirectToAction("DisplaySupplier");
+                return RedirectToAction("AddProduct" , "ShopOwner" , new {SupplierID = shopBL.AddSupplier(viewmodel)} );
             }
             return View();
-            }
+        }
         //Delete Supplier
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult DeleteSupplier(int id)
@@ -86,41 +86,41 @@ namespace MobileMart.Controllers
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplayProduct()
         {
-            
-            return View(shopBL.GetProduct());
+            var shopID = User.Identity.GetShopID();
+            return View(shopBL.GetProduct(shopID));
         }
         //Add product
         [Authorize(Roles = "ShopKeeper")]
         [HttpGet]
         public ActionResult AddProduct()
         {
-            var companies = shopBL.GetCompany().Select(s => new
+            if (Request.QueryString["SupplierID"] != null && Request.QueryString["SupplierID"] != "")
             {
-                id = s.CompanyID,
-                text = s.CompanyName
+                var companies = shopBL.GetCompany().Select(s => new
+                {
+                    id = s.CompanyID,
+                    text = s.CompanyName
+                }).ToList();
 
+                var categories = shopBL.GetCategory().Select(s => new
+                {
+                    id = s.CategoryID,
+                    text = s.CategoryName
+                }).ToList();
 
-            }).ToList();
-            var categories = shopBL.GetCategory().Select(s => new
-            {
-                id = s.CategoryID,
-                text = s.CategoryName
-            }).ToList();
-            var colors = shopBL.GetColor().Select(s => new
-            {
-                id= s.ColorID,
-                text=s.ColorName
-            }).ToList();
-            ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
-            ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
-            ViewBag.ColorDropDown = new SelectList(colors, "id", "text");
-            return View();
+                ViewBag.supplierID = int.Parse(Request.QueryString["SupplierID"].ToString());
+                ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
+                ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
+                return View(new AddProductViewModel { IsOld = true });
+            }
+            return RedirectToAction("AddSupplier", "ShopOwner");
         }
         [HttpPost]
         public ActionResult AddProduct(AddProductViewModel viewmodel)
         {
             if (viewmodel != null)
             {
+                viewmodel.ShopID = User.Identity.GetShopID();
                 shopBL.AddProduct(viewmodel);
                 return RedirectToAction("DisplayProduct");
             }
@@ -149,21 +149,18 @@ namespace MobileMart.Controllers
                 id = s.CategoryID,
                 text = s.CategoryName
             }).ToList();
-            var colors = shopBL.GetColor().Select(s => new
-            {
-                id = s.ColorID,
-                text = s.ColorName
-            }).ToList();
+
             ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
             ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
-            ViewBag.ColorDropDown = new SelectList(colors, "id", "text");
-            var product= shopBL.UpdteProductlist(id);
+            var shopID = User.Identity.GetShopID();
+            var product= shopBL.UpdteProductlist(id , shopID);
             return View(product);
         }
 
         [HttpPost]
         public ActionResult Edit(AddProductViewModel viewmodel)
         {
+            viewmodel.ShopID = User.Identity.GetShopID();
             shopBL.UpdateProduct(viewmodel);
             return RedirectToAction("DisplayProduct");
         }

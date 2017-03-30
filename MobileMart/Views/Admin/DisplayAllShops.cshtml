@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>DisplayAllShops</h2>
+<h2>Shops</h2>
 
 <p>
     @Html.ActionLink("Create New", "CreateShop", "Admin" )
@@ -21,9 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Contact)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.OwnerCreatedOn)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.ShopName)
         </th>
@@ -50,9 +50,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Contact)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.OwnerCreatedOn)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.ShopName)
         </td>
@@ -66,8 +66,19 @@
             @Html.DisplayFor(modelItem => item.ShopCreatedOn)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditShop", new {  id=item.OwnerID }) |
-            @Html.ActionLink("Delete", "DeleteShop", new { id = item.OwnerID })
+            <a href="@Url.Action("EditOwner", "Admin", new { ownerID = item.OwnerID })" >
+                <span>
+                    <i class="glyphicon glyphicon-edit" ></i>
+                </span>
+            </a>
+
+            <a href="@Url.Action("DeleteShop", "Admin", new { UserID = item.UserID })">
+                <span>
+                    <i class="glyphicon glyphicon-trash"></i>
+                </span>
+            </a>
+            @*@Html.ActionLink("Edit", "EditShop", new {  id=item.OwnerID }) |
+            @Html.ActionLink("Delete", "DeleteShop", new { id = item.OwnerID })*@
         </td>
     </tr>
 }

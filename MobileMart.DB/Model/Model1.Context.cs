@@ -28,7 +28,6 @@ namespace MobileMart.DB.Model
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<city> cities { get; set; }
-        public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<country> countries { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -40,8 +39,6 @@ namespace MobileMart.DB.Model
         public virtual DbSet<Shipper> Shippers { get; set; }
         public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<state> states { get; set; }
-        public virtual DbSet<Stock> Stocks { get; set; }
-        public virtual DbSet<StockDetail> StockDetails { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
