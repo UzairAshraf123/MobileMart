@@ -1,4 +1,5 @@
 ﻿using MobileMart.BL;
+using MobileMart.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,19 @@ namespace MobileMart.Controllers
             {
                 Route = "/ShopOwner/AddProduct?SupplierID=" + s.SupplierID,
                 Name = s.SupplierName
+            });
+
+            return Json(searchedUsers, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult SearchProduct(string Prefix)
+        {
+            var product = new ShopKeeperBL().GetProduct(User.Identity.GetShopID());
+            Prefix = Prefix.ToLower();
+            //Searching records from list using LINQ query  
+            var searchedUsers = product.Where(w => w.ProductName.ToLower().StartsWith(Prefix)).Select(s => new
+            {
+                Name = s.ProductName
             });
 
             return Json(searchedUsers, JsonRequestBehavior.AllowGet);

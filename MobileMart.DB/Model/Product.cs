@@ -18,6 +18,7 @@ namespace MobileMart.DB.Model
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.ProductNotifications = new HashSet<ProductNotification>();
         }
     
         public int ProductID { get; set; }
@@ -35,7 +36,6 @@ namespace MobileMart.DB.Model
         public Nullable<int> CompanyID { get; set; }
         public string ProductColor { get; set; }
         public Nullable<int> Quantity { get; set; }
-        public Nullable<int> ShopID { get; set; }
         public Nullable<int> SupplierID { get; set; }
         public Nullable<int> CategoryID { get; set; }
     
@@ -43,7 +43,8 @@ namespace MobileMart.DB.Model
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        public virtual Shop Shop { get; set; }
         public virtual Supplier Supplier { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductNotification> ProductNotifications { get; set; }
     }
 }

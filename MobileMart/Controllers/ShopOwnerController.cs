@@ -44,8 +44,8 @@ namespace MobileMart.Controllers
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplaySupplier()
         {
-
-            return View(shopBL.GetSupplier());
+            var shopID = User.Identity.GetShopID();
+            return View(shopBL.GetSupplier(shopID));
         }
         //Add Supplier
         [Authorize(Roles = "ShopKeeper")]
@@ -56,6 +56,7 @@ namespace MobileMart.Controllers
         [HttpPost]
         public ActionResult AddSupplier(AddSupplierViewModel viewmodel)
         {
+            viewmodel.shopID = User.Identity.GetShopID(); 
             if (viewmodel != null)
             {
                 return RedirectToAction("AddProduct" , "ShopOwner" , new {SupplierID = shopBL.AddSupplier(viewmodel)} );
@@ -64,10 +65,17 @@ namespace MobileMart.Controllers
         }
         //Delete Supplier
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult DeleteSupplier(int id)
+        public bool DeleteSupplier(int? id)
         {
-            shopBL.DeleteSupplier(id);
-            return RedirectToAction("DisplaySupplier");
+            if (id != null)
+            {
+                shopBL.DeleteSupplier(id);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         //Edit Supplier
         [Authorize(Roles = "ShopKeeper")]
@@ -126,16 +134,26 @@ namespace MobileMart.Controllers
             }
             return View();
         }
-       //Delete Product
-        [Authorize(Roles = "ShopKeeper")]
-        public ActionResult Delete(int id)
+       //IsActive Product
+        public bool IsActive(int productID)
         {
-            string delete = shopBL.DeleteProduct(id);
-            return RedirectToAction("DisplayProduct");
+            var shopID = User.Identity.GetShopID();
+            var IsActive = shopBL.IsActive(productID, shopID);
+            if (IsActive == true)
+            {
+                IsActive = false;
+                return shopBL.ChangeProductStateTo(productID, IsActive);
+                
+            }
+            else
+            {
+                IsActive = true;
+                return shopBL.ChangeProductStateTo(productID, IsActive);
+            }
         }
         //Update Product
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult Edit(int id)
+        public ActionResult EditProduct(int id)
         {
             var companies = shopBL.GetCompany().Select(s => new
             {
@@ -158,7 +176,7 @@ namespace MobileMart.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(AddProductViewModel viewmodel)
+        public ActionResult EditProduct(EditProductViewModel viewmodel)
         {
             viewmodel.ShopID = User.Identity.GetShopID();
             shopBL.UpdateProduct(viewmodel);

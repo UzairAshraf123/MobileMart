@@ -18,6 +18,7 @@ namespace MobileMart.DB.Model
         public Supplier()
         {
             this.Products = new HashSet<Product>();
+            this.SupplierNotifications = new HashSet<SupplierNotification>();
         }
     
         public int SupplierID { get; set; }
@@ -27,8 +28,12 @@ namespace MobileMart.DB.Model
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string CNIC { get; set; }
+        public Nullable<int> ShopID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
+        public virtual Shop Shop { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierNotification> SupplierNotifications { get; set; }
     }
 }

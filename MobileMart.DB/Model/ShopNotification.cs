@@ -12,15 +12,15 @@ namespace MobileMart.DB.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderDetail
+    public partial class ShopNotification
     {
-        public int OrderDetailID { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ProductID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
+        public int ShopNotificationID { get; set; }
+        public Nullable<int> ShopID { get; set; }
+        public string Description { get; set; }
+        public string URL { get; set; }
+        public Nullable<System.DateTime> Timestamp { get; set; }
+        public Nullable<bool> IsSeen { get; set; }
     
-        public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Shop Shop { get; set; }
     }
 }

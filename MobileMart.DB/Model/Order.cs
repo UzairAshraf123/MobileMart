@@ -18,22 +18,29 @@ namespace MobileMart.DB.Model
         public Order()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.OrderNotifications = new HashSet<OrderNotification>();
         }
     
         public int OrderID { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public int TransactionNumber { get; set; }
         public Nullable<int> PaymentID { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> ShipperID { get; set; }
         public string ShippingAddress { get; set; }
+        public string PayPalReference { get; set; }
+        public Nullable<decimal> Tax { get; set; }
+        public Nullable<decimal> Shipping { get; set; }
+        public Nullable<decimal> Total { get; set; }
+        public Nullable<decimal> SubTotal { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Payment Payment { get; set; }
         public virtual Shipper Shipper { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderNotification> OrderNotifications { get; set; }
     }
 }

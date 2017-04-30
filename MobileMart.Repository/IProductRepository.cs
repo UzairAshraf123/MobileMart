@@ -10,11 +10,13 @@ namespace MobileMart.Repository
    public interface IProductRepository
     {
         void insert(Product entity);
-        void delete(int id);
+        void delete(int? id);
         IEnumerable<Product> Get();
         IEnumerable<Product> GetProduct(int? shopID);
         void update(Product entity);
-        
+        bool ChangeActiveStatus(Product entity);
+
+
 
     }
 }

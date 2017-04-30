@@ -13,6 +13,9 @@ namespace MobileMart.BL
 {
     public class AdminBL
     {
+        IProductRepository product = new ProductRepository();
+        ICategoryRepository category = new CategoryRepository();
+        ICompanyRepository company = new CompanyRepository();
         public void CreateOwner(CreateOwnerViewModel model)
         {
             var fileName = Path.GetFileNameWithoutExtension(model.ProfilePhotoPath.FileName);
@@ -66,7 +69,57 @@ namespace MobileMart.BL
             ICountryRepository countryRepo = new CountryRepository();
             return countryRepo.Get();
         }
+        public IEnumerable<DisplayProductViewModel> GetProduct()
+        {
+            var Products = product.Get().ToList();
+            return (Allproduct(Products));
+        }
+        public IEnumerable<DisplayProductViewModel> GetProductByID(int? shopID)
+        {
+            var products = product.GetProduct(shopID).ToList();
+            return (Allproduct(products));
+        }
+        private IEnumerable<DisplayProductViewModel> Allproduct(IEnumerable<Product> products)
+        {
+            List<DisplayProductViewModel> viewmodellist = new List<DisplayProductViewModel>();
+            foreach (var item in products)
+            {
+                DisplayProductViewModel viewmodel = new DisplayProductViewModel();
+                viewmodel.Category = category.GetCategory().FirstOrDefault(s => s.CategoryID == item.CategoryID).CategoryName;
+                viewmodel.Company = company.GetCompany().FirstOrDefault(s => s.CompanyID == item.CompanyID).CompanyName;
+                viewmodel.ProductID = item.ProductID;
+                viewmodel.ProductName = item.ProductName;
+                viewmodel.ProductImage1 = item.ProductImage1;
+                viewmodel.ProductImage2 = item.ProductImage2;
+                viewmodel.ProductImage3 = item.ProductImage3;
+                viewmodel.ProductImage4 = item.ProductImage4;
+                viewmodel.ProductDetail = item.ProductDetails;
+                viewmodel.Color = item.ProductColor;
+                viewmodel.CreatedOn = item.CreatedOn;
+                viewmodel.IMEI = item.IMEI;
+                viewmodel.price = item.Price;
+                viewmodellist.Add(viewmodel);
+            }
+            return viewmodellist;
 
+        }
+        public string DeleteProduct(int? id)
+        {
+            product.delete(id);
+            return "product delete";
+        }
+        public bool IsActive(int id)
+        {
+            var isactive = product.Get().FirstOrDefault(s => s.ProductID == id).IsActive;
+            return (isactive);
+        }
+        public bool ChangeProductStateTo(int productID, bool IsActive)
+        {
+            var entity = product.Get().FirstOrDefault(s => s.ProductID == productID);
+            entity.IsActive = IsActive;
+            entity.ProductID = productID;
+            return product.ChangeActiveStatus(entity);
+        }
         public IEnumerable<state> GetStatesByCountryId(int id)
         {
             IStateRepository stateRepo = new StateRepository();
@@ -100,7 +153,6 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             IOwnerRepository ownerRepo = new OwnerRepository();
-            IProductRepository product = new ProductRepository();
             var owner = ownerRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             var shop = shopRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             DisplayShopViewModel viewmodel = new DisplayShopViewModel();
@@ -152,6 +204,7 @@ namespace MobileMart.BL
                 viewmodel.OwnerProfile = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerPicture;
                 viewmodel.Contact = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerContact;
                 viewmodel.OwnerCreatedOn = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).CreatedOn;
+                viewmodel.productcount = product.GetProduct(item.ShopID).Count();
 
                 viewmodel.ShopID = item.ShopID;
                 viewmodel.ShopName = item.ShopName;

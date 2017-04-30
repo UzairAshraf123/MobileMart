@@ -15,7 +15,7 @@ namespace MobileMart.Repository
         {
             _context = new MobileMartEntities();
         }
-        public void delete(int id)
+        public void delete(int? id)
         {
             var delete= _context.Suppliers.Where(s => s.SupplierID == id).FirstOrDefault();
             _context.Suppliers.Remove(delete);
@@ -28,7 +28,7 @@ namespace MobileMart.Repository
         }
         public IEnumerable<Supplier> GetSupplierByID(int shopID)
         {
-            return _context.Suppliers.Where(s=>s.Products.Any(w=>w.ShopID == shopID)).ToList();
+            return _context.Suppliers.Where(s=>s.ShopID == shopID).ToList();
         }
 
         public int insert(Supplier entity)

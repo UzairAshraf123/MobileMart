@@ -201,9 +201,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.11.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\morris-data.js" />
     <Content Include="Scripts\morris.min.js" />
@@ -304,6 +307,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\table_editable.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Admin\AddCategory.cshtml" />
     <Content Include="Views\Admin\AddCompany.cshtml" />
@@ -359,7 +363,7 @@
     <Content Include="Views\ShopOwner\AddCompany.cshtml" />
     <Content Include="Views\ShopOwner\AddProduct.cshtml" />
     <Content Include="Views\ShopOwner\DisplayProduct.cshtml" />
-    <Content Include="Views\ShopOwner\Edit.cshtml" />
+    <Content Include="Views\ShopOwner\EditProduct.cshtml" />
     <Content Include="Views\ShopOwner\DisplaySupplier.cshtml" />
     <Content Include="Views\ShopOwner\AddSupplier.cshtml" />
     <Content Include="Views\ShopOwner\EditSupplier.cshtml" />
@@ -368,6 +372,8 @@
     <Content Include="Views\Admin\AllCustomers.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\UserProfile.cshtml" />
+    <Content Include="Views\Admin\DisplayProduct.cshtml" />
+    <Content Include="Views\Admin\DisplayProductbyid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

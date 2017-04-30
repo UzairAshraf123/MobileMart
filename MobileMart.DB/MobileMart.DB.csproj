@@ -70,6 +70,9 @@
     <Compile Include="Model\Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CustomerNotification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -91,6 +94,9 @@
     <Compile Include="Model\OrderDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\OrderNotification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Owner.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -100,16 +106,25 @@
     <Compile Include="Model\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ProductNotification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Shipper.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Shop.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ShopNotification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\state.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Supplier.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SupplierNotification.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sysdiagram.cs">
@@ -126,6 +141,7 @@
     <Compile Include="ViewModel\DisplayAllCustomers.cs" />
     <Compile Include="ViewModel\DisplayShopViewModel.cs" />
     <Compile Include="ViewModel\DisplaySupplierViewModel.cs" />
+    <Compile Include="ViewModel\EditProductViewModel.cs" />
     <Compile Include="ViewModel\EditShopViewModel.cs" />
     <Compile Include="ViewModel\DisplayProductViewModel.cs" />
     <Compile Include="ViewModel\EditSupplierViewModel.cs" />
@@ -152,7 +168,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
