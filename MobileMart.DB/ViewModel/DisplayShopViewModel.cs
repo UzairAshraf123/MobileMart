@@ -37,6 +37,7 @@ namespace MobileMart.DB.ViewModel
         [Required]
         [Display(Name = "Created On")]
         public DateTime? ShopCreatedOn { get; set; }
+        public int? productcount { get; set; }
     }
 }
 

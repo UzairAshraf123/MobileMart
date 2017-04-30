@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace MobileMart.DB.ViewModel
         public string ProductDetail { get; set; }
         public decimal price { get; set; }
         public string IMEI { get; set; }
+        public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace MobileMart.Repository
         {
             _context = new MobileMartEntities();
         }
-        public void delete(int id)
+        public void delete(int? id)
         {
             var delete= _context.Suppliers.Where(s => s.SupplierID == id).FirstOrDefault();
             _context.Suppliers.Remove(delete);

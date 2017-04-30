@@ -121,8 +121,11 @@
                 <a href="@Url.Action("DisplayAllShops","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">@adminData.Shops.Count()</span></a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AllCustomers" ? "active" : "")">
                 <a href="@Url.Action("AllCustomers","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">@adminData.Customers.Count()</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayProduct" ? "active" : "")">
+                <a href="@Url.Action("DisplayProduct","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Products<span class="badge">@adminData.products.Count()</span></a>
             </li>
 
         </ul>

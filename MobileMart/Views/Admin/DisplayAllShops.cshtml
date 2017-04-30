@@ -21,9 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Contact)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.OwnerCreatedOn)
-        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.productcount)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.ShopName)
         </th>
@@ -50,9 +50,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Contact)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.OwnerCreatedOn)
-        </td>*@
+        <td>
+            <a href="@Url.Action("DisplayProductbyid", "Admin", new { id = item.ShopID })">
+            @Html.DisplayFor(modelItem => item.productcount)
+            </a>
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.ShopName)
         </td>

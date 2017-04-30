@@ -10,5 +10,6 @@ namespace MobileMart.DB.ViewModel
     {
         public IEnumerable<Customer> Customers { get; set; }
         public IEnumerable<Shop> Shops { get; set; }
+        public IEnumerable<DisplayProductViewModel> products { get; set; }
     }
 }

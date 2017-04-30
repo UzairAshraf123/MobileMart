@@ -83,7 +83,45 @@ namespace MobileMart.Controllers
                 return View(shop);
             
         }
-        
+        public ActionResult DisplayProductbyid(int? id)
+        {
+                AdminBL BL = new AdminBL();
+                var product = BL.GetProductByID(id);
+                return View(product);
+        }
+        public ActionResult DisplayProduct()
+        {
+            AdminBL BL = new AdminBL();
+            var product = BL.GetProduct();
+            return View(product);
+        }
+        public bool Delete(int? id)
+        {
+            if (id != null)
+            {
+                string delete = adminBL.DeleteProduct(id);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool IsActive(int productID)
+        {
+            var IsActive = adminBL.IsActive(productID);
+            if (IsActive == true)
+            {
+                IsActive = false;
+                return adminBL.ChangeProductStateTo(productID, IsActive);
+
+            }
+            else
+            {
+                IsActive = true;
+                return adminBL.ChangeProductStateTo(productID, IsActive);
+            }
+        }
         public ActionResult AllCustomers()
         {
             return View(adminBL.GetAllCustomers());

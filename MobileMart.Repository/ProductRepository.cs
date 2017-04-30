@@ -33,7 +33,7 @@ namespace MobileMart.Repository
 
         public IEnumerable<Product> GetProduct(int? shopID)
         {
-            return _context.Products.Where(w=>w.Supplier.Shop.ShopID == shopID).ToList();
+            return _context.Products.Where(s=>s.Supplier.ShopID==shopID).ToList();
         }
 
         public void insert(Product entity)
@@ -52,6 +52,13 @@ namespace MobileMart.Repository
             _context.Products.Add(entity);
             _context.SaveChanges();
             return entity.ProductID;
+        }
+        public bool ChangeActiveStatus(Product entity)
+        {
+            var product = _context.Products.Where(s => s.ProductID == entity.ProductID).FirstOrDefault();
+            product.IsActive = entity.IsActive;
+            _context.SaveChanges();
+            return product.IsActive;
         }
     }
 }

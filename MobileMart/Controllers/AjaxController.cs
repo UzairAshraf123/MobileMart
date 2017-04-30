@@ -1,4 +1,5 @@
 ﻿using MobileMart.BL;
+using MobileMart.Utility;
 using MobileMart.DB.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -64,5 +65,10 @@ namespace MobileMart.Controllers
             });
             return Json(searchedUsers, JsonRequestBehavior.AllowGet);
         }
+        //[HttpPost]
+        //public JsonResult AddItemInCart()
+        //{
+        //    return Json( ,JsonRequestBehavior.AllowGet);
+        //}
     }
 }

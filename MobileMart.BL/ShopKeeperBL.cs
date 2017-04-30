@@ -58,9 +58,9 @@ namespace MobileMart.BL
             return categoryRepo.GetCategory();
         }
         //GetSupplier
-        public IEnumerable<DisplaySupplierViewModel> GetSupplier()
+        public IEnumerable<DisplaySupplierViewModel> GetSupplier(int shopID)
         {
-            var supplier= supplierRepo.GetSupplier();
+            var supplier= supplierRepo.GetSupplierByID(shopID);
             List<DisplaySupplierViewModel> viewmodellist = new List<DisplaySupplierViewModel>();
             foreach(var item in supplier)
             {
@@ -94,6 +94,7 @@ namespace MobileMart.BL
                 viewmodel.CreatedOn = item.CreatedOn;
                 viewmodel.IMEI = item.IMEI;
                 viewmodel.price = item.Price;
+                viewmodel.IsActive = item.IsActive;
                 viewmodellist.Add(viewmodel);
             }
             return viewmodellist;
@@ -153,19 +154,19 @@ namespace MobileMart.BL
 
             productNR.Insert(productNE);
         }
-        //DeleteProducts
-        public string DeleteProduct(int id)
+        //IsactiveProducts
+        public bool IsActive(int id, int shopID)
         {
-            productRepo.delete(id);
-            return "product deleted";
+            var isactive = productRepo.GetProduct(shopID).FirstOrDefault(s => s.ProductID == id).IsActive;
+            return (isactive);
         }
         //DeleteSupplier
-        public string DeleteSupplier(int id)
+        public string DeleteSupplier(int? id)
         {
             supplierRepo.delete(id);
             return "Supplier delete";
         }
-        //Show Product List For Update
+        //Show Supplier List For Update
         public EditSupplierViewModel UpdteSupplierlist(int id)
         {
             var Supplier = supplierRepo.GetSupplier().Where(s => s.SupplierID == id).FirstOrDefault();
@@ -187,11 +188,13 @@ namespace MobileMart.BL
             supplierRepo.update(entity);
         }
         //Show Product List For Update
-        public AddProductViewModel  UpdteProductlist(int id , int shopID)
+        public EditProductViewModel  UpdteProductlist(int id , int shopID)
         {
             var product = productRepo.GetProduct(shopID).Where(s => s.ProductID == id).FirstOrDefault();
-            AddProductViewModel viewmodel = new AddProductViewModel();
+            EditProductViewModel viewmodel = new EditProductViewModel();
             viewmodel.ProductID = product.ProductID;
+            viewmodel.SupplierID = product.SupplierID;
+            viewmodel.SupplierID = product.SupplierID;
             viewmodel.ProductName = product.ProductName;
             viewmodel.ProductImagePath1 = product.ProductImage1;
             viewmodel.ProductImagePath2 = product.ProductImage2;
@@ -200,10 +203,16 @@ namespace MobileMart.BL
             viewmodel.ProductDetail = product.ProductDetails;
             viewmodel.Price = product.Price;
             viewmodel.IMEI = product.IMEI;
+            viewmodel.Quantity = product.Quantity;
+            viewmodel.IsOld = product.IsOld;
+            viewmodel.CategoryID = product.CategoryID;
+            viewmodel.CompanyID = product.CompanyID;
+            viewmodel.CreatedOn = product.CreatedOn;
+            viewmodel.Color = product.ProductColor;
             return (viewmodel);
         }
         //UpdateProduct
-        public void UpdateProduct(AddProductViewModel viewmodel)
+        public void UpdateProduct(EditProductViewModel viewmodel)
         {
             Product entity = new Product();
             if(viewmodel.ProductImage1!=null && viewmodel.ProductImage2 != null && viewmodel.ProductImage3 != null && viewmodel.ProductImage4 != null)
@@ -243,6 +252,7 @@ namespace MobileMart.BL
                 entity.ProductImage4 = viewmodel.ProductImagePath4;
             }
             entity.ProductID = viewmodel.ProductID;
+            entity.SupplierID = viewmodel.SupplierID;
             entity.CategoryID = viewmodel.CategoryID;
             entity.CompanyID = viewmodel.CompanyID;
             entity.ProductColor = viewmodel.Color;
@@ -251,6 +261,8 @@ namespace MobileMart.BL
             entity.IMEI = viewmodel.IMEI;
             entity.CreatedOn = viewmodel.CreatedOn;
             entity.Price = viewmodel.Price;
+            entity.IsOld = viewmodel.IsOld;
+            entity.Quantity = viewmodel.Quantity;
             productRepo.update(entity);
         }
 
@@ -268,5 +280,14 @@ namespace MobileMart.BL
         {
             return supplierRepo.GetSupplierByID(shopID);
         }
+
+        public bool ChangeProductStateTo(int productID,bool IsActive)
+        {
+            var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
+            entity.IsActive = IsActive;
+            entity.ProductID = productID;
+            return productRepo.ChangeActiveStatus(entity); 
+        }
     }
 }
+ 

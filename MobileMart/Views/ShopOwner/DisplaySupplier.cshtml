@@ -25,7 +25,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr id='@("supplierdelete" + item.SupplierID)'>
         <td>
             @Html.DisplayFor(modelItem => item.SupplierName)
         </td>
@@ -36,10 +36,38 @@
             @Html.DisplayFor(modelItem => item.SupplierAddress)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditSupplier", new {  id=item.SupplierID  }) |
-            @Html.ActionLink("Delete", "DeleteSupplier", new {  id=item.SupplierID  })
+            @Html.ActionLink(" ", "EditSupplier", new {  id=item.SupplierID  }, new { @class = "glyphicon glyphicon-edit" }) |
+            @*@Ajax.ActionLink(" ", "DeleteSupplier", new { id = item.SupplierID });*@
+            <button value="@item.SupplierID" onclick="DeleteSupplier(@item.SupplierID)">
+                <i class="glyphicon glyphicon-remove" ></i>
+            </button>
+           
         </td>
     </tr>
 }
 
 </table>
+@section scripts{
+    <script>
+                                        
+   function DeleteSupplier(supplierID) {
+        var id = supplierID;
+        debugger;
+        $.ajax({
+            url: "@Url.Action("DeleteSupplier", "ShopOwner")",
+            method: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data="True") {
+                    $("#supplierdelete" + id).remove();
+                }
+                else {
+                    alert("......");
+                }
+            }
+        });
+
+    };
+
+    </script>
+}
