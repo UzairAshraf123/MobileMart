@@ -7,42 +7,46 @@
 }
 
 <h2>Create Owner</h2>
+<hr/>
 <div class="row">
-    <div class="col-md-8">
-        @using (Html.BeginForm("OwnerRegister", "Account", FormMethod.Post,
-        new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <hr />
-            <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
-            @Html.ValidationSummary("", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProfilePhotoPath, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <label class="btn btn-default btn-file">
-                        Upload Photo..
-                        <i class="glyphicon glyphicon-folder-open"></i>
-                        <input type="file" name="ProfilePhotoPath" accept="image/*" onchange="loadFile(event)">
-                    </label>
-                    @Html.ValidationMessageFor(model => model.ProfilePhotoPath, "", new { @class = "text-danger" })
+    @using (Html.BeginForm("OwnerRegister", "Account", FormMethod.Post,
+            new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-11">
+                    <div id="imgpreview1" class="col-md-3 image-preview img-rounded img-responsive img-thumbnail" style="margin-top: 60px;">
+                        <label for="image-upload" id="image-label" class="image-preview-label">
+                            <span><i class="glyphicon glyphicon-plus"></i></span>
+                        </label>
+                        @Html.TextBoxFor(m => m.ProfilePhotoPath, new { Type = "File", @id = "image-upload", @class = "image-preview-input", onchange = "showpreview(this, 1)" })
+                    </div>
                 </div>
+                @Html.ValidationMessageFor(model => model.ProfilePhotoPath, "", new { @class = "text-danger" })
             </div>
+        </div>
+        <div class="col-md-8 well">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
@@ -64,12 +68,8 @@
                     <input type="submit" class="btn btn-primary" value="Register" />
                 </div>
             </div>
-
-        }
-    </div>
-    <div class="col-md-3">
-        <img id="output" class="img-responsive img-thumbnail" height="250" width="250" />
-    </div>
+        </div>
+    }
 </div>
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -78,9 +78,21 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        var loadFile = function (event) {
-            var output = document.getElementById('output');
-            output.src = URL.createObjectURL(event.target.files[0]);
-        };
+        //var loadFile = function (event) {
+        //    var output = document.getElementById('output');
+        //    output.src = URL.createObjectURL(event.target.files[0]);
+        //};
+        function showpreview(input, num) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var loadedFile = e.target;
+                    $('#imgpreview' + num).css("background-image", "url(" + loadedFile.result + ")");
+                    $('#imgpreview' + num).css("background-size", "cover");
+                    $('#imgpreview' + num).css("background-position", "center center");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 }

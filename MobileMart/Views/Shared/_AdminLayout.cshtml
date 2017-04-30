@@ -10,10 +10,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/sb-admin.css" rel="stylesheet" />
-
-
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-
     <link href="~/Content/AdminPlugins/morris.css" rel="stylesheet" />
     <link href="~/Content/AwesomeFonts/css/font-awesome.min.css" rel="stylesheet" />
 
@@ -48,13 +45,74 @@
         @RenderBody()
         <hr />
     </div>
-    <script src="~/Scripts/jquery.js"></script>
-    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-
-    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
+    @Scripts.Render("~/bundles/AdminJSs")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setInterval(ajaxRefresh, 2000);
+        });
+        function ajaxRefresh() {
+            $.ajax({
+                url: "/Notification/GetNotifications",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    var count = data.OrderNotificationList.length + data.ShopNotificationList.length + data.SupplierNotificationList.length + data.ProductNotificationList.length + data.CustomerNotificationList.length;
+                    $("#NotificationCount").empty();
+                    $("#NotificationCount").append(count);
+                    $(".ToRemove").remove();
+                    for (var i = 0; i < data.OrderNotificationList.length; i++) {
+                        $("#OrderNotifications").append("<li class=\"ToRemove\" value=\"" + data.OrderNotificationList[i].OrderNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.OrderNotificationList[i].OrderNotificationURL + "\">" + data.OrderNotificationList[i].OrderNotificationDescription + "</a></li>");
+                    }
+                    for (var i = 0; i < data.SupplierNotificationList.length; i++) {
+                        $("#SupplierNotifications").append("<li class=\"ToRemove\" value=\"" + data.SupplierNotificationList[i].SupplierNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.SupplierNotificationList[i].SupplierNotificationURL + "\">" + data.SupplierNotificationList[i].SupplierNotificationDescription + "</a></li>");
+                    }
+                    for (var i = 0; i < data.ProductNotificationList.length; i++) {
+                        $("#ProductNotifications").append("<li class=\"ToRemove\" value=\"" + data.ProductNotificationList[i].ProductNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ProductNotificationList[i].ProductNotificationURL + "\"><img src='" + data.ProductNotificationList[i].ProductImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ProductNotificationList[i].ProductNotificationDescription + "</a></li>");
+                    }
+                    for (var i = 0; i < data.ShopNotificationList.length; i++) {
+                        $("#ShopNotifications").append("<li class=\"ToRemove\" value=\"" + data.ShopNotificationList[i].ShopNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ShopNotificationList[i].ShopNotificationURL + "\"><img src='" + data.ShopNotificationList[i].ShopLogo.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ShopNotificationList[i].ShopNotificationDescription + "</a></li>");
+                    }
+                    for (var i = 0; i < data.CustomerNotificationList.length; i++) {
+                        $("#CustomerNotifications").append("<li class=\"ToRemove\" value=\"" + data.CustomerNotificationList[i].CustomerNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.CustomerNotificationList[i].CustomerNotificationURL + "\"><img src='" + data.CustomerNotificationList[i].CustomerImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.CustomerNotificationList[i].CustomerNotificationDescription + "</a></li>");
+                    }
+                }
+            })
+        };
+
+       //$("#NotificationDropDown").click(function () {
+       //     var customerArray = [];
+       //     var orderArray = [];
+       //     var supplierArray = [];
+       //     var productArray = [];
+       //     var shopArray = [];
+       //     $("#CustomerNotifications li").each(function () {
+       //         customerArray.push($(this).val());
+       //     });
+       //     $("#SupplierNotifications li").each(function () {
+       //         supplierArray.push($(this).val());
+       //     });
+       //     $("#ShopNotifications li").each(function () {
+       //         shopArray.push($(this).val());
+       //     });
+       //     $("#OrderNotifications li").each(function () {
+       //         orderArray.push($(this).val());
+       //     });
+       //     $("#ProductNotifications li").each(function () {
+       //         productArray.push($(this).val());
+       //     });
+       //     $.ajax({
+       //         url: "/Notification/ChangeIsSeenState",
+       //         type: "POST",
+       //         data: { CustomerArray: customerArray, ProductArray: productArray, OrderArray: orderArray, SupplierArray: supplierArray, ShopArray: shopArray },
+       //         success: function () {
+
+       //         }
+       //     })
+       // });
+    </script>
     
 </body>
 </html>

@@ -31,15 +31,20 @@ namespace MobileMart.DB.Model
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<country> countries { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerNotification> CustomerNotifications { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<OrderNotification> OrderNotifications { get; set; }
         public virtual DbSet<Owner> Owners { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductNotification> ProductNotifications { get; set; }
         public virtual DbSet<Shipper> Shippers { get; set; }
         public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<ShopNotification> ShopNotifications { get; set; }
         public virtual DbSet<state> states { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<SupplierNotification> SupplierNotifications { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

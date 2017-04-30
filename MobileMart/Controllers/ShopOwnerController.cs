@@ -58,6 +58,7 @@ namespace MobileMart.Controllers
         {
             if (viewmodel != null)
             {
+                viewmodel.ShopID = User.Identity.GetShopID();
                 return RedirectToAction("AddProduct" , "ShopOwner" , new {SupplierID = shopBL.AddSupplier(viewmodel)} );
             }
             return View();
@@ -107,7 +108,6 @@ namespace MobileMart.Controllers
                     id = s.CategoryID,
                     text = s.CategoryName
                 }).ToList();
-
                 ViewBag.supplierID = int.Parse(Request.QueryString["SupplierID"].ToString());
                 ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
                 ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");

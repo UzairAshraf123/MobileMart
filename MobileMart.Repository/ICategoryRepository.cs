@@ -12,5 +12,6 @@ namespace MobileMart.Repository
         void insert(Category entity);
         void delete(int id);
         IEnumerable<Category> GetCategory();
+        IEnumerable<Category> GetSubCategoryByCategoryID(int categoryID);
     }
 }

@@ -960,7 +960,7 @@ transform: scale(1);
 .ui-slider .ui-slider-range {
   background: #ff7f00 none repeat scroll 0 0;
 }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+/*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   background: #ff7f00 none repeat scroll 0 0;
   border: medium none;
   border-radius: 0;
@@ -969,7 +969,7 @@ transform: scale(1);
   margin-top: -6px;
   top: 50%;
   width: 5px;
-}
+}*/
 /* -------------------------------------
     9.9 Widget color
 ------------------------------------- */

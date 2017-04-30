@@ -48,13 +48,46 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPal, Version=1.8.0.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.8.0\lib\net451\PayPal.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -133,33 +166,6 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Facebook">
-      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Google">
-      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Twitter">
-      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
-      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -171,8 +177,10 @@
     <Compile Include="Controllers\AdminBaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AjaxController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ShopOwnerBaseController.cs" />
     <Compile Include="Controllers\ShopOwnerController.cs" />
     <Compile Include="Global.asax.cs">
@@ -191,22 +199,149 @@
     <Compile Include="Utility\IdentityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\alertifyjs\alertify.css" />
+    <Content Include="Content\alertifyjs\alertify.min.css" />
+    <Content Include="Content\alertifyjs\alertify.rtl.css" />
+    <Content Include="Content\alertifyjs\alertify.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.min.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\default.css" />
+    <Content Include="Content\alertifyjs\themes\default.min.css" />
+    <Content Include="Content\alertifyjs\themes\default.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\default.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.min.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.rtl.min.css" />
     <Content Include="Content\autocomplete.css" />
+    <Content Include="Content\AwesomeFonts\fontawesome-webfont.svg" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\js\bootstrap-datepicker.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\js\bootstrap-datepicker.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Content\bootstrap-datepicker-1.6.4-dist\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\shortcode\default.css" />
+    <Content Include="Content\shortcode\footer.css" />
+    <Content Include="Content\shortcode\header.css" />
+    <Content Include="Content\shortcode\shortcodes.css" />
+    <Content Include="Content\shortcode\slider.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\alertify.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.11.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\jquery.js" />
-    <Content Include="Scripts\morris-data.js" />
-    <Content Include="Scripts\morris.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Content\AdminPlugins\raphael.min.js" />
     <Content Include="Content\AwesomeFonts\css\font-awesome.css" />
     <Content Include="Content\AwesomeFonts\css\font-awesome.min.css" />
@@ -217,8 +352,8 @@
     <Content Include="Content\default.css" />
     <Content Include="Content\footer.css" />
     <Content Include="Content\header.css" />
-    <Content Include="Content\Images\Icons\favicon.png" />
-    <Content Include="Content\Images\Logo\logo.png" />
+    <Content Include="Content\DefaultImages\Icons\favicon.png" />
+    <Content Include="Content\DefaultImages\Logo\logo.png" />
     <Content Include="Content\material-design-iconic-font.css" />
     <Content Include="Content\material-design-iconic-font.min.css" />
     <Content Include="Content\nivo-slider.css" />
@@ -230,15 +365,15 @@
     <Content Include="Content\slider.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Controllers\fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\Material-Design-Iconic-Font.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\ajax-mail.js" />
-    <Content Include="Controllers\fonts\Material-Design-Iconic-Font.eot" />
-    <Content Include="Controllers\fonts\Material-Design-Iconic-Font.ttf" />
-    <Content Include="Controllers\fonts\Material-Design-Iconic-Font.woff" />
-    <Content Include="Controllers\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="Content\fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="Content\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="Content\fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="Content\fonts\Material-Design-Iconic-Font.woff2" />
     <Content Include="Content\AwesomeFonts\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\AwesomeFonts\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\AwesomeFonts\fonts\fontawesome-webfont.woff" />
@@ -272,10 +407,10 @@
     <Content Include="Content\AwesomeFonts\scss\_screen-reader.scss" />
     <Content Include="Content\AwesomeFonts\scss\_stacked.scss" />
     <Content Include="Content\AwesomeFonts\scss\_variables.scss" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Controllers\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -284,6 +419,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\AwesomeFonts\fontawesome-webfont.eot" />
+    <Content Include="Content\AwesomeFonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\AwesomeFonts\fontawesome-webfont.woff" />
+    <Content Include="Content\AwesomeFonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\AwesomeFonts\FontAwesome.otf" />
+    <Content Include="fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff2" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -293,21 +437,37 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\map.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\modernizr-2.8.3.min.js" />
     <Content Include="Scripts\plugins.js" />
+    <Content Include="Scripts\plugins\flot\excanvas.min.js" />
+    <Content Include="Scripts\plugins\flot\flot-data.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Scripts\plugins\morris\morris-data.js" />
+    <Content Include="Scripts\plugins\morris\morris.js" />
+    <Content Include="Scripts\plugins\morris\morris.min.js" />
+    <Content Include="Scripts\plugins\morris\raphael.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\table_editable.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Admin\AddCategory.cshtml" />
     <Content Include="Views\Admin\AddCompany.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Cart\FailureView.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\PaymentWithCreditCard.cshtml" />
+    <Content Include="Views\Cart\PaymentWithPaypal.cshtml" />
+    <Content Include="Views\Cart\SuccessView.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -368,6 +528,17 @@
     <Content Include="Views\Admin\AllCustomers.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\UserProfile.cshtml" />
+    <Content Include="Views\Shared\_CartSideMenu.cshtml" />
+    <Content Include="Views\Cart\CheckOutStart.cshtml" />
+    <Content Include="Views\Cart\CartErrors.cshtml" />
+    <Content Include="Views\Cart\CheckoutReview.cshtml" />
+    <Content Include="Views\Cart\CheckoutCancel.cshtml" />
+    <Content Include="Views\Cart\Thankyou.cshtml" />
+    <Content Include="Views\Admin\DisplayAllProduct.cshtml" />
+    <Content Include="Views\Notification\CustomerDetail.cshtml" />
+    <Content Include="Views\Notification\OrderDetail.cshtml" />
+    <Content Include="Views\Notification\ProductDetail.cshtml" />
+    <Content Include="Views\Notification\ShopDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -395,6 +566,10 @@
     <ProjectReference Include="..\MobileMart.DB\MobileMart.DB.csproj">
       <Project>{3efa18b8-3549-4901-9404-9629e6172cb7}</Project>
       <Name>MobileMart.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MobileMart.Repository\MobileMart.Repository.csproj">
+      <Project>{60511336-4F1E-433C-BDA9-D630352B3DCA}</Project>
+      <Name>MobileMart.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

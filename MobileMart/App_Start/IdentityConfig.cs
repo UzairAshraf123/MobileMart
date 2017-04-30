@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using MobileMart.Models;
+using System.Net.Mail;
 
 namespace MobileMart
 {
@@ -18,8 +19,41 @@ namespace MobileMart
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            SmtpClient client = new SmtpClient();
+            return client.SendMailAsync("email from web.config here",
+                                        message.Destination,
+                                        message.Subject,
+                                        message.Body);
+            //// Plug in your email service here to send an email.
+            //var credentialUserName = "Mobile Phone Mart";
+            //var sentFrom = "mobile mart email";
+            //var pwd = " password ";
+
+            //// Configure the client:
+            //System.Net.Mail.SmtpClient client =
+            //    new System.Net.Mail.SmtpClient("smtp-mail.outlook.com");
+
+            //client.Port = 587;
+            //client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            //client.UseDefaultCredentials = false;
+
+            //// Creatte the credentials:
+            //System.Net.NetworkCredential credentials =
+            //    new System.Net.NetworkCredential(credentialUserName, pwd);
+
+            //client.EnableSsl = true;
+            //client.Credentials = credentials;
+
+            //// Create the message:
+            //var mail =
+            //    new System.Net.Mail.MailMessage(sentFrom, message.Destination);
+
+            //mail.Subject = message.Subject;
+            //mail.Body = message.Body;
+
+            //// Send:
+            //await client.SendMailAsync(mail);
+            ////return Task.FromResult(0);
         }
     }
 

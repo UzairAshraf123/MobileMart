@@ -8,10 +8,16 @@ namespace MobileMart
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/AdminJSs").Include(
+                       "~/Scripts/jquery-3.1.1.js",
+                       "~/Scripts/jquery-ui-1.12.1.js",
+                       "~/Scripts/bootstrap.js",
+                       "~/Scripts/plugins/morris/raphael.min.js",
+                       "~/Scripts/plugins/morris/morris.min.js", 
+                       "~/Scripts/plugins/morris/morris-data.js"
+                       ));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-3.1.1.min.js",
-                        "~/Scripts/jquery.nivo.slider.js"
+                        "~/Scripts/jquery-3.1.1.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/JSs").Include(
                         "~/Scripts/plugins.js",
@@ -27,20 +33,24 @@ namespace MobileMart
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/bootstrap.min.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/jquery.nivo.slider.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
                       "~/Content/core.css",
-                      "~/Content/shortcodes.css",
+                      "~/Content/shortcode/shortcodes.css",
                       "~/Content/color-core.css",
-                      "~/Content/custom.css",
                       "~/Content/nivo-slider.css",
                       "~/Content/responsive.css",
                       "~/Content/default.css",
-                      "~/Content/style.css"));
+                      "~/Content/custom.css",
+                      "~/Content/style.css",
+                      "~/Content/site.css"));
+
+            //bundles.Add(new StyleBundle("").Include(
+            //    "http://localhost:8446/Home/Index"
+            //    ));
+                
         }
     }
 }

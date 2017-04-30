@@ -52,7 +52,17 @@ namespace MobileMart.BL
             entity.StateID = model.State;
             entity.CityID = model.City;
             entity.CreatedOn = model.CreatedOn;
-            ownerRepo.Insert(entity);
+            var shopID = ownerRepo.InsertAndGetID(entity);
+
+            var shopNR = new ShopNotificationRepository();
+            var shopNE = new ShopNotification();
+
+            shopNE.ShopID = shopID;
+            shopNE.Description = "New Shop has been added.";
+            shopNE.IsSeen = false;
+            shopNE.Timestamp = DateTime.Now;
+            shopNE.URL = "/Notification/ShopDetail?shopID=" + shopID;
+            shopNR.Insert(shopNE);
         }
 
         public int GetOwnerIDByUserID(string userID)
@@ -79,21 +89,39 @@ namespace MobileMart.BL
             return cityRepo.Get().Where(s => s.state_id == id).ToList();
         }
 
-        public void CreateCustomer(RegisterViewModel model)
+        public void CreateCustomer(CustomerRegisterViewModel model)
         {
-            ICustomerRepository customerRepo = new CustomerRepository();
+            var customerRepo = new CustomerRepository();
             Customer customer = new Customer();
-            customer.ProfilePicture = model.ProfilePicture;
+
+            var fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
+            fileName += DateTime.Now.Ticks + Path.GetExtension(model.ProfilePicture.FileName);
+            var basePath = "~/Content/Customer/" + model.AspNetUserID + "/ProfilePhoto/";
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Customer/" + model.AspNetUserID + "/ProfilePhoto/"));
+            model.ProfilePicture.SaveAs(path);
+
+            customer.ProfilePicture = basePath + fileName;
             customer.AspNetUserID = model.AspNetUserID;
             customer.FirstName = model.FirstName;
             customer.LastName = model.LastName;
             customer.Address1 = model.Address;
             customer.Email = model.Email;
-            customer.CreatedOn = model.CreatedOn;
+            customer.CreatedOn = DateTime.Now;
             customer.PhoneNo = model.Mobile;
+            customer.IsActive = true;
+            customer.CityID = model.City;
             customer.DOB = model.DOB;
+            var customerID = customerRepo.InsertAndGetID(customer);
 
-            customerRepo.Insert(customer);
+            var customerNR = new CustomerNotificationRepository();
+            var customerNE = new CustomerNotification();
+            customerNE.CusotmerID = customerID;
+            customerNE.Description = "New Customer has been added.";
+            customerNE.IsSeen = false;
+            customerNE.URL = "/Notification/CustomerDetail?customerID=" + customerID;
+            customerNE.Timestamp = DateTime.Now;
+            customerNR.Insert(customerNE);
         }
 
         public DisplayShopViewModel ShopAndOwnerByOwnerID(int ownerID)
@@ -163,6 +191,7 @@ namespace MobileMart.BL
             }
             return list;
         }
+
         public IEnumerable<DisplayAllCustomers> GetAllCustomers()
         {
             var customerRepo = new CustomerRepository();
@@ -192,16 +221,19 @@ namespace MobileMart.BL
             }
             return customerList;
         }
+
         private city GetCityByID(int? cityID)
         {
             ICityRepository cityRepo = new CityRepository();
             return cityRepo.GetCityByID(cityID);
         }
+
         private state GetStateByID(int? state)
         {
             IStateRepository stateRepo = new StateRepository();
             return stateRepo.GetStateByID(state);
         }
+
         private country GetCountryByID (int? countryID)
         {
             ICountryRepository countryRepo = new CountryRepository();
@@ -283,7 +315,7 @@ namespace MobileMart.BL
 
         public IEnumerable<Customer> AllCustomers()
         {
-            ICustomerRepository Customer = new CustomerRepository();
+            CustomerRepository Customer = new CustomerRepository();
             return Customer.Get().ToList();
         }
         

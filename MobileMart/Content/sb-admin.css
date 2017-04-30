@@ -7,6 +7,20 @@
 /* Global Styles */
 
 /*for image preview in AddProduct View*/
+.list-group {
+    padding-left: 0;
+    margin-bottom: 0px;
+}
+.dropdown-menu {
+    width: 300px !important;
+    /*height: 400px ;*/
+}
+.scrollable-menu {
+    height: auto;
+    max-height: 600px !important;
+    min-height: 200px !important;
+    overflow-x: hidden;
+}
 .image-preview {
     width: 190px;
     height: 190px;
@@ -17,13 +31,14 @@
     margin:1px;
 }
 
-    .image-preview-input {
-        line-height: 200px;
-        font-size: 200px;
-        position: absolute;
-        opacity: 0;
-        z-index: 10;
-    }
+.image-preview-input {
+    line-height: 200px;
+    font-size: 200px;
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+}
 
     .image-preview-label {
         position: absolute;

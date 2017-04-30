@@ -1,23 +1,35 @@
 ﻿@model IEnumerable<MobileMart.DB.ViewModel.IndexViewModel> 
+@using MobileMart.DB.ViewModel;
+@using System.Web.Script.Serialization;
+@using System.Web.UI;
+
+@{
+    CartSessionViewModel obj = new CartSessionViewModel();
+    List<CartSessionViewModel> list = new List<CartSessionViewModel>();
+    int quantityCount = 0;
+    if (Session["Cart"] != null)
+    {
+        list = (List<CartSessionViewModel>)Session["Cart"];
+        for (int i = 0; i < list.Count(); i++)
+        {
+            quantityCount = list[i].Quantity + quantityCount;
+        }
+    }
+}
 @{
     ViewBag.Title = "Home Page";
 }
-<div class="slider-area bg-3 bg-opacity-black-60 dotted-overlay ptb-150 mb-80">
-    <div class="container">
+<!-- START SLIDER AREA -->
+<div class="slider-area bg-3 bg-opacity-black-60 ptb-150 mb-80">
+    <div class="">
         <div class="row">
             <div class="col-md-12">
-                <div class="slider-desc-3 slider-desc-4  text-center">
+                <div class="slider-desc-3 text-center">
+                    <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
+                        <h6 class="slider2-title-1">Best price : $866</h6>
+                    </div>
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
-                        <h1 class="slider2-title-2 cd-headline clip is-full-width">
-                            <span>New smart phone</span>
-                            <span class="cd-words-wrapper">
-                                <b class="is-visible">Samsung</b>
-                                <b>Apple</b>
-                                <b>Microsoft</b>
-                                <b>Nokia</b>
-                                <b>Sony</b>
-                            </span>
-                        </h1>
+                        <h1 class="slider2-title-2">new smart phone</h1>
                     </div>
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
                         <h2 class="slider2-title-3">Samsung grand 6</h2>
@@ -32,6 +44,7 @@
         </div>
     </div>
 </div>
+<!-- END SLIDER AREA -->
 <section id="page-content" class="page-wrapper">
     <!-- PRODUCT TAB SECTION START -->
     <div class="product-tab-section section-bg-tb pt-80 pb-55">
@@ -61,11 +74,8 @@
                     <!-- popular-product start -->
                     <div class="tab-pane active" id="popular-product">
                         <div class="row">
-                            
-                            
                            @foreach (var item in Model)
                            {
-
                             <!-- product-item start -->
                             <div class="col-md-3 col-sm-4 col-xs-12">
                                 <div class="product-item product-item-2">
@@ -92,239 +102,13 @@
                                             <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                         </li>
                                         <li>
-                                            <button type="button" value="@item.ProductName"  id="AddToCart" title="Add to cart" onclick="test()"><i class="zmdi zmdi-shopping-cart-plus"></i></button>
+                                            <button type="button" value="@item.ProductID"  class="AddToCart" title="Add to cart" ><i class="glyphicon glyphicon-shopping-cart"></i></button>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <!-- product-item end -->
-
-                           }
-
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/2.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/6.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/3.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/4.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/1.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 hidden-sm col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/7.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
-                            <!-- product-item start -->
-                            <div class="col-md-3 hidden-sm col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="img/product-2/4.jpg" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">Sumsung</h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
+                            }
                         </div>
                     </div>
                     <!-- popular-product end -->
@@ -1528,12 +1312,67 @@
 </section>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        function test () {
-            var itemName = document.getElementById("AddToCart");
-                console.log(itemName.value);
-            };
-      
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/alertify.min.js"></script>
+    <script type="text/javascript" >
+        $(document).ready(function () {
+           //--Add item in cart
+            $('.AddToCart').click(function () {
+                var value = $(this).val();
+                $.ajax({
+                    url: "/Cart/AddItemInCart",
+                    type: "POST",
+                    datatype: "json",
+                    data: { productID: value, },
+                    success: function (data) {
+                            if (data) {
+                                $(".TagToRemove").remove();
+
+                                var count = parseInt(0);
+                                //Cart Total
+                                var total = parseFloat(0);
+                                //Appending Quick Cart List
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#QuickCartView").append("<div class=\"TagToRemove\"><div class=\"single-cart clearfix\"><div class=\"cart-img f-left\"><a href= \"#\" ><img src='" + data[i].ProductDetail.ProductImage1.replace(/~/g, '') + "' alt=\"Cart Product\"></a><div class=\"del-icon\"><button class=\"btn-hover-2 DeleteItemFromCart\" onclick=\"f1(this)\" value=" + data[i].ProductID + "><i class=\"glyphicon glyphicon-trash\"></i></button></div></div><div class=\"cart-info f-left\"><a href=\"\"><h6 class=\"text-capitalize\">" + data[i].ProductDetail.ProductName + "</h6></a><p>Quantity<span><strong>:</strong></span>" + data[i].Quantity + "</p><p>Color<span><strong>:</strong></span> " + data[i].ProductDetail.Color + "</p><p>Price<span><strong>:</strong></span> " + data[i].ProductDetail.Price * data[i].Quantity + "</p></div></div></div >");
+                                    var price = data[i].ProductDetail.Price * data[i].Quantity;
+                                    total = parseFloat(price) + total;
+                                    count = count + data[i].Quantity;
+                                }
+                                //Cart Quantity  increment 
+                                $(".cart-quantity").html(count);
+                                alertify.success("Item successfully added...");
+                                //Updating Cart Total
+                                $("#CartTotal").html(total);
+                            } else {
+                                alert('failed');
+                            }
+                        }
+                    })
+            });
+        });
+        function f1(obj) {
+            var value = obj.value;
+            $.ajax({
+                url: "/Cart/DeleteItemFromCart",
+                type: "POST",
+                datatype: "json",
+                data: { productID: value, },
+                success: function (data) {
+                    $(".TagToRemove").remove();
+                    var quantity = parseInt(0);
+                    var total = parseFloat(0.0);
+                    for (var i = 0; i < data.length; i++) {
+                        quantity = data[i].Quantity + quantity;
+                        $("#QuickCartView").append("<div class=\"TagToRemove\"><div class=\"single-cart clearfix\"><div class=\"cart-img f-left\"><a href= \"#\" ><img src='" + data[i].ProductDetail.ProductImage1.replace(/~/g, '') + "' alt=\"Cart Product\"></a><div class=\"del-icon\"><button class=\"btn-hover-2 DeleteItemFromCart\" onclick=\"f1(this)\" value=" + data[i].ProductID + "><i class=\"glyphicon glyphicon-trash\"></i></button></div></div><div class=\"cart-info f-left\"><a href=\"\"><h6 class=\"text-capitalize\">" + data[i].ProductDetail.ProductName + "</h6></a><p>Quantity<span><strong>:</strong></span>" + data[i].Quantity + "</p><p>Color<span><strong>:</strong></span> " + data[i].ProductDetail.Color + "</p><p>Price<span><strong>:</strong></span> " + data[i].ProductDetail.Price * data[i].Quantity + "</p></div></div></div >");
+                        var price = data[i].ProductDetail.Price * data[i].Quantity;
+                        total = price + total;
+                    }
+                    $(".cart-quantity").html(quantity);
+                    alertify.success("Item successfully Removed...");
+                    //Updating Cart Total
+                    $("#CartTotal").html(total);
+                }
+            })
+        }
     </script>
 }

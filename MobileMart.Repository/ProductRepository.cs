@@ -15,6 +15,10 @@ namespace MobileMart.Repository
         {
             _context = new MobileMartEntities();
         }
+        public Product GetProductByID(int? productID)
+        {
+            return _context.Products.FirstOrDefault(s => s.ProductID == productID);
+        }
         public void delete(int id)
         {
             var delete = _context.Products.Where(s => s.ProductID == id).FirstOrDefault();
@@ -29,7 +33,7 @@ namespace MobileMart.Repository
 
         public IEnumerable<Product> GetProduct(int? shopID)
         {
-            return _context.Products.Where(s=>s.ShopID == shopID).ToList();
+            return _context.Products.Where(w=>w.Supplier.Shop.ShopID == shopID).ToList();
         }
 
         public void insert(Product entity)
@@ -42,6 +46,12 @@ namespace MobileMart.Repository
         { 
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
+        }
+        public int InsertAndGetID(Product entity)
+        {
+            _context.Products.Add(entity);
+            _context.SaveChanges();
+            return entity.ProductID;
         }
     }
 }

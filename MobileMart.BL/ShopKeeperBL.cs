@@ -34,8 +34,18 @@ namespace MobileMart.BL
             entity.SupplierAddress = viewmodel.SupplierAddress;
             entity.CNIC = viewmodel.CNIC;
             entity.CreatedOn = viewmodel.CreatedON;
-            return supplierRepo.insert(entity);
+            entity.ShopID = viewmodel.ShopID;
+            var supplierID = supplierRepo.InsertAndGetID(entity);
 
+            var supplierNR = new SupplierNotificationRepository();
+            var supplierNE = new SupplierNotification();
+            supplierNE.SupplierID = supplierID;
+            supplierNE.Description = "New Supplier...";
+            supplierNE.IsSeen = false;
+            supplierNE.URL = "/ShopOwner/DisplaySupplier/" + supplierID;
+            supplierNE.Timestamp = DateTime.Now;
+            supplierNR.Insert(supplierNE);
+            return supplierID;
         }
         //GetCompany
         public IEnumerable<Company> GetCompany()
@@ -101,13 +111,13 @@ namespace MobileMart.BL
             fileName4 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.ProductImage4.FileName);
 
 
-            var basePath = "~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/";
+            var basePath = "~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/";
             var path1 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName1);
             var path2 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName2);
             var path3 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName3);
             var path4 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName4);
 
-            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/"));
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/"));
 
             viewmodel.ProductImage1.SaveAs(path1);
             viewmodel.ProductImage2.SaveAs(path2);
@@ -115,7 +125,6 @@ namespace MobileMart.BL
             viewmodel.ProductImage4.SaveAs(path4);
 
             Product entity = new Product();
-            entity.ShopID = viewmodel.ShopID;
             entity.CategoryID = viewmodel.CategoryID;
             entity.CompanyID = viewmodel.CompanyID;
             entity.SupplierID = viewmodel.SupplierID;
@@ -131,13 +140,24 @@ namespace MobileMart.BL
             entity.CreatedOn = viewmodel.CreatedOn;
             entity.Quantity = viewmodel.Quantity;
             entity.IsOld = viewmodel.IsOld;
-            productRepo.insert(entity);
+            var productID = productRepo.InsertAndGetID(entity);
+
+            var productNE = new ProductNotification();
+            var productNR = new ProductNotificationRepository();
+
+            productNE.ProductID = productID;
+            productNE.Timestamp = DateTime.Now;
+            productNE.Description = "New Product has been added..";
+            productNE.URL = "/Notification/ProductDetail?productID="+productID;
+            productNE.IsSeen = false;
+
+            productNR.Insert(productNE);
         }
         //DeleteProducts
         public string DeleteProduct(int id)
         {
             productRepo.delete(id);
-            return "product delete";
+            return "product deleted";
         }
         //DeleteSupplier
         public string DeleteSupplier(int id)
@@ -197,13 +217,13 @@ namespace MobileMart.BL
                 fileName3 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.ProductImage3.FileName);
                 fileName4 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.ProductImage4.FileName);
 
-                var basePath = "~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/";
+                var basePath = "~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/";
                 var path1 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName1);
                 var path2 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName2);
                 var path3 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName3);
                 var path4 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName4);
 
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/"));
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/"));
 
                 viewmodel.ProductImage1.SaveAs(path1);
                 viewmodel.ProductImage2.SaveAs(path2);

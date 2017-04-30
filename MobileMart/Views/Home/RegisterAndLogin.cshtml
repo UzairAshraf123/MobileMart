@@ -1,11 +1,11 @@
 ﻿@using MobileMart.DB.ViewModel
-@model  LoginRegiseterViewModel
+@model  CustomerRegisterViewModel
 
 @{
     ViewBag.Title = "RegisterAndLogin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
 <div id="page-content" class="page-wrapper">
     <!-- LOGIN SECTION START -->
     <div class="login-section mb-80">
@@ -21,27 +21,25 @@
                                 <p>If you have an account with us, Please log in.</p>
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control"  , @placeholder = "Email" })
-                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger"})
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.CustomerLoginViewModel.Email, new { @class = "form-control"  , @placeholder = "Email" })
+                                        @Html.ValidationMessageFor(m => m.CustomerLoginViewModel.Email, "", new { @class = "text-danger"})
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.PasswordFor(m => m.CustomerLoginViewModel.Password, new { @class = "form-control", @placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.CustomerLoginViewModel.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <div class="checkbox">
-                                            @Html.CheckBoxFor(m => m.RememberMe)
-                                            @Html.LabelFor(m => m.RememberMe)
+                                    <div class="col-md-4">
+                                        <div class="checkbox checkbox-inline">
+                                            @Html.CheckBoxFor(m => m.CustomerLoginViewModel.RememberMe)
+                                            @Html.LabelFor(m => m.CustomerLoginViewModel.RememberMe)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
+                                    <div class="col-md-4">
                                         <input type="submit" value="Log in" class="btn btn-default submit-btn-1 btn-hover-1" />
                                     </div>
                                 </div>
@@ -58,64 +56,109 @@
                     <div class="new-customers">
                         <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
                         <div class="login-account p-30 box-shadow">
-                        @using (Html.BeginForm("CustomerRegister", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        @using (Html.BeginForm("CustomerRegister", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" , enctype = "multipart/form-data"  }))
                         {
                             @Html.AntiForgeryToken()
-                            <p>Create a new account.</p>
-                            @Html.ValidationSummary("", new { @class = "text-danger" })
-                            
                             <input type="hidden" name="CreatedOn" value="@DateTime.Now" />
-                            <div class="form-group">
+                            <div class="row">
                                 <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.ProfilePicture, new { @class = "form-control"})
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.FirstName, new { @class = "form-control", @placeholder = "First Name" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.LastName, new { @class = "form-control", @placeholder = "Last Name" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control", @placeholder = "Email" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.PasswordFor(m => m.RegisterViewModel.Password, new { @class = "form-control", @placeholder = "Password" })
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.PasswordFor(m => m.RegisterViewModel.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
-                                </div>
-                                <div class="col-sm-6">
-                                    <select class="custom-select">
-                                        <option value="defalt">country</option>
-                                        <option value="c-1">Australia</option>
-                                        <option value="c-2">Bangladesh</option>
-                                        <option value="c-3">Unitd States</option>
-                                        <option value="c-4">Unitd Kingdom</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <select class="custom-select">
-                                        <option value="defalt">State</option>
-                                        <option value="c-1">Melbourne</option>
-                                        <option value="c-2">Dhaka</option>
-                                        <option value="c-3">New York</option>
-                                        <option value="c-4">London</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <select class="custom-select">
-                                        <option value="defalt">Town/City</option>
-                                        <option value="c-1">Victoria</option>
-                                        <option value="c-2">Chittagong</option>
-                                        <option value="c-3">Boston</option>
-                                        <option value="c-4">Cambridge</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.Address, new { @class = "form-control", @placeholder = "Address" })
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.ProfilePicture, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11  col-md-offset-1 btn-hover-2">
+                                                <div id="imgpreview1" class="col-md-3 img-circle image-preview img-rounded img-responsive img-thumbnail">
+                                                    <label for="image-upload" id="image-label" class="image-preview-label">
+                                                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                                                    </label>
+                                                    @Html.TextBoxFor(m => m.ProfilePicture, new { Type = "File", @id = "image-upload", @class = "image-preview-input", onchange = "showpreview(this, 1)" })
+                                                    @*<input type="file" name="ProfilePicture" value="ProfilePicture" id="image-upload" class="image-preview-input" onchange="showpreview(this, 1)" />*@
+                                                </div>
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @placeholder = "03*********" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.DropDownListFor(m => m.State,
+                                                 new SelectList(string.Empty, "Value", "Text"),
+                                                 "--Select State--",
+                                                 new { @class = "form-control custom-select", @id = "States" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    @Html.TextBoxFor(m => m.RegisterViewModel.Mobile, new { @class = "form-control", @placeholder = "03*********" })
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.DOB, new { @class = "form-control", @placeholder = "Date of Birth" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Address" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.DropDownListFor(m => m.Country,
+                                                 (SelectList)ViewBag.CountryDropDown,
+                                                 "--Select Country--",
+                                                 new { @class = "form-control custom-select", @id = "SelectedCountry" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-11">
+                                                @Html.DropDownListFor(m => m.City,
+                                                 new SelectList(string.Empty, "Value", "Text"),
+                                                 "--Select City--",
+                                                 new { @class = "form-control custom-select", @id = "Cities" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -126,15 +169,68 @@
                                     <input type="reset" class="btn btn-default submit-btn-1 mt-20 btn-hover-1 f-right" value="Clear" />
                                 </div>
                             </div>
-                        }   
+                        }
+                        </div>
                     </div>
                 </div>
             </div>
+    <!-- LOGIN SECTION END -->
         </div>
     </div>
-    <!-- LOGIN SECTION END -->
 </div>
-    </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#DOB").datepicker({
+                changeMonth: true,
+                changeYear: true, 
+            });
+        });
+        $("#SelectedCountry").change(function () {
+            var countryId = $('#SelectedCountry').val();
+            $.ajax({
+                url: "/Ajax/StatesByCountryID/" + countryId,
+                type: "Get",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'JSON',
+                success: function (data) {
+                    $('#States').empty();
+                    for (var i = 0; i < data.state.length; i++) {
+                        $('#States').append("<option value= " + data.state[i].Value + ">" + data.state[i].Text + "</option>");
+                    }
+                }
+            });
+        });
+
+        $("#States").change(function () {
+            var stateId = $('#States').val();
+            $.ajax({
+                url: "/Ajax/CitesByStateID/" + stateId,
+                type: "Get",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'JSON',
+                success: function (data) {
+                    $('#Cities').empty();
+                    for (var i = 0; i < data.city.length; i++) {
+                        $('#Cities').append("<option value= " + data.city[i].Value + ">" + data.city[i].Text + "</option>");
+                    }
+                }
+            });
+        });
+        function showpreview(input, num)
+        {
+            if (input.files && input.files[0])
+            {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var loadedFile = e.target;
+                    $('#imgpreview' + num).css("background-image", "url(" + loadedFile.result + ")");
+                    $('#imgpreview' + num).css("background-size", "cover");
+                    $('#imgpreview' + num).css("background-position", "center center");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 }

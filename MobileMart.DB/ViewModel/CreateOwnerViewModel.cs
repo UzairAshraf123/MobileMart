@@ -10,7 +10,7 @@ namespace MobileMart.DB.ViewModel
 {
     public class CreateOwnerViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Profile Photo is required.")]
         [Display(Name = "Profile Picture")]
         public HttpPostedFileBase ProfilePhotoPath { get; set; }
 
@@ -24,23 +24,27 @@ namespace MobileMart.DB.ViewModel
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-    
+
+        [Required(ErrorMessage = "Confirm Password is Required")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name ="Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        public string UserID { get; set; }
-
-        public int OwnerID { get; set; }
         [Required]
         [Display(Name ="Owner Name")]
         public string OwnerName { get; set; }
 
-        [Required]
-        [Display(Name = "Mobile")]
+
+        [Required(ErrorMessage = "Your must provide a PhoneNumber")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^((\03-?)|0)?[0-9]{10}$", ErrorMessage = "Not a valid Phone number")]
         public string Mobile { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public string UserID { get; set; }
+
+        public int OwnerID { get; set; }
     }
 }

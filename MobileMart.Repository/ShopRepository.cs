@@ -17,12 +17,36 @@ namespace MobileMart.Repository
             _context = new MobileMartEntities();
             return _context.Shops.ToList();
         }
-
+        public Shop GetShopByID(int? shopID)
+        {
+            _context = new MobileMartEntities();
+            return _context.Shops.Where(s => s.ShopID == shopID).FirstOrDefault();
+        }
+        public Shop GetShopByNotificationID(int shopNotificationID)
+        {
+            _context = new MobileMartEntities();
+            var shop = _context.Shops.Where(s => s.ShopNotifications.Any(w => w.ShopNotificationID == shopNotificationID)).FirstOrDefault();
+            return shop;
+        }
+        public Shop GetShopByProductID(int? productID)
+        {
+            _context = new MobileMartEntities();
+            var shop = _context.Shops.Where(s => s.Suppliers.Any(w => w.Products.Any(e => e.ProductID == productID))).FirstOrDefault();
+            return shop;
+        }
+       
         public void Insert(Shop entity)
         {
             _context = new MobileMartEntities();
             _context.Shops.Add(entity);
             _context.SaveChanges();
+        }
+        public int InsertAndGetID(Shop entity)
+        {
+            _context = new MobileMartEntities();
+            _context.Shops.Add(entity);
+            _context.SaveChanges();
+            return entity.ShopID;
         }
 
         public void Delete(int? ID)
@@ -30,7 +54,7 @@ namespace MobileMart.Repository
             _context = new MobileMartEntities();
             var shop = GetShopByOwnerID(ID);
             _context.Shops.Remove(shop);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
         }
 
         public void Edit(Shop entity)

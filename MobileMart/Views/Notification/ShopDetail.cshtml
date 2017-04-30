@@ -1,0 +1,56 @@
+﻿@model MobileMart.DB.ViewModel.ShopDetailViewModel
+
+@{
+    ViewBag.Title = "ShopDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ShopDetail</h2>
+<hr />
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"></h3>@Html.DisplayFor(model => model.ShopName)
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-lg-5" align="center">
+                    <img src="@Url.Content(Model.Logo)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                </div>
+                <div class=" col-md-7 col-lg-7">
+                    <table class="table table-hover table-striped">
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.ShopName):</td>
+                                <td>@Html.DisplayFor(model => model.ShopName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.ShopAddress):</td>
+                                <td>@Html.DisplayFor(model => model.ShopAddress)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.CreatedON):</td>
+                                <td>@Html.DisplayFor(model => model.CreatedON)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Country):</td>
+                                <td>@Html.DisplayFor(model => model.Country)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.State):</td>
+                                <td>@Html.DisplayFor(model => model.State)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.City):</td>
+                                <td>@Html.DisplayFor(model => model.City)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a href="@Url.Action("DeleteCustomer", "Notification")" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+        </div>
+    </div>
+</div>

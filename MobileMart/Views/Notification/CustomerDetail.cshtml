@@ -1,0 +1,76 @@
+﻿@model MobileMart.DB.ViewModel.CustomerDetailViewModel
+
+@{
+    ViewBag.Title = "CustomerDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Customer Detail</h2>
+<hr />
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"></h3>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-lg-5" align="center"> 
+                    <img src="@Url.Content(Model.ProfilePicturePath)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                </div>
+                <div class=" col-md-7 col-lg-7">
+                    <table class="table table-hover table-striped">
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.FirstName):</td>
+                                <td>@Html.DisplayFor(model => model.FirstName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.LastName):</td>
+                                <td>@Html.DisplayFor(model => model.LastName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.DOB):</td>
+                                <td>@Html.DisplayFor(model => model.DOB)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.CreatedON):</td>
+                                <td>@Html.DisplayFor(model => model.CreatedON)</td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>Female</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Country):</td>
+                                <td>@Html.DisplayFor(model => model.Country)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.State):</td>
+                                <td>@Html.DisplayFor(model => model.State)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.City):</td>
+                                <td>@Html.DisplayFor(model => model.City)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Address1):</td>
+                                <td>@Html.DisplayFor(model => model.Address1)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Email):</td>
+                                <td>@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Mobile):</td>
+                                <td>@Html.DisplayFor(model => model.Mobile)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a href="@Url.Action("DeleteCustomer", "Notification", new {Model.CustomerID})" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+        </div>
+    </div>
+</div>

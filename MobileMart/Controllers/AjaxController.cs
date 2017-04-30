@@ -1,9 +1,11 @@
 ﻿using MobileMart.BL;
+using MobileMart.DB.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace MobileMart.Controllers
 {
@@ -23,6 +25,19 @@ namespace MobileMart.Controllers
             return Json(new { state }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GetSubCategory(int categoryID)
+        {
+            var ajaxBL = new AjaxBL();
+            var fetchedSubCategory = ajaxBL.GetSubCategoryByID(categoryID).Select(s => new
+            {
+                Text = s.CategoryName,
+                Id = s.ParentCategory
+            }).ToList();
+            var subCategory = new SelectList(fetchedSubCategory, "Id", "Text");
+            return Json(new { subCategory }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult CitesByStateID(int id)
         {
             AdminBL bl = new AdminBL();
@@ -38,7 +53,7 @@ namespace MobileMart.Controllers
 
         [HttpPost]
         public JsonResult SearchSupplier(string Prefix, int ShopID)
-        {
+       {
             var supplier = new ShopKeeperBL().GetSuppliersByShopID(ShopID);
             Prefix = Prefix.ToLower();
             //Searching records from list using LINQ query  
@@ -47,13 +62,7 @@ namespace MobileMart.Controllers
                 Route = "/ShopOwner/AddProduct?SupplierID=" + s.SupplierID,
                 Name = s.SupplierName
             });
-
             return Json(searchedUsers, JsonRequestBehavior.AllowGet);
         }
-        //[HttpPost]
-        //public JsonResult AddItemInCart()
-        //{
-        //    return Json( ,JsonRequestBehavior.AllowGet);
-        //}
     }
 }

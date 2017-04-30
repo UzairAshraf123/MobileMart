@@ -42,8 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminBL.cs" />
+    <Compile Include="AjaxBL.cs" />
     <Compile Include="CartBL.cs" />
+    <Compile Include="CustomerBL.cs" />
     <Compile Include="HomeBL.cs" />
+    <Compile Include="ICusotmerRepository.cs" />
+    <Compile Include="NotificationBL.cs" />
+    <Compile Include="OrderBL.cs" />
     <Compile Include="ShopKeeperBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

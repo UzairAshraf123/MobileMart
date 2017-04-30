@@ -23,5 +23,20 @@ namespace MobileMart.Utility
             }
             return 0;
         }
+    
+        public static int GetCustomerID(this IIdentity identity)
+        {
+            if (identity.GetUserId() != "")
+            {
+                var customerID = new CustomerBL().GetCustomerIDByAspID(identity.GetUserId());
+                if (customerID != 0)
+                {
+                    return customerID;
+                }
+                return 0;
+            }
+            return 0;
+        }
+    
     }
 }

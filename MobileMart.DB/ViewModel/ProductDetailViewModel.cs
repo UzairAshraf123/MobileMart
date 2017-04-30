@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,7 @@ namespace MobileMart.DB.ViewModel
         public string ProductImage2 { get; set; }
         public string ProductImage3 { get; set; }
         public string ProductImage4 { get; set; }
+        public string Color { get; set; }
+        public Shop ProductShop { get; set; }
     }
 }

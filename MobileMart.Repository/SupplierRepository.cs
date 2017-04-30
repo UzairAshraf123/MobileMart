@@ -28,10 +28,10 @@ namespace MobileMart.Repository
         }
         public IEnumerable<Supplier> GetSupplierByID(int shopID)
         {
-            return _context.Suppliers.Where(s=>s.Products.Any(w=>w.ShopID == shopID)).ToList();
+            return _context.Suppliers.Where(w=>w.ShopID == shopID).ToList();
         }
 
-        public int insert(Supplier entity)
+        public int InsertAndGetID(Supplier entity)
         {
             _context.Suppliers.Add(entity);
             _context.SaveChanges();

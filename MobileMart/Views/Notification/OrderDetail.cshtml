@@ -1,0 +1,71 @@
+﻿@model MobileMart.DB.ViewModel.CompleteOrderDetail
+
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Order Detail</h2>
+
+    <hr />
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Order Detail</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="">
+                    <table class="table table-hover table-striped">
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.OrderBy):</td>
+                                <td><a href="@Url.Action("CustomerDetail", "Notification", new { customerID = Model.CustomerID })" >@Html.DisplayFor(model => model.OrderBy)</a></td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.paymentMethod):</td>
+                                <td>@Html.DisplayFor(model => model.paymentMethod)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.CreatedOn):</td>
+                                <td>@Html.DisplayFor(model => model.CreatedOn)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Tax):</td>
+                                <td>@Html.DisplayFor(model => model.Tax)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Shipping):</td>
+                                <td>@Html.DisplayFor(model => model.Shipping)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.SubTotal):</td>
+                                <td>@Html.DisplayFor(model => model.Total)</td>
+                            </tr>
+                            @foreach (var item in Model.Products)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(modelItem => item.ProductName)
+                                    </td>
+                                    <td>
+                                        <a href="#">@Html.DisplayFor(modelItem => item.ProductName)</a>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Quantity):</td>
+                                <td>@Html.DisplayFor(model => model.Quantity)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            @*<a href="@Url.Action("DeleteCustomer", "Notification", new {Model.CustomerID})" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>*@
+        </div>
+    </div>
+</div>
+

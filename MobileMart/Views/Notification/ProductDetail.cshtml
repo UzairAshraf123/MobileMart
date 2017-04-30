@@ -1,0 +1,68 @@
+﻿@model MobileMart.DB.ViewModel.ProductDetailViewModel
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Product Detail</h2>
+<hr/>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"></h3>@Html.DisplayFor(model => model.ProductName)
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12" align="center">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="@Url.Content(Model.ProductImage1)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="@Url.Content(Model.ProductImage2)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="@Url.Content(Model.ProductImage3)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="@Url.Content(Model.ProductImage4)" alt="Alternate Text" class="img-rounded img-responsive" height="100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.ProductName):</td>
+                                    <td>@Html.DisplayFor(model => model.ProductName)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.ProductDetail):</td>
+                                    <td>@Html.DisplayFor(model => model.ProductDetail)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Color):</td>
+                                    <td>@Html.DisplayFor(model => model.Color)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.Price):</td>
+                                    <td>@Html.DisplayFor(model => model.Price)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.DisplayNameFor(model => model.ProductShop.ShopName):</td>
+                                    <td><a href="@Url.Action("Notification","ShopDetail", new { Model.ProductShop.ShopID})">@Html.DisplayFor(model => model.ProductShop.ShopName)</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                @*<a href="@Url.Action("DeleteCustomer", "Notification", new {Model.CustomerID})" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>*@
+            </div>
+        </div>
+    </div>
+</div>

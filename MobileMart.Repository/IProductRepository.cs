@@ -14,7 +14,7 @@ namespace MobileMart.Repository
         IEnumerable<Product> Get();
         IEnumerable<Product> GetProduct(int? shopID);
         void update(Product entity);
-        
-
+        Product GetProductByID(int? productID);
+        int InsertAndGetID(Product entity);
     }
 }

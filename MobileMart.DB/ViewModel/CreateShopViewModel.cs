@@ -31,7 +31,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "City")]
         public int? City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Logo is required.")]
         [Display(Name = "Shop Logo")]
         public HttpPostedFileBase ShopLogo { get; set; }
 

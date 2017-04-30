@@ -24,6 +24,7 @@ namespace MobileMart.Controllers
         {
             return View();
         }
+
         [AllowAnonymous]
         public ActionResult AdminLogin()
         {
@@ -125,6 +126,7 @@ namespace MobileMart.Controllers
             }
             return View();
         }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public ActionResult EditShop(CreateShopViewModel viewModel)
@@ -137,10 +139,12 @@ namespace MobileMart.Controllers
             }
             return RedirectToAction("CreateShop", "Admin");
         }
+
         public ActionResult AddCompany()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult AddCompany(AddCompanyViewModel viewmodel)
         {
@@ -152,11 +156,13 @@ namespace MobileMart.Controllers
             }
             return View();
         }
+        
         //Add category
         public ActionResult AddCategory()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult AddCategory(AddCategoryViewModel viewmodel)
         {
@@ -167,6 +173,12 @@ namespace MobileMart.Controllers
                 BL.AddCategory(viewmodel);
                 return RedirectToAction("AddCategory", "Admin");
             }
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult DisplayAllProduct()
+        {
             return View();
         }
     }

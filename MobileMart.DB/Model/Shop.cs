@@ -17,7 +17,8 @@ namespace MobileMart.DB.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Shop()
         {
-            this.Products = new HashSet<Product>();
+            this.ShopNotifications = new HashSet<ShopNotification>();
+            this.Suppliers = new HashSet<Supplier>();
         }
     
         public int ShopID { get; set; }
@@ -33,6 +34,8 @@ namespace MobileMart.DB.Model
     
         public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ShopNotification> ShopNotifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supplier> Suppliers { get; set; }
     }
 }
