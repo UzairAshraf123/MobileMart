@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using MobileMart.Models;
 using MobileMart.BL;
 using MobileMart.DB.ViewModel;
+using MobileMart.Utility;
 
 namespace MobileMart.Controllers
 {
@@ -222,6 +223,30 @@ namespace MobileMart.Controllers
         }
 
         //
+        // POST: /Manage/ChangeCustomerPassword
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeCustomerPassword(CustomerDetailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.ChangePassword.OldPassword, model.ChangePassword.NewPassword);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("MyProfile","Home", new { customerID = User.Identity.GetCustomerID(), Message = ManageMessageId.ChangePasswordSuccess });
+            }
+            AddErrors(result);
+            return RedirectToAction("MyProfile", "Home", new { model });
+        }
+
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]

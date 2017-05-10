@@ -10,6 +10,7 @@ namespace MobileMart.Repository
     public interface IShopNotificationRepository
     {
         List<ShopNotification> Get();
+        IEnumerable<ShopNotification> GetUnSeen();
         void ChangeIsSeenByID(int shopID);
     }
 }

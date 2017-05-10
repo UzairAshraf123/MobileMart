@@ -16,10 +16,10 @@ namespace MobileMart.Repository
             _Context = new MobileMartEntities();
             return _Context.ShopNotifications.ToList();
         }
-        public List<ShopNotification> GetUnSeen()
+        public IEnumerable<ShopNotification> GetUnSeen()
         {
             _Context = new MobileMartEntities();
-            return _Context.ShopNotifications.Where(s=>s.IsSeen == false).ToList();
+            return _Context.ShopNotifications.Where(s=>s.IsSeen == false).Take(5).ToList().OrderByDescending(s => s.Timestamp); ;
         }
         public void ChangeIsSeenByID(int shopID)
         {

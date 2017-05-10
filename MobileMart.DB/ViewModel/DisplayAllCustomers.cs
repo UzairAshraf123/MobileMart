@@ -23,7 +23,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "DOB")]
         public DateTime? DOB { get; set; }
 
-        [Display(Name = "Created On")]
+        [Display(Name = "Created")]
         public DateTime? CreatedON { get; set; }
 
         [Display(Name = "Profile Photo")]

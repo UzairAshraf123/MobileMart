@@ -10,6 +10,6 @@ namespace MobileMart.DB.ViewModel
     {
         public int ProductID { get; set; }
         public int Quantity { get; set; }
-        public ProductDetailViewModel ProductDetail;
+        public ProductDetailViewModel ProductDetail { get; set; } 
     }
 }

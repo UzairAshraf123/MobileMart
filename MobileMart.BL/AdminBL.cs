@@ -13,9 +13,6 @@ namespace MobileMart.BL
 {
     public class AdminBL
     {
-        IProductRepository product = new ProductRepository();
-        ICategoryRepository category = new CategoryRepository();
-        ICompanyRepository company = new CompanyRepository();
         public void CreateOwner(CreateOwnerViewModel model)
         {
             var fileName = Path.GetFileNameWithoutExtension(model.ProfilePhotoPath.FileName);
@@ -79,57 +76,7 @@ namespace MobileMart.BL
             ICountryRepository countryRepo = new CountryRepository();
             return countryRepo.Get();
         }
-        public IEnumerable<DisplayProductViewModel> GetProduct()
-        {
-            var Products = product.Get().ToList();
-            return (Allproduct(Products));
-        }
-        public IEnumerable<DisplayProductViewModel> GetProductByID(int? shopID)
-        {
-            var products = product.GetProduct(shopID).ToList();
-            return (Allproduct(products));
-        }
-        private IEnumerable<DisplayProductViewModel> Allproduct(IEnumerable<Product> products)
-        {
-            List<DisplayProductViewModel> viewmodellist = new List<DisplayProductViewModel>();
-            foreach (var item in products)
-            {
-                DisplayProductViewModel viewmodel = new DisplayProductViewModel();
-                viewmodel.Category = category.GetCategory().FirstOrDefault(s => s.CategoryID == item.CategoryID).CategoryName;
-                viewmodel.Company = company.GetCompany().FirstOrDefault(s => s.CompanyID == item.CompanyID).CompanyName;
-                viewmodel.ProductID = item.ProductID;
-                viewmodel.ProductName = item.ProductName;
-                viewmodel.ProductImage1 = item.ProductImage1;
-                viewmodel.ProductImage2 = item.ProductImage2;
-                viewmodel.ProductImage3 = item.ProductImage3;
-                viewmodel.ProductImage4 = item.ProductImage4;
-                viewmodel.ProductDetail = item.ProductDetails;
-                viewmodel.Color = item.ProductColor;
-                viewmodel.CreatedOn = item.CreatedOn;
-                viewmodel.IMEI = item.IMEI;
-                viewmodel.price = item.Price;
-                viewmodellist.Add(viewmodel);
-            }
-            return viewmodellist;
 
-        }
-        public string DeleteProduct(int? id)
-        {
-            product.delete(id);
-            return "product delete";
-        }
-        public bool IsActive(int id)
-        {
-            var isactive = product.Get().FirstOrDefault(s => s.ProductID == id).IsActive;
-            return (isactive);
-        }
-        public bool ChangeProductStateTo(int productID, bool IsActive)
-        {
-            var entity = product.Get().FirstOrDefault(s => s.ProductID == productID);
-            entity.IsActive = IsActive;
-            entity.ProductID = productID;
-            return product.ChangeActiveStatus(entity);
-        }
         public IEnumerable<state> GetStatesByCountryId(int id)
         {
             IStateRepository stateRepo = new StateRepository();
@@ -142,45 +89,11 @@ namespace MobileMart.BL
             return cityRepo.Get().Where(s => s.state_id == id).ToList();
         }
 
-        public void CreateCustomer(CustomerRegisterViewModel model)
-        {
-            var customerRepo = new CustomerRepository();
-            Customer customer = new Customer();
-
-            var fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
-            fileName += DateTime.Now.Ticks + Path.GetExtension(model.ProfilePicture.FileName);
-            var basePath = "~/Content/Customer/" + model.AspNetUserID + "/ProfilePhoto/";
-            var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
-            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Customer/" + model.AspNetUserID + "/ProfilePhoto/"));
-            model.ProfilePicture.SaveAs(path);
-
-            customer.ProfilePicture = basePath + fileName;
-            customer.AspNetUserID = model.AspNetUserID;
-            customer.FirstName = model.FirstName;
-            customer.LastName = model.LastName;
-            customer.Address1 = model.Address;
-            customer.Email = model.Email;
-            customer.CreatedOn = DateTime.Now;
-            customer.PhoneNo = model.Mobile;
-            customer.IsActive = true;
-            customer.CityID = model.City;
-            customer.DOB = model.DOB;
-            var customerID = customerRepo.InsertAndGetID(customer);
-
-            var customerNR = new CustomerNotificationRepository();
-            var customerNE = new CustomerNotification();
-            customerNE.CusotmerID = customerID;
-            customerNE.Description = "New Customer has been added.";
-            customerNE.IsSeen = false;
-            customerNE.URL = "/Notification/CustomerDetail?customerID=" + customerID;
-            customerNE.Timestamp = DateTime.Now;
-            customerNR.Insert(customerNE);
-        }
-
         public DisplayShopViewModel ShopAndOwnerByOwnerID(int ownerID)
         {
             IShopRepository shopRepo = new ShopRepository();
             IOwnerRepository ownerRepo = new OwnerRepository();
+            IProductRepository product = new ProductRepository();
             var owner = ownerRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             var shop = shopRepo.Get().Where(s => s.OwnerID == ownerID).FirstOrDefault();
             DisplayShopViewModel viewmodel = new DisplayShopViewModel();
@@ -220,6 +133,7 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             IOwnerRepository ownerRepo = new OwnerRepository();
+            IProductRepository productRepo = new ProductRepository();
             var shop = shopRepo.Get();
 
             List<DisplayShopViewModel> list = new List<DisplayShopViewModel>();
@@ -232,13 +146,13 @@ namespace MobileMart.BL
                 viewmodel.OwnerProfile = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerPicture;
                 viewmodel.Contact = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerContact;
                 viewmodel.OwnerCreatedOn = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).CreatedOn;
-                viewmodel.productcount = product.GetProduct(item.ShopID).Count();
 
                 viewmodel.ShopID = item.ShopID;
                 viewmodel.ShopName = item.ShopName;
                 viewmodel.ShopAddress = item.ShopAddress;
                 viewmodel.ShopLogo = item.ShopLogo;
                 viewmodel.ShopCreatedOn = item.CreatedOn;
+                viewmodel.productcount = productRepo.GetProduct(item.ShopID).Count();
 
                 list.Add(viewmodel);
             }
@@ -248,28 +162,28 @@ namespace MobileMart.BL
         public IEnumerable<DisplayAllCustomers> GetAllCustomers()
         {
             var customerRepo = new CustomerRepository();
-            var customers = customerRepo.Get();
-            var viewModel = new DisplayAllCustomers();
-
+            IEnumerable<Customer> customers = customerRepo.Get();
             List<DisplayAllCustomers> customerList = new List<DisplayAllCustomers>();
             foreach (var item in customers)
             {
+                DisplayAllCustomers viewModel = new DisplayAllCustomers();
                 viewModel.CustomerID = item.CustomerID;
-                viewModel.FirstName = item.FirstName ;
-                viewModel.LastName = item.LastName ;
-                viewModel.Email = item.Email ;
-                viewModel.DOB = item.DOB ;
-                viewModel.ProfilePicturePath = item.ProfilePicture ;
-                viewModel.CreatedON = item.CreatedOn ;
-                viewModel.Address1 = item.Address1 ;
-                viewModel.Address2 = item.Address2 ;
+                viewModel.FirstName = item.FirstName;
+                viewModel.LastName = item.LastName;
+                viewModel.Email = item.Email;
+                viewModel.DOB = item.DOB;
+                viewModel.ProfilePicturePath = item.ProfilePicture;
+                viewModel.CreatedON = item.CreatedOn;
+                viewModel.Address1 = item.Address1;
+                viewModel.Address2 = item.Address2;
+                viewModel.Mobile = item.PhoneNo;
                 var city = GetCityByID(item.CityID);
-                viewModel.City = city.name ;
+                viewModel.City = city.name;
                 var state = GetStateByID(city.state_id);
-                viewModel.State = state.name ;
+                viewModel.State = state.name;
                 var country = GetCountryByID(state.country_id);
-                viewModel.Country = country.name ;
-                viewModel.AspID = item.AspNetUserID ;
+                viewModel.Country = country.name;
+                viewModel.AspID = item.AspNetUserID;
                 customerList.Add(viewModel);
             }
             return customerList;
@@ -366,16 +280,22 @@ namespace MobileMart.BL
             shopRepo.Update(shopEntity);
         }
 
-        public IEnumerable<Customer> AllCustomers()
+        public int GetCustomerCount()
         {
             CustomerRepository Customer = new CustomerRepository();
-            return Customer.Get().ToList();
+            return Customer.Get().Count();
         }
-        
-        public IEnumerable<Shop> AllShops()
+
+        public int GetShopCount()
         {
             IShopRepository repo = new ShopRepository();
-            return repo.Get().ToList();
+            return repo.Get().Count();
+        }
+
+        public int GetProductCount()
+        {
+            IProductRepository repo = new ProductRepository();
+            return repo.Get().Count();
         }
 
         public void AddCompany(AddCompanyViewModel viewModel)
@@ -403,6 +323,137 @@ namespace MobileMart.BL
             entity.CategoryName = viewmodel.CategoryName;
             categoryrepo.insert(entity);
 
+        }
+
+        //public IEnumerable<DisplayProductViewModel> GetAllProducts()
+        //{
+        //    var productRepo = new ProductRepository();
+        //    return productRepo.Get().Select(s => new DisplayProductViewModel
+        //    {
+        //        ProductName = s.ProductName,
+        //        ProductImage1 = s.ProductImage1,
+        //        ProductImage2 = s.ProductImage2,
+        //        ProductImage3 = s.ProductImage3,
+        //        ProductImage4 = s.ProductImage4,
+        //        Color = s.ProductColor,
+        //        price = s.Price,
+        //        CreatedOn = s.CreatedOn,
+        //        ProductDetail = s.ProductDetails
+        //    });
+        //}
+
+        public IEnumerable<DisplayProductViewModel> GetProducts()
+        {
+            var productRepo = new ProductRepository();
+            var Products = productRepo.Get().ToList();
+            return (Allproduct(Products));
+        }
+
+        public IEnumerable<DisplayProductViewModel> GetProductByID(int? shopID)
+        {
+            var productRepo = new ProductRepository();
+            var products = productRepo.GetProduct(shopID).ToList();
+            return (Allproduct(products));
+        }
+
+        private IEnumerable<DisplayProductViewModel> Allproduct(IEnumerable<Product> products)
+        {
+            List<DisplayProductViewModel> viewmodellist = new List<DisplayProductViewModel>();
+            var categoryRepo = new CategoryRepository();
+            var companyRepo = new CompanyRepository();
+            foreach (var item in products)
+            {
+                DisplayProductViewModel viewmodel = new DisplayProductViewModel();
+                viewmodel.ProductID = item.ProductID;
+                viewmodel.ProductName = item.ProductName;
+                viewmodel.ProductImage1 = item.ProductImage1;
+                viewmodel.ProductImage2 = item.ProductImage2;
+                viewmodel.ProductImage3 = item.ProductImage3;
+                viewmodel.ProductImage4 = item.ProductImage4;
+                viewmodel.ProductDetail = item.ProductDetails;
+                viewmodel.Color = item.ProductColor;
+                viewmodel.CreatedOn = item.CreatedOn;
+                viewmodel.price = item.Price;
+                viewmodellist.Add(viewmodel);
+            }
+            return viewmodellist;
+
+        }
+
+        public string DeleteProduct(int? id)
+        {
+            var productRepo = new ProductRepository();
+            productRepo.delete(id);
+            return "product delete";
+        }
+
+        public bool IsActive(int id)
+        {
+            var productRepo = new ProductRepository();
+            var isactive = productRepo.Get().FirstOrDefault(s => s.ProductID == id).IsActive;
+            return (isactive);
+        }
+
+        public bool ChangeProductStateTo(int productID, bool IsActive)
+        {
+            var productRepo = new ProductRepository();
+            var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
+            entity.IsActive = IsActive;
+            entity.ProductID = productID;
+            return productRepo.ChangeActiveStatus(entity);
+        }
+
+        public IEnumerable<DisplayOrderViewModel> GetAllOrders()
+        {
+            var orderRepo = new OrderRepository();
+            var customerRepo = new CustomerRepository();
+            IEnumerable<DisplayOrderViewModel> orderList = orderRepo.Get().Select(s => new DisplayOrderViewModel
+            {
+                OrderID = s.OrderID,
+                CustomerName = customerRepo.GetCustomerByID(s.CustomerID).FirstName,
+                CreatedOn = s.CreatedOn,
+                Tax = s.Tax,
+                Total = s.Total,
+                Shipping = s.Shipping,
+                SubTotal = s.SubTotal,
+            });
+            return orderList;
+        }
+
+        public int GetOrderCount()
+        {
+            var orderRepo = new OrderRepository();
+            return orderRepo.Get().Count();
+        }
+
+        public IEnumerable<DisplayOrderDetailViewModel> GetOrderDetailByOrderID(int orderID)
+        {
+            var orderDetailRepo = new OrderDetailRepository();
+            var productRepo = new ProductRepository();
+            IEnumerable<DisplayOrderDetailViewModel> orderDetailList = orderDetailRepo.GetByOrderID(orderID).Select(s => new DisplayOrderDetailViewModel
+            {
+                OrderDetailID = s.OrderDetailID,
+                OrderID = s.OrderID,
+                Product = productRepo.GetProductByID(s.ProductID).ProductName,
+                Quantity = s.Quantity,
+                UnitPrice = s.UnitPrice,
+            });
+            return orderDetailList;
+        }
+
+        public DisplayOrderViewModel GetOrderByID(int orderID)
+        {
+            var orderRepo = new OrderRepository();
+            var order = orderRepo.GetByID(orderID);
+            var customerRepo = new CustomerRepository();
+            var viewModel = new DisplayOrderViewModel();
+            viewModel.CustomerName = customerRepo.GetCustomerByID(order.CustomerID).FirstName;
+            viewModel.Tax = order.Tax;
+            viewModel.Shipping = order.Shipping;
+            viewModel.Total = order.Total;
+            viewModel.SubTotal = order.SubTotal;
+            viewModel.CreatedOn = order.CreatedOn;
+            return viewModel;
         }
     }
 }

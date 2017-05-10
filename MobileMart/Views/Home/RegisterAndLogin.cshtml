@@ -11,47 +11,8 @@
     <div class="login-section mb-80">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="registered-customers">
-                        <h6 class="widget-title border-left mb-50">REGISTERED CUSTOMERS</h6>
-                        <section id="loginForm" class="login-account p-30 box-shadow">
-                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <p>If you have an account with us, Please log in.</p>
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(m => m.CustomerLoginViewModel.Email, new { @class = "form-control"  , @placeholder = "Email" })
-                                        @Html.ValidationMessageFor(m => m.CustomerLoginViewModel.Email, "", new { @class = "text-danger"})
-                                    </div>
-                                    <div class="col-md-6">
-                                        @Html.PasswordFor(m => m.CustomerLoginViewModel.Password, new { @class = "form-control", @placeholder = "Password" })
-                                        @Html.ValidationMessageFor(m => m.CustomerLoginViewModel.Password, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <div class="checkbox checkbox-inline">
-                                            @Html.CheckBoxFor(m => m.CustomerLoginViewModel.RememberMe)
-                                            @Html.LabelFor(m => m.CustomerLoginViewModel.RememberMe)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <input type="submit" value="Log in" class="btn btn-default submit-btn-1 btn-hover-1" />
-                                    </div>
-                                </div>
-                                @* Enable this once you have account confirmation enabled for password reset functionality
-                                <p>
-                                    @Html.ActionLink("Forgot your password?", "ForgotPassword"   )
-                                </p>*@
-                            }
-                        </section>
-                    </div>
-                </div>
-                <!-- new-customers -->
+                @Html.Partial("_CustomerLoginPartial")
+               
                 <div class="col-md-6">
                     <div class="new-customers">
                         <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>

@@ -30,6 +30,7 @@ namespace MobileMart.Controllers
             CartBL ajaxBL = new CartBL();
             CartSessionViewModel cartSessionVM = new CartSessionViewModel();
             List<CartSessionViewModel> list1 = new List<CartSessionViewModel>();
+            //add if session is empty
             if (Session["Cart"] == null)
             {
                 cartSessionVM.ProductID = productID;
@@ -40,14 +41,16 @@ namespace MobileMart.Controllers
             }
             else
             {
+                //add next product if product already existed and just increment quantity.
                 var list2 = GetCartItems();
                 if (list2.Exists(s => s.ProductID == productID))
                 {
-                    list2.Where(s => s.ProductID == productID).Select(w => w.Quantity++).ToList();
+                    list2.Where(s => s.ProductID == productID).Select(w => w.Quantity = quantity + w.Quantity).ToList();
                     Session["Cart"] = list2 as List<CartSessionViewModel>;
                 }
                 else
                 {
+                    //add if product is different
                     cartSessionVM.ProductID = productID;
                     cartSessionVM.Quantity = quantity;
                     cartSessionVM.ProductDetail = ajaxBL.GetProductByID(productID);

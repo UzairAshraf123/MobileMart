@@ -9,10 +9,10 @@
         for (int i = 0; i < list.Count(); i++)
         {
             quantityCount = list[i].Quantity + quantityCount;
-            var price = list[i].ProductDetail.Price  * list[i].Quantity;
+            var price = list[i].ProductDetail.Price * list[i].Quantity;
             total = price + total;
         }
-        if (quantityCount==0 || quantityCount <0)
+        if (quantityCount == 0 || quantityCount < 0)
         {
             quantityCount = 0;
         }
@@ -60,7 +60,7 @@
                             <div class="col-md-2 col-sm-6 col-xs-12">
                                 <div class="logo">
                                     <a href="@Url.Action("Index", "Home")">
-                                        <img src="~/Content/Images/Logo/logo.png" alt="main logo"/>
+                                        <img src="~/Content/Images/Logo/logo.png" alt="main logo" />
                                     </a>
                                 </div>
                             </div>
@@ -432,10 +432,10 @@
                                     <!-- total-cart -->
                                     <div class="total-cart f-left">
                                         <div class="total-cart-in">
-                                            <div class="cart-toggler"> 
+                                            <div class="cart-toggler">
                                                 <a href="#">
                                                     <span class="cart-quantity">
-                                                       @quantityCount
+                                                        @quantityCount
                                                     </span>
                                                     <br>
                                                     <span class="cart-icon">
@@ -451,29 +451,29 @@
                                                 </li>
                                                 <li id="QuickCartView">
                                                     @if(list != null)
-                                                    { 
-                                                        foreach (var item in list)
-                                                        {
-                                                            <div class="TagToRemove">
-                                                                <div class="single-cart clearfix">
-                                                                    <div class="cart-img f-left">
-                                                                        <a href="">
-                                                                            <img src="@Url.Content(item.ProductDetail.ProductImage1)" alt="Cart Product">
-                                                                        </a>
-                                                                        <div class="del-icon">
-                                                                            <button class="btn-hover-2 DeleteItemFromCart" onclick="f1(this)" value="@item.ProductID"><i class="glyphicon glyphicon-trash"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="cart-info f-left">
-                                                                        <h6 class="text-capitalize"><a href="">@item.ProductDetail.ProductName</a></h6>
-                                                                        <p>Quantity<span><strong>:</strong></span>@item.Quantity</p>
-                                                                        <p>Color<span><strong>:</strong></span>@item.ProductDetail.Color</p>
-                                                                        <p>Price<span><strong>:</strong></span>@(item.ProductDetail.Price * item.Quantity)</p>
-                                                                    </div>
+                                                    {
+                foreach (var item in list)
+                {
+                                                    <div class="TagToRemove">
+                                                        <div class="single-cart clearfix">
+                                                            <div class="cart-img f-left">
+                                                                <a href="">
+                                                                    <img src="@Url.Content(item.ProductDetail.ProductImage1)" alt="Cart Product" height="100" width="125">
+                                                                </a>
+                                                                <div class="del-icon">
+                                                                    <button class="btn-hover-2 DeleteItemFromCart" onclick="f1(this)" value="@item.ProductID"><i class="glyphicon glyphicon-trash"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <div class="cart-info f-left">
+                                                                <h6 class="text-capitalize"><a href="">@item.ProductDetail.ProductName</a></h6>
+                                                                <p>Quantity<span><strong>:</strong></span>@item.Quantity</p>
+                                                                <p>Color<span><strong>:</strong></span>@item.ProductDetail.Color</p>
+                                                                <p>Price<span><strong>:</strong></span>@(item.ProductDetail.Price * item.Quantity)</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                         }
-                                                    }
+    }
                                                 </li>
                                                 <li>
                                                     <div class="top-cart-inner subtotal">
@@ -650,84 +650,204 @@
         @RenderBody()
         <hr />
         <footer id="footer" class="footer-area footer-2">
-                <div class="footer-top footer-top-2 text-center ptb-60">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="footer-logo">
-                                    <img src="~/Content/Images/Logo/logo.png" />
-                                </div>
-                                <ul class="footer-menu-2">
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Products</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Pages</a></li>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
+            <div class="footer-top footer-top-2 text-center ptb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="footer-logo">
+                                <img src="~/Content/Images/Logo/logo.png" />
                             </div>
+                            <ul class="footer-menu-2">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Products</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Pages</a></li>
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="footer-bottom footer-bottom-2 text-center gray-bg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-5">
-                                <div class="copyright-text copyright-text-2">
-                                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-                                </div>
+            </div>
+            <div class="footer-bottom footer-bottom-2 text-center gray-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-5">
+                            <div class="copyright-text copyright-text-2">
+                                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
                             </div>
-                            <div class="col-md-4 col-sm-4">
-                                <ul class="footer-social footer-social-2">
-                                    <li>
-                                        <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                    </li>
-                                    <li>
-                                        <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                    </li>
-                                    <li>
-                                        <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 col-sm-3">
-                                <ul class="footer-payment">
-                                    <li>
-                                        <a href="#"><img src="img/payment/1.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img src="img/payment/2.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img src="img/payment/3.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><img src="img/payment/4.jpg" alt=""></a>
-                                    </li>
-                                </ul>
-                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <ul class="footer-social footer-social-2">
+                                <li>
+                                    <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
+                                </li>
+                                <li>
+                                    <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-sm-3">
+                            <ul class="footer-payment">
+                                <li>
+                                    <a href="#"><img src="img/payment/1.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="img/payment/2.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="img/payment/3.jpg" alt=""></a>
+                                </li>
+                                <li>
+                                    <a href="#"><img src="img/payment/4.jpg" alt=""></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+
     @*<script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/jquery.nivo.slider.js"></script>
-    <script src="~/Scripts/plugins.js"></script>
-    <script src="~/Scripts/main.js"></script>*@
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/JSs")
+        <script src="~/Scripts/jquery.nivo.slider.js"></script>
+        <script src="~/Scripts/plugins.js"></script>
+        <script src="~/Scripts/main.js"></script>*@
     @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuU_0_uLMnFM-2oWod_fzC0atPZj7dHlU"></script>*@
     @*<script src="~/Scripts/ajax-mail.js"></script>*@
     @*<script src="~/Scripts/map.js"></script>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/JSs")
+    <script src="~/Scripts/alertify.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var number = $('.numberfield').keydown(function (e) {
+                if (!((e.keyCode > 95 && e.keyCode < 106)
+                    || (e.keyCode > 47 && e.keyCode < 58)
+                    || e.keyCode == 8)) {
+                    return false;
+                }
+            });
+            //--Add item in cart
+            $('.AddToCart').click(function () {
+                var value = $(this).val();
+                var quantity = $("#NumberField_" + value).val();
+                if (quantity == 0) {
+                    quantity = 0;
+                } else if (quantity < 0) {
+                    quantity = 1;
+                }
+                $.ajax({
+                    url: "/Cart/AddItemInCart",
+                    type: "POST",
+                    datatype: "json",
+                    data: { productID: value, quantity: quantity },
+                    success: function (data) {
+                        if (data) {
+                            $(".TagToRemove").remove();
+                            //int variable empty(0)
+                            var count = parseInt(0);
+
+                            //Cart Total
+                            //float variable empty
+                            var total = parseFloat(0);
+                            debugger;
+                            //Appending Quick Cart List
+                            for (var i = 0; i < data.length; i++) {
+                                //rendor cart items
+                                $("#QuickCartView").append("<div class=\"TagToRemove\"><div class=\"single-cart clearfix\"><div class=\"cart-img f-left\"><a href= \"#\" ><img src='" + data[i].ProductDetail.ProductImage1.replace(/~/g, '') + "' alt=\"Cart Product\" height=\"100\" width=\"125\" /></a><div class=\"del-icon\"><button class=\"btn-hover-2 DeleteItemFromCart\" onclick=\"f1(this)\" value=" + data[i].ProductID + "><i class=\"glyphicon glyphicon-trash\"></i></button></div></div><div class=\"cart-info f-left\"><a href=\"\"><h6 class=\"text-capitalize\">" + data[i].ProductDetail.ProductName + "</h6></a><p>Quantity<span><strong>:</strong></span>" + data[i].Quantity + "</p><p>Color<span><strong>:</strong></span> " + data[i].ProductDetail.Color + "</p><p>Price<span><strong>:</strong></span> " + data[i].ProductDetail.Price * data[i].Quantity + "</p></div></div></div >");
+                                //unit price
+                                var price = data[i].ProductDetail.Price * data[i].Quantity;
+                                total = parseFloat(price) + total;
+                                //cart count
+                                count = count + data[i].Quantity;
+                            }
+                            //Cart Quantity  increment
+                            $(".cart-quantity").html(count);
+                            alertify.success("Item successfully added...");
+                            //Updating Cart Total
+                            $("#CartTotal").html(total);
+                        } else {
+                            alert('failed');
+                        }
+                    }
+                })
+            });
+        });
+        //to remove item from cart
+        function f1(obj) {
+            var value = obj.value;
+            $.ajax({
+                url: "/Cart/DeleteItemFromCart",
+                type: "POST",
+                datatype: "json",
+                data: { productID: value, },
+                success: function (data) {
+                    $(".TagToRemove").remove();
+                    var quantity = parseInt(0);
+                    var total = parseFloat(0.0);
+                    for (var i = 0; i < data.length; i++) {
+                        quantity = data[i].Quantity + quantity;
+                        $("#QuickCartView").append("<div class=\"TagToRemove\"><div class=\"single-cart clearfix\"><div class=\"cart-img f-left\"><a href= \"#\" ><img src='" + data[i].ProductDetail.ProductImage1.replace(/~/g, '') + "' alt=\"Cart Product\" height=\"100\" width=\"125\" /></a><div class=\"del-icon\"><button class=\"btn-hover-2 DeleteItemFromCart\" onclick=\"f1(this)\" value=" + data[i].ProductID + "><i class=\"glyphicon glyphicon-trash\"></i></button></div></div><div class=\"cart-info f-left\"><a href=\"\"><h6 class=\"text-capitalize\">" + data[i].ProductDetail.ProductName + "</h6></a><p>Quantity<span><strong>:</strong></span>" + data[i].Quantity + "</p><p>Color<span><strong>:</strong></span> " + data[i].ProductDetail.Color + "</p><p>Price<span><strong>:</strong></span> " + data[i].ProductDetail.Price * data[i].Quantity + "</p></div></div></div >");
+                        var price = data[i].ProductDetail.Price * data[i].Quantity;
+                        total = price + total;
+                    }
+                    $(".cart-quantity").html(quantity);
+                    alertify.success("Item successfully Removed...");
+                    //Updating Cart Total
+                    $("#CartTotal").html(total);
+                }
+            })
+        }
+
+        $('.AddToWishList').click(function () {
+            var value = $(this).val();
+            $.ajax({
+                url: "/Ajax/AddToWishList",
+                type: "POST",
+                datatype: "json",
+                data: { productID: value },
+                success: function (data) {
+                    debugger;
+                    //int variable empty(0)
+                    var count = parseInt(0);
+                    var count = $("#WishListCount").text();
+                    $("#WishListCount").html(data);
+                    alertify.success("Item successfully added...");
+
+                }
+            })
+        });
+        function RemoveFromWishList(obj) {
+            var value = obj.value;
+            $.ajax({
+                url: "/Ajax/DeleteItemFromWishList",
+                type: "POST",
+                datatype: "json",
+                data: { wishListID: value, },
+                success: function (data) {
+                    $("#Item_" + value).remove();
+                    $("#WishListCount").html(data);
+                    alertify.success("Item successfully Removed...");
+                }
+            })
+        }
+    </script>
+
     @RenderSection("scripts", required: false)
-    
+
 </body>
 </html>

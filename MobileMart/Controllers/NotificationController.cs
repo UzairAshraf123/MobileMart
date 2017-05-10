@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using MobileMart.Utility;
 namespace MobileMart.Controllers
 {
     public class NotificationController : AdminBaseController
@@ -74,6 +74,39 @@ namespace MobileMart.Controllers
             return Json(temp, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GetNotificatiosForShop()
+        {
+            var bl = new NotificationBL();
+            var temp = bl.NotificatiosForShop(User.Identity.GetShopID());
+            return Json(temp, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult CustomerNotifications()
+        {
+            var notificationBL = new NotificationBL();
+            var model = notificationBL.GetCustomerNotifications();
+            return View(model);
+        }
+        public ActionResult ProductNotifications()
+        {
+            var notificationBL = new NotificationBL();
+            var model = notificationBL.GetProductNotifications();
+            return View(model);
+        }
+        public ActionResult ShopNotifications()
+        {
+            var notificationBL = new NotificationBL();
+            var model = notificationBL.GetShopNotifications();
+            return View(model);
+        }
+        public ActionResult OrderNotifications()
+        {
+            var notificationBL = new NotificationBL();
+            var model = notificationBL.GetOrderNotifications();
+            return View(model);
+        }
         [HttpPost]
         public void ChangeIsSeenState(SeenNotifications model)
         {

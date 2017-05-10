@@ -57,7 +57,31 @@ namespace MobileMart.Repository
         public void Edit(Customer entity)
         {
             _context = new MobileMartEntities();
-            _context.Entry(entity).State = EntityState.Modified;
+            var customer=GetCustomerByID(entity.CustomerID);
+            if (entity.FirstName!=null)
+            {
+                customer.FirstName = entity.FirstName;
+            }
+            if (entity.LastName != null)
+            {
+                customer.LastName = entity.LastName;
+            }
+            if (entity.DOB != null)
+            {
+                customer.DOB = entity.DOB;
+            }
+            if (entity.Address1 != null)
+            {
+                customer.Address1 = entity.Address1;
+            }
+            if (entity.CityID != null)
+            {
+                customer.CityID = entity.CityID;
+            }
+            if (entity.ProfilePicture != null)
+            {
+                customer.ProfilePicture = entity.ProfilePicture;
+            }
             _context.SaveChanges();
         }
 

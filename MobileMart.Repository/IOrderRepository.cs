@@ -13,5 +13,7 @@ namespace MobileMart.Repository
         IEnumerable<Order> Get();
         Order GetByID(int? orderID);
         int InsertAndReturnID(Order entity);
+        IEnumerable<Order> GetByShopID(int? shopID);
+        IEnumerable<Order> GetByCustomerID(int? customerID);
     }
 }

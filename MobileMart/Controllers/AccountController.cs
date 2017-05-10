@@ -70,7 +70,7 @@ namespace MobileMart.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginRegiseterViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -353,10 +353,10 @@ namespace MobileMart.Controllers
 
                 if (result.Succeeded)
                 {
-                        AdminBL adminBl = new AdminBL();
+                        var homeBl = new HomeBL();
                         UserManager.AddToRole(user.Id, "Customer");
                         model.AspNetUserID = user.Id;
-                        adminBl.CreateCustomer(model);
+                        homeBl.CreateCustomer(model);
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToAction("Index", "Home");
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

@@ -4,11 +4,12 @@
     ViewBag.Title = "Add Product";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<div><h2 class="alert-danger">@ViewBag.message</h2></div>
 @using (Html.BeginForm("AddProduct", "ShopOwner",FormMethod.Post,
-            new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            new { @class = "form-horizontal", @id="AddProductForm" , role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Add New Product Here</h4>
+    <h2>Add New Product Here</h2>
     <hr />
     <div class="form-horizontal">
         <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
@@ -18,9 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(Model => Model.CategoryID,
-                    (SelectList)ViewBag.CategoryDropDown,
-                    "--Select Category--",
+                @Html.DropDownListFor(Model => Model.CategoryID,(SelectList)ViewBag.CategoryDropDown,"--Select Category--",
                     new { @class = "form-control", @id = "SelectedCatogory" })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
@@ -49,10 +48,10 @@
         <div class="form-group">
             <label class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.IsOld, "false", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.RadioButtonFor(model => model.IsOld, "false",  new { @class = "NewProduct" })
                 <label class="label label-default">New</label>
-                @Html.RadioButtonFor(model => model.IsOld, "true", new { htmlAttributes = new { @class = "form-control" } })
-                <label class="label label-default">Old</label>
+                @Html.RadioButtonFor(model => model.IsOld, "true",  new { @class = "OldProduct" })
+                <label class="label label-default">Old </label>
                 @Html.ValidationMessageFor(model => model.IsOld, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -74,7 +73,7 @@
         </div>
 
         <div class="form-group ">
-            <label class = "control-label col-md-2">Upload Product Images</label>
+            <label class = "control-label col-md-2">Upload Images</label>
             <div class="col-md-10">
                 <div id="imgpreview1" class="col-md-3 img-thumbnail image-preview">
                     <label for="image-upload" id="image-label" class="image-preview-label"> 
@@ -134,14 +133,19 @@
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IMEI, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IMEI, new { htmlAttributes = new { @class = "form-control IMEI", @placeholder = "1-0" , @disabled = true } })
+                @Html.ValidationMessageFor(model => model.IMEI, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
+                <input type="submit" value="Add" class="btn btn-primary" />
             </div>
         </div>
-    
-        
     </div>
 }
 
@@ -153,10 +157,8 @@
     @*<script src="~/Scripts/jquery.uploadPreview.min.js"></script>*@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        function showpreview(input, num)
-        {
-            if (input.files && input.files[0])
-            {
+        function showpreview(input, num) {
+            if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var loadedFile = e.target;
@@ -168,6 +170,12 @@
             }
         }
 
+        $(document).ready(function () {
+            $('#AddProductForm').trigger("reset");
+            $(".OldProduct").attr("checked", false);
+            $(".NewProduct").attr("checked", false);
+            
+        
         $("#SelectedCatogory").change(function () {
             var categoryId = $('#SelectedCatogory').val();
             $.ajax({
@@ -177,7 +185,6 @@
                 //datatype: 'JSON',
                 data: { categoryID: categoryId },
                 success: function (data) {
-                    debugger;
                     $('#SubCategory').empty();
                     for (var i = 0; i < data.subCategory.length; i++) {
                         $('#SubCategory').append("<option value= " + data.subCategory[i].Value + ">" + data.subCategory[i].Text + "</option>");
@@ -185,5 +192,38 @@
                 }
             });
         });
+
+        $("#SelectedCatogory").change(function () {
+            var category = $('#SelectedCatogory').val();
+            if (category == 2) {
+                $(".OldProduct").attr("checked", false);
+                $(".OldProduct").attr("disabled", true);
+                $('.NewProduct').attr("checked", true);
+                $('.NewProduct').val(true);
+                $('.OldProduct').val(false);
+                $('.IMEI').prop("disabled", true);
+            } else if (category ==1) {
+                $('#SubCategory').prop("disabled", false);
+                $(".OldProduct").attr("disabled", false);
+                $('.NewProduct').attr("checked", false);
+            }
+        });
+
+        $('.NewProduct').change(function () {
+            if ($(this).is(':checked') && $('#SelectedCatogory').val() == 1) {
+                $('.IMEI').prop("disabled", true);
+            } else
+            {
+                $('.IMEI').prop("disabled", false);
+            }
+        });
+        $('.OldProduct').change(function () {
+            if ($(this).is(':checked') && $('#SelectedCatogory').val() == 1) {
+                $('.IMEI').prop("disabled", false);
+            } else {
+                $('.IMEI').prop("disabled", true);
+            }
+        });
+    });
     </script>
     }

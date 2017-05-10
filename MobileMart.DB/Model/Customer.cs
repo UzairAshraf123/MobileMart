@@ -19,6 +19,7 @@ namespace MobileMart.DB.Model
         {
             this.CustomerNotifications = new HashSet<CustomerNotification>();
             this.Orders = new HashSet<Order>();
+            this.WishLists = new HashSet<WishList>();
         }
     
         public int CustomerID { get; set; }
@@ -34,6 +35,7 @@ namespace MobileMart.DB.Model
         public string PhoneNo { get; set; }
         public string AspNetUserID { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string Gender { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual city city { get; set; }
@@ -41,5 +43,7 @@ namespace MobileMart.DB.Model
         public virtual ICollection<CustomerNotification> CustomerNotifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WishList> WishLists { get; set; }
     }
 }

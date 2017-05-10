@@ -19,7 +19,7 @@ namespace MobileMart.Repository
         {
             return _context.Products.FirstOrDefault(s => s.ProductID == productID);
         }
-        public void delete(int id)
+        public void delete(int? id)
         {
             var delete = _context.Products.Where(s => s.ProductID == id).FirstOrDefault();
             _context.Products.Remove(delete);
@@ -33,9 +33,9 @@ namespace MobileMart.Repository
 
         public IEnumerable<Product> GetProduct(int? shopID)
         {
-            return _context.Products.Where(s=>s.Supplier.ShopID==shopID).ToList();
+            return _context.Products.Where(w=>w.Supplier.Shop.ShopID == shopID).ToList();
         }
-
+       
         public void insert(Product entity)
         {
                 _context.Products.Add(entity);

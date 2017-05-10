@@ -1,0 +1,108 @@
+﻿@model MobileMart.DB.ViewModel.CustomerDetailViewModel
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="userProfileInfo well-lg">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-lg-4">
+                    @Html.Partial("_CustomerChangePassword", Model.ChangePassword)
+                </div>
+
+                <div class="col-md-8 col-sm-8 col-lg-8">
+                    <div class="box">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion2" href="#personal_info">My Personal Information</a>
+                                </h4>
+                            </div>
+                            <div id="personal_info" class="panel-collapse collapse in" role="tabpanel">
+                                <div class="panel-body">
+                                    @using (Html.BeginForm("MyProfile", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.HiddenFor(model => model.ProfilePicturePath)
+
+                                        @Html.AntiForgeryToken()
+                                        <div class="image text-center">
+                                            @if (Model.ProfilePicturePath == null)
+                                            {
+                                                <img src="" class="img-responsive img-thumbnail" height="200" width="175" />
+                                                <button title="#" class="editImage">
+                                                    <i class="glyphicon glyphicon-camera"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <img src="@Url.Content(Model.ProfilePicturePath)" class="img-responsive img-thumbnail" id="output" height="200" width="175" />
+                                                <label type="button" for="fileUpload" title="#" class="editImage" style="cursor: pointer;">
+                                                    <i class="glyphicon glyphicon-camera"></i>
+                                                </label>
+                                                                    <input type="file" id="fileUpload" name="ProfilePicture" value="ProfilePicture" style="display:none" onchange="loadFile(event)" />
+                                            }
+                                        </div>
+                                        <div class="new-customers">
+                                            <div class="p-30">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "custom-select form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+
+                                                        @Html.DropDownListFor(Model => Model.CountryID,
+                                                                                         (SelectList)ViewBag.CountryDropDown,
+                                                                                         "--Select Country--",
+                                                                                         new { @class = "custom-select", @id = "SelectedCountry" })
+                                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownListFor(Model => Model.StateID,
+                                                                                         new SelectList(string.Empty, "Value", "Text"),
+                                                                                         "--Select State--",
+                                                                                         new { @class = "custom-select", @id = "States" })
+                                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        @Html.DropDownListFor(Model => Model.CityID,
+                                                                                        new SelectList(string.Empty, "Value", "Text"),
+                                                                                         "--Select City--",
+                                                                                         new { @class = "custom-select", @id = "Cities" })
+                                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="register">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

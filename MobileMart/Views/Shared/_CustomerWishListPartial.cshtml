@@ -1,0 +1,50 @@
+﻿@model MobileMart.DB.ViewModel.CustomerDetailViewModel
+
+<h2>WishList</h2>
+<div class="wishlist-content">
+    <form action="#">
+        <div class="table-content table-responsive mb-50">
+            <table class="text-center">
+                <thead>
+                    <tr>
+                        <th class="product-thumbnail">product</th>
+                        <th class="product-price">price</th>
+                        <th class="product-add-cart">add to cart</th>
+                        <th class="product-remove">remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.WishList)
+                    {
+                    <!-- tr -->
+                        <tr>
+                            <td class="product-thumbnail">
+                                <div class="pro-thumbnail-img">
+                                    <img src="@Url.Content(@item.Product.ProductImage1)" alt="Product Image">
+                                </div>
+                                <div class="pro-thumbnail-info text-left">
+                                    <h6 class="product-title-2">
+                                        <a href="@Url.Action("ProductDetail", "Home" , new { ID = @item.ProductID})">@item.Product.ProductName</a>
+                                    </h6>
+                                    <p>Brand: @item.Product.Company</p>
+                                    <p>Model: @item.Product.ProductName</p>
+                                    <p>Color:@item.Product.Color</p>
+                                </div>
+                            </td>
+                            <td class="product-price">$@item.Product.Price</td>
+                            <td class="product-add-cart">
+                                @*<a href="#" title="Add To Cart">
+                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                    </a>*@
+                                <button type="button" value="@item.ProductID" class="zmdi zmdi-shopping-cart-plus AddToCart" title="Add to cart"></button>
+                            </td>
+                            <td class="product-remove">
+                                <button type="button" value="@item.WishListID" class="zmdi zmdi-close" title="Remove" onclick="RemoveFromWishList(this)"></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

@@ -76,6 +76,7 @@
     <Compile Include="IStateRepository.cs" />
     <Compile Include="ISupplierNotificationRepository.cs" />
     <Compile Include="ISupplierRepository.cs" />
+    <Compile Include="IWishListRepository.cs" />
     <Compile Include="OrderDetailRepository.cs" />
     <Compile Include="OrderNotificationRepository.cs" />
     <Compile Include="OrderRepository.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="StateRepository.cs" />
     <Compile Include="SupplierNotificationRepository .cs" />
     <Compile Include="SupplierRepository.cs" />
+    <Compile Include="WishListRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobileMart.DB\MobileMart.DB.csproj">

@@ -9,7 +9,6 @@ namespace MobileMart.DB.ViewModel
 {
    public class AddSupplierViewModel
     {
-        public int shopID { get; set; }
         [Required]
         [Display(Name = "Name")]
         public string SupplierName { get; set; }

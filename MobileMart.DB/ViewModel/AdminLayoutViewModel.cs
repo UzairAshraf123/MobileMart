@@ -8,8 +8,9 @@ namespace MobileMart.DB.ViewModel
 {
     public class AdminLayoutViewModel
     {
-        public IEnumerable<Customer> Customers { get; set; }
-        public IEnumerable<Shop> Shops { get; set; }
-        public IEnumerable<DisplayProductViewModel> products { get; set; }
+        public int CustomerCount { get; set; }
+        public int ShopCount { get; set; }
+        public int ProductCount { get; set; }
+        public int OrderCount { get; set; }
     }
 }

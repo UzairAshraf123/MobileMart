@@ -14,13 +14,23 @@ namespace MobileMart.DB.ViewModel
         public int? SupplierID { get; set; }
         public int ProductID { get; set; }
 
+        [Required(ErrorMessage = "You must select a sub-category.")]
+        [Display(Name = "Sub-Category")]
+        public int? SubCategoryID { get; set; }
+
+        [Required(ErrorMessage = "You must select a category.")]
+        [Display(Name = "Category")]
         public int? CategoryID { get; set; }
 
+        [Required(ErrorMessage = "You must select a Company.")]
+        [Display(Name = "Company")]
         public int? CompanyID { get; set; }
 
+        [Required(ErrorMessage = "Color name is required.")]
+        [Display(Name = "Color")]
         public String Color { get; set; }
 
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Product name is required.")]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
 
@@ -49,15 +59,19 @@ namespace MobileMart.DB.ViewModel
 
         public DateTime? CreatedOn { get; set; }
 
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Price is required.")]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Required")]
+        [StringLength(16)]
+        [RegularExpression("([0-9])+", ErrorMessage = "Enter only numeric value..")]
         public string IMEI { get; set; }
 
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Price is Required")]
+        [RegularExpression("([0-9])+", ErrorMessage = "Enter only numeric value..")]
         public int? Quantity { get; set; }
 
         public bool? IsOld { get; set; }
+
     }
 }

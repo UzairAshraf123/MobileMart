@@ -94,6 +94,7 @@ namespace MobileMart.BL
                 viewmodel.CreatedOn = item.CreatedOn;
                 viewmodel.IMEI = item.IMEI;
                 viewmodel.price = item.Price;
+                viewmodel.New = item.IsOld;
                 viewmodel.IsActive = item.IsActive;
                 viewmodellist.Add(viewmodel);
             }
@@ -141,6 +142,7 @@ namespace MobileMart.BL
             entity.CreatedOn = viewmodel.CreatedOn;
             entity.Quantity = viewmodel.Quantity;
             entity.IsOld = viewmodel.IsOld;
+            entity.SubCategoryID = viewmodel.SubCategoryID;
             var productID = productRepo.InsertAndGetID(entity);
 
             var productNE = new ProductNotification();
@@ -154,11 +156,11 @@ namespace MobileMart.BL
 
             productNR.Insert(productNE);
         }
-        //IsactiveProducts
-        public bool IsActive(int id, int shopID)
+        //DeleteProducts
+        public string DeleteProduct(int id)
         {
-            var isactive = productRepo.GetProduct(shopID).FirstOrDefault(s => s.ProductID == id).IsActive;
-            return (isactive);
+            productRepo.delete(id);
+            return "product deleted";
         }
         //DeleteSupplier
         public string DeleteSupplier(int? id)
@@ -166,7 +168,7 @@ namespace MobileMart.BL
             supplierRepo.delete(id);
             return "Supplier delete";
         }
-        //Show Supplier List For Update
+        //Show Product List For Update
         public EditSupplierViewModel UpdteSupplierlist(int id)
         {
             var Supplier = supplierRepo.GetSupplier().Where(s => s.SupplierID == id).FirstOrDefault();
@@ -188,7 +190,7 @@ namespace MobileMart.BL
             supplierRepo.update(entity);
         }
         //Show Product List For Update
-        public EditProductViewModel  UpdteProductlist(int id , int shopID)
+        public EditProductViewModel UpdteProductlist(int id, int shopID)
         {
             var product = productRepo.GetProduct(shopID).Where(s => s.ProductID == id).FirstOrDefault();
             EditProductViewModel viewmodel = new EditProductViewModel();
@@ -209,13 +211,14 @@ namespace MobileMart.BL
             viewmodel.CompanyID = product.CompanyID;
             viewmodel.CreatedOn = product.CreatedOn;
             viewmodel.Color = product.ProductColor;
+            viewmodel.SubCategoryID = product.SubCategoryID;
             return (viewmodel);
         }
         //UpdateProduct
         public void UpdateProduct(EditProductViewModel viewmodel)
         {
             Product entity = new Product();
-            if(viewmodel.ProductImage1!=null && viewmodel.ProductImage2 != null && viewmodel.ProductImage3 != null && viewmodel.ProductImage4 != null)
+            if (viewmodel.ProductImage1 != null && viewmodel.ProductImage2 != null && viewmodel.ProductImage3 != null && viewmodel.ProductImage4 != null)
             {
                 var fileName1 = Path.GetFileNameWithoutExtension(viewmodel.ProductImage1.FileName);
                 var fileName2 = Path.GetFileNameWithoutExtension(viewmodel.ProductImage2.FileName);
@@ -226,13 +229,13 @@ namespace MobileMart.BL
                 fileName3 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.ProductImage3.FileName);
                 fileName4 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.ProductImage4.FileName);
 
-                var basePath = "~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/";
+                var basePath = "~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/";
                 var path1 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName1);
                 var path2 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName2);
                 var path3 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName3);
                 var path4 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName4);
 
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "/Product/" + viewmodel.ProductID + "/Images/"));
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Shops/" + viewmodel.ShopID + "Product/" + viewmodel.ProductID + "Images/"));
 
                 viewmodel.ProductImage1.SaveAs(path1);
                 viewmodel.ProductImage2.SaveAs(path2);
@@ -275,19 +278,39 @@ namespace MobileMart.BL
             int shopID = shopRepo.GetShopIDByOwnerID(ownerID);
             return shopID;
         }
-
+        //IsactiveProducts
+        public bool IsActive(int id, int shopID)
+        {
+            var isactive = productRepo.GetProduct(shopID).FirstOrDefault(s => s.ProductID == id).IsActive;
+            return (isactive);
+        }
+        public bool ChangeProductStateTo(int productID, bool IsActive)
+        {
+            var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
+            entity.IsActive = IsActive;
+            entity.ProductID = productID;
+            return productRepo.ChangeActiveStatus(entity);
+        }
         public IEnumerable<Supplier> GetSuppliersByShopID(int shopID)
         {
             return supplierRepo.GetSupplierByID(shopID);
         }
 
-        public bool ChangeProductStateTo(int productID,bool IsActive)
+        public IEnumerable<DisplayOrderViewModel> GetOrdersByShopID(int? shopID)
         {
-            var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
-            entity.IsActive = IsActive;
-            entity.ProductID = productID;
-            return productRepo.ChangeActiveStatus(entity); 
+            var orderRepo = new OrderRepository();
+            var customerRepo = new CustomerRepository();
+            IEnumerable<DisplayOrderViewModel> orderList = orderRepo.GetByShopID(shopID).Select(s => new DisplayOrderViewModel
+            {
+                OrderID = s.OrderID,
+                CustomerName = customerRepo.GetCustomerByID(s.CustomerID).FirstName,
+                CreatedOn = s.CreatedOn,
+                Tax = s.Tax,
+                Total = s.Total,
+                Shipping = s.Shipping,
+                SubTotal = s.SubTotal,
+            });
+            return orderList;
         }
     }
 }
- 

@@ -10,6 +10,8 @@ namespace MobileMart.Repository
     public interface IOrderNotificationRepository
     {
         List<OrderNotification> Get();
+        List<OrderNotification> GetByShopID(int userID);
+        IEnumerable<OrderNotification> GetUnSeen();
         void ChangeIsSeenByID(int orderID);
         void Insert(OrderNotification entity);
     }

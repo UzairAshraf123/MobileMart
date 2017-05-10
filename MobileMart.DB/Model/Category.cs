@@ -18,6 +18,7 @@ namespace MobileMart.DB.Model
         public Category()
         {
             this.Products = new HashSet<Product>();
+            this.Category1 = new HashSet<Category>();
         }
     
         public int CategoryID { get; set; }
@@ -27,5 +28,8 @@ namespace MobileMart.DB.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Category> Category1 { get; set; }
+        public virtual Category Category2 { get; set; }
     }
 }

@@ -1,0 +1,233 @@
+﻿@model MobileMart.DB.ViewModel.CustomerDetailViewModel
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    @@media (min-width: 992px) {
+
+        .userProfileInfo .image {
+            position: relative
+        }
+
+            .userProfileInfo .image .editImage {
+                position: absolute;
+                bottom: -27px;
+                right: 150px;
+                background: #fe5621;
+                color: #fff;
+                text-align: center;
+                font-size: 18px;
+                font-size: 1.8rem;
+                width: 54px;
+                height: 54px;
+                line-height: 54px;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                -moz-background-clip: padding;
+                -webkit-background-clip: padding-box;
+                background-clip: padding-box
+            }
+
+                .userProfileInfo .image .editImage:hover {
+                    background: #fe693a
+                }
+
+        .userProfileInfo .box {
+            padding: 0
+        }
+
+            .userProfileInfo .box .info,
+            .userProfileInfo .box .name {
+                padding: 15px 20px;
+                border-bottom: 1px solid #e6e7ed
+            }
+</style>
+<style>
+    /*  bhoechie tab */
+    div.bhoechie-tab-container {
+        z-index: 10;
+        background-color: #ffffff;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        background-clip: padding-box;
+        opacity: 0.97;
+        filter: alpha(opacity=97);
+    }
+
+    div.bhoechie-tab-menu {
+        padding-right: 0;
+        padding-left: 0;
+        padding-bottom: 0;
+    }
+
+        div.bhoechie-tab-menu div.list-group {
+            margin-bottom: 0;
+        }
+
+            div.bhoechie-tab-menu div.list-group > a {
+                margin-bottom: 0;
+            }
+
+                div.bhoechie-tab-menu div.list-group > a .glyphicon,
+                div.bhoechie-tab-menu div.list-group > a .fa {
+                    color: rgb(255, 127, 0);
+                }
+
+                div.bhoechie-tab-menu div.list-group > a:first-child {
+                    border-top-right-radius: 0;
+                    -moz-border-top-right-radius: 0;
+                }
+
+                div.bhoechie-tab-menu div.list-group > a:last-child {
+                    border-bottom-right-radius: 0;
+                    -moz-border-bottom-right-radius: 0;
+                }
+
+                div.bhoechie-tab-menu div.list-group > a.active,
+                div.bhoechie-tab-menu div.list-group > a.active .glyphicon,
+                div.bhoechie-tab-menu div.list-group > a.active .fa {
+                    background-color: rgb(255, 127, 0);
+                    background-image: #5A55A3;
+                    color: #ffffff;
+                }
+
+                    div.bhoechie-tab-menu div.list-group > a.active:after {
+                        content: '';
+                        position: absolute;
+                        left: 100%;
+                        top: 50%;
+                        margin-top: -13px;
+                        border-left: 0;
+                        border-bottom: 13px solid transparent;
+                        border-top: 13px solid transparent;
+                        border-left: 10px solid rgb(255, 127, 0);
+                    }
+
+    div.bhoechie-tab-content {
+        background-color: #ffffff;
+        /* border: 1px solid #eeeeee; */
+        padding-left: 20px;
+        padding-top: 10px;
+    }
+
+    div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
+        display: none;
+    }
+</style>
+<div class="container">
+    <h1 class="text-success">@ViewBag.StatusMessage</h1>
+    <h1 class="text-danger">@ViewBag.ErrorMessage</h1>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active text-center">
+                            <h4 class="glyphicon glyphicon-user"></h4><br />My Profile
+                        </a>
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="glyphicon glyphicon-dashboard"></h4><br />My Orders
+                        </a>
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="glyphicon glyphicon-heart"></h4><br />Wishlist
+                        </a>
+                        <a href="#" class="list-group-item text-center">
+                            <h4 class="glyphicon glyphicon-wrench"></h4><br />Setting
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                    <!-- Profile section -->
+                    <div class="bhoechie-tab-content active">
+                       @Html.Partial("_CustomerProfilePartial")
+                    </div>
+                    <!-- Orders section -->
+                    <div class="bhoechie-tab-content">
+                       @Html.Partial("_CustomerOrdersPartial")
+                    </div>
+
+                    <!-- WishList Section -->
+                    <div class="bhoechie-tab-content">
+                        @Html.Partial("_CustomerWishListPartial")
+                    </div>
+                    <div class="bhoechie-tab-content">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
+                e.preventDefault();
+                $(this).siblings('a.active').removeClass("active");
+                $(this).addClass("active");
+                var index = $(this).index();
+                $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+                $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+            });
+        });
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+        $("#SelectedCountry").change(function () {
+            var countryId = $('#SelectedCountry').val();
+            $.ajax({
+                url: "/Ajax/StatesByCountryID/" + countryId,
+                type: "Get",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'JSON',
+                success: function (data) {
+                    $('#States').empty();
+                    for (var i = 0; i < data.state.length; i++) {
+                        $('#States').append("<option value= " + data.state[i].Value + ">" + data.state[i].Text + "</option>");
+                    }
+                }
+            });
+        });
+
+        $("#States").change(function () {
+            var stateId = $('#States').val();
+            $.ajax({
+                url: "/Ajax/CitesByStateID/" + stateId,
+                type: "Get",
+                contentType: "application/json; charset=utf-8",
+                datatype: 'JSON',
+                success: function (data) {
+                    $('#Cities').empty();
+                    for (var i = 0; i < data.city.length; i++) {
+                        $('#Cities').append("<option value= " + data.city[i].Value + ">" + data.city[i].Text + "</option>");
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script>
+        $(function () {
+            $("#DOB").datepicker({
+                changeMonth: true,
+                changeYear: true,
+            });
+        });
+    </script>
+    <script src="~/Scripts/jquery-1.11.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/table_editable.js"></script>
+}

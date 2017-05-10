@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MobileMart.DB.ViewModel.ProductNotificationViewModel>
+
+@{
+    ViewBag.Title = "ProductNotifications";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ProductNotifications</h2>
+
+<table class="table table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductNotificationDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedON)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductNotificationURL)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductNotificationDescription)
+        </td>
+        <td>
+            <img src="@Url.Content(item.ProductImage)" alt="Product Image" height="100" width="125" />
+        </td>
+        <td>
+           @Html.DisplayFor(modelItem => item.CreatedON)
+        </td>
+        <td>
+            <a href="@Url.Content(item.ProductNotificationURL)">Detail</a>
+        </td>
+    </tr>
+}
+
+</table>

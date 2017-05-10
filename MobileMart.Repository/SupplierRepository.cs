@@ -30,7 +30,10 @@ namespace MobileMart.Repository
         {
             return _context.Suppliers.Where(w=>w.ShopID == shopID).ToList();
         }
-
+        public IEnumerable<Supplier> GetSupplierByShopID(int shopID)
+        {
+            return _context.Suppliers.Where(s => s.ShopID == shopID).ToList();
+        }
         public int InsertAndGetID(Supplier entity)
         {
             _context.Suppliers.Add(entity);

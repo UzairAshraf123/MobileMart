@@ -69,19 +69,16 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge" id="NotificationCount">0</span> <b class="caret"></b></a>
             <div class="dropdown-menu scrollable-menu">
                 <ul class="dropdown-item list-group" id="CustomerNotifications">
-                    <li class="list-group-item active">Customer Notifications</li>
+                    
                 </ul>
-                <ul class="dropdown-item list-group" id="SupplierNotifications">
+                @*<ul class="dropdown-item list-group" id="SupplierNotifications">
                     <li class="list-group-item active">Supplier Notifications</li>
-                </ul>
+                </ul>*@
                 <ul class="dropdown-item list-group" id="ShopNotifications">
-                    <li class="list-group-item active">Shop Notifications</li>
                 </ul>
                 <ul class="dropdown-item list-group" id="OrderNotifications">
-                    <li class="list-group-item active">Order Notifications</li>
                 </ul>
                 <ul class="dropdown-item list-group" id="ProductNotifications">
-                    <li class="list-group-item active">Product Notifications</li>
                 </ul>
             </div>
         </li>
@@ -118,16 +115,18 @@
             </li>
             
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayAllShops" ? "active" : "")">
-                <a href="@Url.Action("DisplayAllShops","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">@adminData.Shops.Count()</span></a>
+                <a href="@Url.Action("DisplayAllShops","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Shops <span class="badge">@adminData.ShopCount</span></a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AllCustomers" ? "active" : "")">
-                <a href="@Url.Action("AllCustomers","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">@adminData.Customers.Count()</span></a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Customers" ? "active" : "")">
+                <a href="@Url.Action("AllCustomers","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Customers<span class="badge">@adminData.CustomerCount</span></a>
             </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayProduct" ? "active" : "")">
-                <a href="@Url.Action("DisplayProduct","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Products<span class="badge">@adminData.products.Count()</span></a>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayAllProduct" ? "active" : "")">
+                <a href="@Url.Action("DisplayAllProduct","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Products<span class="badge">@adminData.ProductCount</span></a>
             </li>
-
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayOrders" ? "active" : "")">
+                <a href="@Url.Action("DisplayOrders","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Orders<span class="badge">@adminData.OrderCount</span></a>
+            </li>
         </ul>
     </div>
 }

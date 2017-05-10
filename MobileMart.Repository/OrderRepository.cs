@@ -22,6 +22,10 @@ namespace MobileMart.Repository
         {
             return _context.Orders.Where(s=> s.OrderID == orderID).FirstOrDefault();
         }
+        public IEnumerable<Order> GetByShopID(int? shopID)
+        {
+            return _context.Orders.Where(s => s.OrderDetails.Any(i=>i.Product.Supplier.Shop.ShopID == shopID)).ToList();
+        }
         public void Insert(Order entity)
         {
             _context.Orders.Add(entity);
@@ -33,6 +37,11 @@ namespace MobileMart.Repository
             _context.Orders.Add(entity);
             _context.SaveChanges();
             return entity.OrderID;
+        }
+
+        public IEnumerable<Order> GetByCustomerID(int? customerID)
+        {
+            return Get().Where(s => s.CustomerID == customerID).ToList().OrderByDescending(w=>w.CreatedOn);
         }
 
         

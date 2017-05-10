@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace MobileMart.BL
 {
     public class NotificationBL
@@ -24,48 +23,52 @@ namespace MobileMart.BL
 
             var list = new NotificationViewModel();
 
-            IEnumerable<CustomerNotification> customerNotification = customerNR.GetUnSeen();
-            List<CustomerNotificationViewModel> customerNL = customerNotification.Select(i => new CustomerNotificationViewModel
+            IEnumerable<CustomerNotification> customerNotification = customerNR.GetUnSeen() ;
+            IEnumerable<CustomerNotificationViewModel> customerNL = customerNotification.Select(i => new CustomerNotificationViewModel
             {
                 CustomerID = i.CusotmerID,
                 CustomerNotificationDescription = i.Description,
                 CustomerNotificationID = i.CustomerNotificationID,
                 CustomerNotificationIsSeen = i.IsSeen,
                 CustomerNotificationURL = i.URL,
-                CustomerImage = customerRepo.Get().Where(s => s.CustomerID == i.CusotmerID).Select(s=> s.ProfilePicture).FirstOrDefault(),
+                CreatedON = i.Timestamp,
+                CustomerImage = customerRepo.Get().Where(s => s.CustomerID == i.CusotmerID).Select(s => s.ProfilePicture).FirstOrDefault(),
             }).ToList();
 
             IEnumerable<OrderNotification> orderNotification = orderNR.GetUnSeen();
-            List<OrderNotificationViewModel> orderNL = orderNotification.Select(i => new OrderNotificationViewModel
+            IEnumerable<OrderNotificationViewModel> orderNL = orderNotification.Select(i => new OrderNotificationViewModel
             {
                 OrderID = i.OrderID,
                 OrderNotificationDescription = i.Description,
                 OrderNotificationID = i.OrderNotificationID,
                 OrderNotificationIsSeen = i.IsSeen,
-                OrderNotificationURL = i.URL
+                OrderNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
             }).ToList();
 
             IEnumerable<ProductNotification> productNotification = productNR.GetUnSeen();
-            List<ProductNotificationViewModel> productNL = productNotification.Select(i => new ProductNotificationViewModel
+            IEnumerable<ProductNotificationViewModel> productNL = productNotification.Select(i => new ProductNotificationViewModel
             {
                 ProductID = i.ProductID,
                 ProductNotificationDescription = i.Description,
                 ProductNotificationID = i.ProductNotificationID,
                 ProductNotificationIsSeen = i.IsSeen,
                 ProductNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
                 ProductImage = productRepo.Get().Where(s => s.ProductID == i.ProductID).Select(s => s.ProductImage1).FirstOrDefault(),
-            }).ToList();
+            }).ToList().OrderByDescending(s => s.CreatedON);
 
             IEnumerable<ShopNotification> shopNotification = shopNR.GetUnSeen();
-            List<ShopNotificationViewModel> shopNL = shopNotification.Select(i => new ShopNotificationViewModel
+            IEnumerable<ShopNotificationViewModel> shopNL = shopNotification.Select(i => new ShopNotificationViewModel
             {
                 ShopID = i.ShopID,
                 ShopNotificationDescription = i.Description,
                 ShopNotificationID = i.ShopNotificationID,
                 ShopNotificationIsSeen = i.IsSeen,
                 ShopNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
                 ShopLogo = shopRepo.Get().Where(s => s.ShopID == i.ShopID).Select(s => s.ShopLogo).FirstOrDefault(),
-            }).ToList();
+            }).ToList().OrderByDescending(s => s.CreatedON);
 
             //IEnumerable<SupplierNotification> supplierNotification = supplierNR.GetUnSeen();
             //List<SupplierNotificationViewModel> supplierNL = supplierNotification.Select(i => new SupplierNotificationViewModel
@@ -84,7 +87,23 @@ namespace MobileMart.BL
             //list.SupplierNotificationList = supplierNL;
             return list;
         }
-
+        public NotificationViewModel NotificatiosForShop(int shopID)
+        {
+            var orderNR = new OrderNotificationRepository();
+            IEnumerable<OrderNotification> orderNotification = orderNR.GetByShopID(shopID);
+            var list = new NotificationViewModel();
+            IEnumerable<OrderNotificationViewModel> orderNL = orderNotification.Select(i => new OrderNotificationViewModel
+            {
+                OrderID = i.OrderID,
+                OrderNotificationDescription = i.Description,
+                OrderNotificationID = i.OrderNotificationID,
+                OrderNotificationIsSeen = i.IsSeen,
+                OrderNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
+            }).ToList();
+            list.OrderNotificationList = orderNL;
+            return list;
+        }
         public void ChangeIsSeenState(SeenNotifications model)
         {
             for (int i = 1; i < model.OrderArray.Count(); i++)
@@ -230,6 +249,73 @@ namespace MobileMart.BL
                 City = city.name,
                 CreatedON = shop.CreatedOn,
             };
+        }
+        public IEnumerable<CustomerNotificationViewModel> GetCustomerNotifications()
+        {
+            var notification = new CustomerNotificationRepository();
+            var entity = notification.Get();
+            var customerRepo = new CustomerRepository();
+            IEnumerable<CustomerNotification> customerNotification = notification.Get();
+            return customerNotification.Select(i => new CustomerNotificationViewModel
+            {
+                CustomerID = i.CusotmerID,
+                CustomerNotificationDescription = i.Description,
+                CustomerNotificationID = i.CustomerNotificationID,
+                CustomerNotificationIsSeen = i.IsSeen,
+                CustomerNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
+                CustomerImage = customerRepo.Get().Where(s => s.CustomerID == i.CusotmerID).Select(s => s.ProfilePicture).FirstOrDefault(),
+            }).ToList().OrderByDescending(s => s.CreatedON);
+        }
+        public IEnumerable<ProductNotificationViewModel> GetProductNotifications()
+        {
+            var notification = new ProductNotificationRepository();
+            var entity = notification.Get();
+            var productRepo = new ProductRepository();
+            IEnumerable<ProductNotification> productNotification = notification.Get();
+            return productNotification.Select(i => new ProductNotificationViewModel
+            {
+                ProductID = i.ProductID,
+                ProductNotificationDescription = i.Description,
+                ProductNotificationID = i.ProductNotificationID,
+                ProductNotificationIsSeen = i.IsSeen,
+                ProductNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
+                ProductImage = productRepo.Get().Where(s => s.ProductID == i.ProductID).Select(s => s.ProductImage1).FirstOrDefault(),
+            }).ToList().OrderByDescending(s => s.CreatedON);
+        }
+        public IEnumerable<ShopNotificationViewModel> GetShopNotifications()
+        {
+            var notification = new ShopNotificationRepository();
+            var entity = notification.Get();
+            var shopRepo = new ShopRepository();
+            IEnumerable<ShopNotification> shopNotification = notification.Get();
+            return shopNotification.Select(i => new ShopNotificationViewModel
+            {
+                ShopID = i.ShopID,
+                ShopNotificationDescription = i.Description,
+                ShopNotificationID = i.ShopNotificationID,
+                ShopNotificationIsSeen = i.IsSeen,
+                ShopNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
+                ShopLogo = shopRepo.Get().Where(s => s.ShopID == i.ShopID).Select(s => s.ShopLogo).FirstOrDefault(),
+            }).ToList().OrderByDescending(s => s.CreatedON);
+        }
+        public IEnumerable<OrderNotificationViewModel> GetOrderNotifications()
+        {
+            var notification = new OrderNotificationRepository();
+            var entity = notification.Get();
+            var orderRepo = new OrderRepository();
+            IEnumerable<OrderNotification> orderNotification = notification.Get();
+            return orderNotification.Select(i => new OrderNotificationViewModel
+            {
+                OrderID = i.OrderID,
+                OrderNotificationDescription = i.Description,
+                OrderNotificationID = i.OrderNotificationID,
+                OrderNotificationIsSeen = i.IsSeen,
+                OrderNotificationURL = i.URL,
+                CreatedON = i.Timestamp,
+            }).ToList().OrderByDescending(s=>s.CreatedON);
         }
     }
 }

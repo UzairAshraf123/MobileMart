@@ -21,7 +21,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Contact")]
         public string Contact { get; set; }
         [Required]
-        [Display(Name = "Created On")]
+        [Display(Name = "Created")]
         public DateTime? OwnerCreatedOn { get; set; }
 
         public int ShopID { get; set; }
@@ -35,9 +35,11 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Shop Address")]
         public string ShopAddress { get; set; }
         [Required]
-        [Display(Name = "Created On")]
+        [Display(Name = "Created")]
         public DateTime? ShopCreatedOn { get; set; }
-        public int? productcount { get; set; }
+
+        [Display(Name = "Products")]
+        public int productcount { get; set; }
     }
 }
 

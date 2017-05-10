@@ -25,7 +25,8 @@
                     <label class="btn btn-default btn-file">
                         Upload Photo..
                         <i class="glyphicon glyphicon-folder-open"></i>
-                        <input type="file" name="ProfilePhoto" accept="image/*" onchange="loadFile(event)">
+                        @*<input type="file" name="ProfilePhoto" accept="image/*" onchange="loadFile(event)">*@
+                        @Html.TextBoxFor(m => m.ProfilePhoto, new { Type = "File", accept = "image/*", onchange = "loadFile(event)" })
                     </label>
                     @Html.ValidationMessageFor(model => model.ProfilePhoto, "", new { @class = "text-danger" })
                 </div>

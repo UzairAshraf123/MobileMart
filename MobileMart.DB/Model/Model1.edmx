@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -65,6 +65,7 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="DOB" Type="datetime" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
           <Property Name="ProfilePicture" Type="nvarchar" MaxLength="1024" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="Address1" Type="varchar" MaxLength="200" />
@@ -81,7 +82,7 @@
           <Property Name="CustomerNotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CusotmerID" Type="int" />
           <Property Name="Description" Type="varchar" MaxLength="200" />
-          <Property Name="URL" Type="varchar" MaxLength="50" />
+          <Property Name="URL" Type="varchar" MaxLength="100" />
           <Property Name="Timestamp" Type="datetime" />
           <Property Name="IsSeen" Type="bit" />
         </EntityType>
@@ -164,6 +165,7 @@
           <Property Name="Quantity" Type="int" />
           <Property Name="SupplierID" Type="int" />
           <Property Name="CategoryID" Type="int" />
+          <Property Name="SubCategoryID" Type="int" />
         </EntityType>
         <EntityType Name="ProductNotification">
           <Key>
@@ -252,6 +254,26 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="WishList">
+          <Key>
+            <PropertyRef Name="WishListID" />
+          </Key>
+          <Property Name="WishListID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+        </EntityType>
+        <Association Name="FK_Category_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Category1" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_cities_states">
           <End Role="states" Type="Self.states" Multiplicity="0..1" />
           <End Role="cities" Type="Self.cities" Multiplicity="*" />
@@ -289,7 +311,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerNotification_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CustomerNotification" Type="Self.CustomerNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -337,7 +361,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderDetail_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Order">
@@ -349,7 +375,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderDetail_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
@@ -411,7 +439,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Supplier1">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Supplier">
@@ -423,7 +453,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductNotification_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ProductNotification" Type="Self.ProductNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
@@ -449,7 +481,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ShopNotification_Shop">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ShopNotification" Type="Self.ShopNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Shop">
@@ -485,7 +519,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SupplierNotification_Supplier">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="SupplierNotification" Type="Self.SupplierNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Supplier">
@@ -493,6 +529,34 @@
             </Principal>
             <Dependent Role="SupplierNotification">
               <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WishList_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WishList" Type="Self.WishList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="WishList">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WishList_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WishList" Type="Self.WishList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="WishList">
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -518,6 +582,11 @@
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierNotification" EntityType="Self.SupplierNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WishList" EntityType="Self.WishList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Category1" EntitySet="Category" />
+          </AssociationSet>
           <AssociationSet Name="FK_cities_states" Association="Self.FK_cities_states">
             <End Role="states" EntitySet="states" />
             <End Role="cities" EntitySet="cities" />
@@ -529,10 +598,6 @@
           <AssociationSet Name="FK_Customer_cities" Association="Self.FK_Customer_cities">
             <End Role="cities" EntitySet="cities" />
             <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerNotification_Customer" Association="Self.FK_CustomerNotification_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="CustomerNotification" EntitySet="CustomerNotification" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerNotification_Customer" Association="Self.FK_CustomerNotification_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -590,10 +655,6 @@
             <End Role="Shop" EntitySet="Shop" />
             <End Role="ShopNotification" EntitySet="ShopNotification" />
           </AssociationSet>
-          <AssociationSet Name="FK_ShopNotification_Shop" Association="Self.FK_ShopNotification_Shop">
-            <End Role="Shop" EntitySet="Shop" />
-            <End Role="ShopNotification" EntitySet="ShopNotification" />
-          </AssociationSet>
           <AssociationSet Name="FK_states_countries" Association="Self.FK_states_countries">
             <End Role="countries" EntitySet="countries" />
             <End Role="states" EntitySet="states" />
@@ -606,9 +667,16 @@
             <End Role="Supplier" EntitySet="Supplier" />
             <End Role="SupplierNotification" EntitySet="SupplierNotification" />
           </AssociationSet>
+          <AssociationSet Name="FK_WishList_Customer" Association="Self.FK_WishList_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="WishList" EntitySet="WishList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WishList_Product" Association="Self.FK_WishList_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="WishList" EntitySet="WishList" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MobileMartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -714,6 +782,19 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierNotification" EntitySet="SupplierNotifications" />
           </AssociationSet>
+          <EntitySet Name="WishLists" EntityType="MobileMartModel.WishList" />
+          <AssociationSet Name="FK_Category_Category" Association="MobileMartModel.FK_Category_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Category1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WishList_Customer" Association="MobileMartModel.FK_WishList_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="WishList" EntitySet="WishLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WishList_Product" Association="MobileMartModel.FK_WishList_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="WishList" EntitySet="WishLists" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
@@ -743,6 +824,8 @@
           <Property Name="CategoryImage" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
           <Property Name="ParentCategory" Type="Int32" />
           <NavigationProperty Name="Products" Relationship="MobileMartModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Category1" Relationship="MobileMartModel.FK_Category_Category" FromRole="Category" ToRole="Category1" />
+          <NavigationProperty Name="Category2" Relationship="MobileMartModel.FK_Category_Category" FromRole="Category1" ToRole="Category" />
         </EntityType>
         <EntityType Name="city">
           <Key>
@@ -790,10 +873,12 @@
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Customer_AspNetUsers" FromRole="Customer" ToRole="AspNetUsers" />
-          <NavigationProperty Name="city" Relationship="Self.FK_Customer_cities" FromRole="Customer" ToRole="cities" />
-          <NavigationProperty Name="CustomerNotifications" Relationship="Self.FK_CustomerNotification_Customer" FromRole="Customer" ToRole="CustomerNotification" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Customer1" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="AspNetUser" Relationship="MobileMartModel.FK_Customer_AspNetUsers" FromRole="Customer" ToRole="AspNetUser" />
+          <NavigationProperty Name="city" Relationship="MobileMartModel.FK_Customer_cities" FromRole="Customer" ToRole="city" />
+          <NavigationProperty Name="CustomerNotifications" Relationship="MobileMartModel.FK_CustomerNotification_Customer" FromRole="Customer" ToRole="CustomerNotification" />
+          <NavigationProperty Name="Orders" Relationship="MobileMartModel.FK_Order_Customer1" FromRole="Customer" ToRole="Order" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WishLists" Relationship="MobileMartModel.FK_WishList_Customer" FromRole="Customer" ToRole="WishList" />
         </EntityType>
         <EntityType Name="CustomerNotification">
           <Key>
@@ -802,19 +887,7 @@
           <Property Name="CustomerNotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CusotmerID" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Timestamp" Type="DateTime" Precision="3" />
-          <Property Name="IsSeen" Type="Boolean" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerNotification_Customer" FromRole="CustomerNotification" ToRole="Customer" />
-        </EntityType>
-        <EntityType Name="CustomerNotification">
-          <Key>
-            <PropertyRef Name="CustomerNotificationID" />
-          </Key>
-          <Property Name="CustomerNotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CusotmerID" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="IsSeen" Type="Boolean" />
           <NavigationProperty Name="Customer" Relationship="MobileMartModel.FK_CustomerNotification_Customer" FromRole="CustomerNotification" ToRole="Customer" />
@@ -836,11 +909,11 @@
           <Property Name="Shipping" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SubTotal" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer1" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="Payment" Relationship="Self.FK_Order_Payment1" FromRole="Order" ToRole="Payment" />
-          <NavigationProperty Name="Shipper" Relationship="Self.FK_Order_Shipper1" FromRole="Order" ToRole="Shipper" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
-          <NavigationProperty Name="OrderNotifications" Relationship="Self.FK_OrderNotification_Order" FromRole="Order" ToRole="OrderNotification" />
+          <NavigationProperty Name="Customer" Relationship="MobileMartModel.FK_Order_Customer1" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Payment" Relationship="MobileMartModel.FK_Order_Payment1" FromRole="Order" ToRole="Payment" />
+          <NavigationProperty Name="Shipper" Relationship="MobileMartModel.FK_Order_Shipper1" FromRole="Order" ToRole="Shipper" />
+          <NavigationProperty Name="OrderDetails" Relationship="MobileMartModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="OrderNotifications" Relationship="MobileMartModel.FK_OrderNotification_Order" FromRole="Order" ToRole="OrderNotification" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -851,8 +924,8 @@
           <Property Name="ProductID" Type="Int32" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="Order" Relationship="MobileMartModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="MobileMartModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
         </EntityType>
         <EntityType Name="OrderNotification">
           <Key>
@@ -864,7 +937,7 @@
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="IsSeen" Type="Boolean" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderNotification_Order" FromRole="OrderNotification" ToRole="Order" />
+          <NavigationProperty Name="Order" Relationship="MobileMartModel.FK_OrderNotification_Order" FromRole="OrderNotification" ToRole="Order" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -909,11 +982,13 @@
           <Property Name="Quantity" Type="Int32" />
           <Property Name="SupplierID" Type="Int32" />
           <Property Name="CategoryID" Type="Int32" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="Company" Relationship="Self.FK_Product_Company" FromRole="Product" ToRole="Company" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier1" FromRole="Product" ToRole="Supplier" />
-          <NavigationProperty Name="ProductNotifications" Relationship="Self.FK_ProductNotification_Product" FromRole="Product" ToRole="ProductNotification" />
+          <NavigationProperty Name="Category" Relationship="MobileMartModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Company" Relationship="MobileMartModel.FK_Product_Company" FromRole="Product" ToRole="Company" />
+          <NavigationProperty Name="OrderDetails" Relationship="MobileMartModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="Supplier" Relationship="MobileMartModel.FK_Product_Supplier1" FromRole="Product" ToRole="Supplier" />
+          <NavigationProperty Name="ProductNotifications" Relationship="MobileMartModel.FK_ProductNotification_Product" FromRole="Product" ToRole="ProductNotification" />
+          <Property Name="SubCategoryID" Type="Int32" />
+          <NavigationProperty Name="WishLists" Relationship="MobileMartModel.FK_WishList_Product" FromRole="Product" ToRole="WishList" />
         </EntityType>
         <EntityType Name="ProductNotification">
           <Key>
@@ -925,7 +1000,7 @@
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="IsSeen" Type="Boolean" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_ProductNotification_Product" FromRole="ProductNotification" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="MobileMartModel.FK_ProductNotification_Product" FromRole="ProductNotification" ToRole="Product" />
         </EntityType>
         <EntityType Name="Shipper">
           <Key>
@@ -950,9 +1025,9 @@
           <Property Name="ShopLogo" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsCreated" Type="Boolean" />
-          <NavigationProperty Name="Owner" Relationship="Self.FK_Shop_Owner" FromRole="Shop" ToRole="Owner" />
-          <NavigationProperty Name="ShopNotifications" Relationship="Self.FK_ShopNotification_Shop" FromRole="Shop" ToRole="ShopNotification" />
-          <NavigationProperty Name="Suppliers" Relationship="Self.FK_Supplier_Shop" FromRole="Shop" ToRole="Supplier" />
+          <NavigationProperty Name="Owner" Relationship="MobileMartModel.FK_Shop_Owner" FromRole="Shop" ToRole="Owner" />
+          <NavigationProperty Name="ShopNotifications" Relationship="MobileMartModel.FK_ShopNotification_Shop" FromRole="Shop" ToRole="ShopNotification" />
+          <NavigationProperty Name="Suppliers" Relationship="MobileMartModel.FK_Supplier_Shop" FromRole="Shop" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="ShopNotification">
           <Key>
@@ -964,7 +1039,7 @@
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="IsSeen" Type="Boolean" />
-          <NavigationProperty Name="Shop" Relationship="Self.FK_ShopNotification_Shop" FromRole="ShopNotification" ToRole="Shop" />
+          <NavigationProperty Name="Shop" Relationship="MobileMartModel.FK_ShopNotification_Shop" FromRole="ShopNotification" ToRole="Shop" />
         </EntityType>
         <EntityType Name="state">
           <Key>
@@ -988,9 +1063,9 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="CNIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ShopID" Type="Int32" />
-          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Supplier1" FromRole="Supplier" ToRole="Product" />
-          <NavigationProperty Name="Shop" Relationship="Self.FK_Supplier_Shop" FromRole="Supplier" ToRole="Shop" />
-          <NavigationProperty Name="SupplierNotifications" Relationship="Self.FK_SupplierNotification_Supplier" FromRole="Supplier" ToRole="SupplierNotification" />
+          <NavigationProperty Name="Products" Relationship="MobileMartModel.FK_Product_Supplier1" FromRole="Supplier" ToRole="Product" />
+          <NavigationProperty Name="Shop" Relationship="MobileMartModel.FK_Supplier_Shop" FromRole="Supplier" ToRole="Shop" />
+          <NavigationProperty Name="SupplierNotifications" Relationship="MobileMartModel.FK_SupplierNotification_Supplier" FromRole="Supplier" ToRole="SupplierNotification" />
         </EntityType>
         <EntityType Name="SupplierNotification">
           <Key>
@@ -1002,7 +1077,7 @@
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="IsSeen" Type="Boolean" />
-          <NavigationProperty Name="Supplier" Relationship="Self.FK_SupplierNotification_Supplier" FromRole="SupplierNotification" ToRole="Supplier" />
+          <NavigationProperty Name="Supplier" Relationship="MobileMartModel.FK_SupplierNotification_Supplier" FromRole="SupplierNotification" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1101,8 +1176,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerNotification_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="CustomerNotification" Type="Self.CustomerNotification" Multiplicity="*" />
+          <End Type="MobileMartModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="MobileMartModel.CustomerNotification" Role="CustomerNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="CustomerID" />
@@ -1161,8 +1236,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_OrderNotification_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="OrderNotification" Type="Self.OrderNotification" Multiplicity="*" />
+          <End Type="MobileMartModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="MobileMartModel.OrderNotification" Role="OrderNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Order">
               <PropertyRef Name="OrderID" />
@@ -1238,42 +1313,6 @@
           <End Type="MobileMartModel.Shop" Role="Shop" Multiplicity="0..1" />
           <End Type="MobileMartModel.Supplier" Role="Supplier" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Supplier">
-              <PropertyRef Name="SupplierID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="SupplierID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductNotification_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="ProductNotification" Type="Self.ProductNotification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="ProductNotification">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ShopNotification_Shop">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
-          <End Role="ShopNotification" Type="Self.ShopNotification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Shop">
-              <PropertyRef Name="ShopID" />
-            </Principal>
-            <Dependent Role="ShopNotification">
-              <PropertyRef Name="ShopID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Supplier_Shop">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
-          <ReferentialConstraint>
             <Principal Role="Shop">
               <PropertyRef Name="ShopID" />
             </Principal>
@@ -1283,8 +1322,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SupplierNotification_Supplier">
-          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
-          <End Role="SupplierNotification" Type="Self.SupplierNotification" Multiplicity="*" />
+          <End Type="MobileMartModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="MobileMartModel.SupplierNotification" Role="SupplierNotification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Supplier">
               <PropertyRef Name="SupplierID" />
@@ -1294,110 +1333,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MobileMartEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="cities" EntityType="Self.city" />
-          <EntitySet Name="Companies" EntityType="Self.Company" />
-          <EntitySet Name="countries" EntityType="Self.country" />
-          <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="CustomerNotifications" EntityType="Self.CustomerNotification" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-          <EntitySet Name="OrderNotifications" EntityType="Self.OrderNotification" />
-          <EntitySet Name="Owners" EntityType="Self.Owner" />
-          <EntitySet Name="Payments" EntityType="Self.Payment" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="ProductNotifications" EntityType="Self.ProductNotification" />
-          <EntitySet Name="Shippers" EntityType="Self.Shipper" />
-          <EntitySet Name="Shops" EntityType="Self.Shop" />
-          <EntitySet Name="ShopNotifications" EntityType="Self.ShopNotification" />
-          <EntitySet Name="states" EntityType="Self.state" />
-          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
-          <EntitySet Name="SupplierNotifications" EntityType="Self.SupplierNotification" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_Customer_AspNetUsers" Association="Self.FK_Customer_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Owner_AspNetUsers" Association="Self.FK_Owner_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Owner" EntitySet="Owners" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_cities_states" Association="Self.FK_cities_states">
-            <End Role="states" EntitySet="states" />
-            <End Role="cities" EntitySet="cities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_cities" Association="Self.FK_Customer_cities">
-            <End Role="cities" EntitySet="cities" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Company" Association="Self.FK_Product_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_states_countries" Association="Self.FK_states_countries">
-            <End Role="countries" EntitySet="countries" />
-            <End Role="states" EntitySet="states" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerNotification_Customer" Association="Self.FK_CustomerNotification_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="CustomerNotification" EntitySet="CustomerNotifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Customer1" Association="Self.FK_Order_Customer1">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Payment1" Association="Self.FK_Order_Payment1">
-            <End Role="Payment" EntitySet="Payments" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Shipper1" Association="Self.FK_Order_Shipper1">
-            <End Role="Shipper" EntitySet="Shippers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderNotification_Order" Association="Self.FK_OrderNotification_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderNotification" EntitySet="OrderNotifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Product" Association="Self.FK_OrderDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Shop_Owner" Association="Self.FK_Shop_Owner">
-            <End Role="Owner" EntitySet="Owners" />
-            <End Role="Shop" EntitySet="Shops" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Supplier1" Association="Self.FK_Product_Supplier1">
-            <End Role="Supplier" EntitySet="Suppliers" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductNotification_Product" Association="Self.FK_ProductNotification_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductNotification" EntitySet="ProductNotifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ShopNotification_Shop" Association="Self.FK_ShopNotification_Shop">
-            <End Role="Shop" EntitySet="Shops" />
-            <End Role="ShopNotification" EntitySet="ShopNotifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Supplier_Shop" Association="Self.FK_Supplier_Shop">
-            <End Role="Shop" EntitySet="Shops" />
-            <End Role="Supplier" EntitySet="Suppliers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SupplierNotification_Supplier" Association="Self.FK_SupplierNotification_Supplier">
-            <End Role="Supplier" EntitySet="Suppliers" />
-            <End Role="SupplierNotification" EntitySet="SupplierNotifications" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="WishList">
+          <Key>
+            <PropertyRef Name="WishListID" />
+          </Key>
+          <Property Name="WishListID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="MobileMartModel.FK_WishList_Customer" FromRole="WishList" ToRole="Customer" />
+          <NavigationProperty Name="Product" Relationship="MobileMartModel.FK_WishList_Product" FromRole="WishList" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Category_Category">
+          <End Type="MobileMartModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="MobileMartModel.Category" Role="Category1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WishList_Customer">
+          <End Type="MobileMartModel.Customer" Role="Customer" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MobileMartModel.WishList" Role="WishList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="WishList">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WishList_Product">
+          <End Type="MobileMartModel.Product" Role="Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MobileMartModel.WishList" Role="WishList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="WishList">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1428,8 +1414,6 @@
                 <ScalarProperty Name="CategoryImage" ColumnName="CategoryImage" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="CategoryImage" ColumnName="CategoryImage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1464,6 +1448,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="MobileMartModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
@@ -1477,30 +1462,18 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomerNotifications">
             <EntityTypeMapping TypeName="MobileMartModel.CustomerNotification">
               <MappingFragment StoreEntitySet="CustomerNotification">
-                <ScalarProperty Name="CustomerNotificationID" ColumnName="CustomerNotificationID" />
-                <ScalarProperty Name="CusotmerID" ColumnName="CusotmerID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CusotmerID" ColumnName="CusotmerID" />
+                <ScalarProperty Name="CustomerNotificationID" ColumnName="CustomerNotificationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1520,18 +1493,6 @@
                 <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ShipperID" ColumnName="ShipperID" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="PayPalReference" ColumnName="PayPalReference" />
-                <ScalarProperty Name="Tax" ColumnName="Tax" />
-                <ScalarProperty Name="Shipping" ColumnName="Shipping" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1554,21 +1515,7 @@
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderNotifications">
-            <EntityTypeMapping TypeName="MobileMartModel.OrderNotification">
-              <MappingFragment StoreEntitySet="OrderNotification">
                 <ScalarProperty Name="OrderNotificationID" ColumnName="OrderNotificationID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1596,6 +1543,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="MobileMartModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
@@ -1624,34 +1572,7 @@
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductDetails" ColumnName="ProductDetails" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="ProductImage1" ColumnName="ProductImage1" />
-                <ScalarProperty Name="ProductImage2" ColumnName="ProductImage2" />
-                <ScalarProperty Name="ProductImage3" ColumnName="ProductImage3" />
-                <ScalarProperty Name="ProductImage4" ColumnName="ProductImage4" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="IMEI" ColumnName="IMEI" />
-                <ScalarProperty Name="IsOld" ColumnName="IsOld" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="ProductColor" ColumnName="ProductColor" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductNotifications">
-            <EntityTypeMapping TypeName="MobileMartModel.ProductNotification">
-              <MappingFragment StoreEntitySet="ProductNotification">
                 <ScalarProperty Name="ProductNotificationID" ColumnName="ProductNotificationID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1692,18 +1613,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ShopNotifications">
-            <EntityTypeMapping TypeName="MobileMartModel.ShopNotification">
-              <MappingFragment StoreEntitySet="ShopNotification">
-                <ScalarProperty Name="ShopNotificationID" ColumnName="ShopNotificationID" />
-                <ScalarProperty Name="ShopID" ColumnName="ShopID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="states">
             <EntityTypeMapping TypeName="MobileMartModel.state">
               <MappingFragment StoreEntitySet="states">
@@ -1735,25 +1644,7 @@
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="SupplierAddress" ColumnName="SupplierAddress" />
-                <ScalarProperty Name="SupplierContact" ColumnName="SupplierContact" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
-                <ScalarProperty Name="ShopID" ColumnName="ShopID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SupplierNotifications">
-            <EntityTypeMapping TypeName="MobileMartModel.SupplierNotification">
-              <MappingFragment StoreEntitySet="SupplierNotification">
                 <ScalarProperty Name="SupplierNotificationID" ColumnName="SupplierNotificationID" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1765,6 +1656,15 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WishLists">
+            <EntityTypeMapping TypeName="MobileMartModel.WishList">
+              <MappingFragment StoreEntitySet="WishList">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="WishListID" ColumnName="WishListID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

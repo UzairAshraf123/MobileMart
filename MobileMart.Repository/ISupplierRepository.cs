@@ -9,12 +9,11 @@ namespace MobileMart.Repository
 {
    public interface ISupplierRepository
     {
-        int insert(Supplier entity);
-        void delete(int? id);
         int InsertAndGetID(Supplier entity);
-        void delete(int id);
+        void delete(int? id);
         void update(Supplier entity);
         IEnumerable<Supplier> GetSupplier();
         IEnumerable<Supplier> GetSupplierByID(int shopID);
+        IEnumerable<Supplier> GetSupplierByShopID(int shopID);
     }
 }

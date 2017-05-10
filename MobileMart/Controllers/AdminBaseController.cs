@@ -15,9 +15,10 @@ namespace MobileMart.Controllers
             AdminBL adminBL = new AdminBL();
 
             AdminLayoutViewModel data = new AdminLayoutViewModel();
-            data.Customers  = adminBL.AllCustomers();
-            data.Shops = adminBL.AllShops();
-            data.products = adminBL.GetProduct();
+            data.CustomerCount = adminBL.GetCustomerCount();
+            data.ShopCount = adminBL.GetShopCount();
+            data.ProductCount = adminBL.GetProductCount();
+            data.OrderCount = adminBL.GetOrderCount();
             ViewBag.LayoutData = data;
         }
     }

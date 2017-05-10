@@ -46,9 +46,9 @@
     <Compile Include="CartBL.cs" />
     <Compile Include="CustomerBL.cs" />
     <Compile Include="HomeBL.cs" />
-    <Compile Include="ICusotmerRepository.cs" />
     <Compile Include="NotificationBL.cs" />
     <Compile Include="OrderBL.cs" />
+    <Compile Include="ShopBL.cs" />
     <Compile Include="ShopKeeperBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

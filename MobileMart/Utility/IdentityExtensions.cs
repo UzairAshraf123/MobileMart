@@ -37,6 +37,21 @@ namespace MobileMart.Utility
             }
             return 0;
         }
-    
+
+        public static int GetCustomerWishList(this IIdentity identity)
+        {
+            if (identity.GetUserId() != "")
+            {
+                var customerID = new CustomerBL().GetCustomerIDByAspID(identity.GetUserId());
+                var wishListCount = new CustomerBL().GetWishListByID(customerID);
+                if (wishListCount != 0)
+                {
+                    return wishListCount;
+                }
+                return 0;
+            }
+            return 0;
+        }
+
     }
 }

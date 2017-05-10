@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MobileMart.DB.ViewModel.DisplayOrderViewModel>
+
+@{
+    ViewBag.Title = "DisplayOrders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Orders</h2>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-striped table-hover dataTable" id="table-editable">
+            <thead>
+                <tr role="row">
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tax)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Shipping)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SubTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Total)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tax)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Shipping)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "OrderDetails", "ShopOwner", new { orderID = item.OrderID }, new { @class = "glyphicon glyphicon-eye-open" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-1.11.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/table_editable.js"></script>
+}

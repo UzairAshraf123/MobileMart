@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MobileMart.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : AdminBaseController
     {
         AdminBL adminBL = new AdminBL();
@@ -29,6 +29,19 @@ namespace MobileMart.Controllers
         public ActionResult AdminLogin()
         {
             return View();
+        }
+
+        public ActionResult AllCustomers()
+        {
+            try
+            {
+                IEnumerable<DisplayAllCustomers> model = adminBL.GetAllCustomers();
+                return View(model.OrderByDescending(s => s.CreatedON));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -50,7 +63,7 @@ namespace MobileMart.Controllers
                 }).ToList();
                 ViewBag.OwnerID = adminBL.GetOwnerIDByUserID(userID);
                 ViewBag.UserID = userID;
-                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text"); 
+                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
                 return View();
             }
             return RedirectToAction("CreateOwner", "Admin");
@@ -60,41 +73,234 @@ namespace MobileMart.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult CreateShop(CreateShopViewModel viewModel)
         {
-            if (viewModel != null)
+            try
             {
-                AdminBL adminBL = new AdminBL();
-                adminBL.CreateShop(viewModel);
-                return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
+                if (viewModel != null)
+                {
+                    AdminBL adminBL = new AdminBL();
+                    adminBL.CreateShop(viewModel);
+                    return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
+                }
+                return RedirectToAction("CreateShop", "Admin");
             }
-            return RedirectToAction("CreateShop", "Admin");
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return RedirectToAction("CreateShop", "Admin");
+            }
         }
 
         public ActionResult DisplayShop(int ownerID)
         {
-            AdminBL BL = new AdminBL();
-            var owner = BL.ShopAndOwnerByOwnerID(ownerID);
-            return View(owner);
+            try
+            {
+                AdminBL BL = new AdminBL();
+                var owner = BL.ShopAndOwnerByOwnerID(ownerID);
+                return View(owner);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
         }
 
         public ActionResult DisplayAllShops()
         {
+            try
+            {
                 AdminBL BL = new AdminBL();
-                var shop = BL.GetAllShops();
-                return View(shop);
-            
+                IEnumerable<DisplayShopViewModel> shop = BL.GetAllShops();
+                return View(shop.OrderByDescending(s => s.ShopCreatedOn));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
         }
-        public ActionResult DisplayProductbyid(int? id)
+
+        public ActionResult DisplayOrders()
         {
+            try
+            {
+                var adminBL = new AdminBL();
+                IEnumerable<DisplayOrderViewModel> model = adminBL.GetAllOrders();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
+        }
+
+        public ActionResult OrderDetails(int orderID)
+        {
+            try
+            {
+                if (orderID > 0)
+                {
+                    var adminBL = new AdminBL();
+                    var model = new OrderViewModel();
+                    model.Order = adminBL.GetOrderByID(orderID);
+                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(orderID);
+                    return View(model);
+                }
+                return RedirectToAction("DisplayOrders", "Admin");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
+        }
+        [HttpPost]
+        public bool DeleteShop(string UserID)
+        {
+            if (UserID != null)
+            {
                 AdminBL BL = new AdminBL();
-                var product = BL.GetProductByID(id);
-                return View(product);
+                BL.DeleteUser(UserID);
+                return true;
+            }
+            return false;
         }
-        public ActionResult DisplayProduct()
+
+        [HttpGet]
+        public ActionResult EditOwner(int? ownerID)
         {
-            AdminBL BL = new AdminBL();
-            var product = BL.GetProduct();
-            return View(product);
+            try
+            {
+                if (ownerID != null)
+                {
+                    AdminBL BL = new AdminBL();
+                    var owner = BL.GetOwnerByID(ownerID);
+                    return View(owner);
+                }
+                return View("DisplayAllShops");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return RedirectToAction("EditOwner", "Admin");
+            }
         }
+
+        [HttpGet]
+        public ActionResult EditShop(int? ownerID)
+        {
+            try
+            {
+                AdminBL adminBL = new AdminBL();
+                if (ownerID != null)
+                {
+                    var shop = adminBL.GetShopByOwnerID(ownerID);
+                    var countries = adminBL.GetCountries().Select(s => new
+                    {
+                        Text = s.name,
+                        Value = s.id
+                    }).ToList();
+                    ViewBag.OwnerID = ownerID;
+                    ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                    return View(shop);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return RedirectToAction("EditOwner", "Admin");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditShop(CreateShopViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel != null)
+                {
+                    AdminBL adminBL = new AdminBL();
+                    adminBL.UpdateEditedShop(viewModel);
+                    return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
+                }
+                return RedirectToAction("CreateShop", "Admin");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return RedirectToAction("EditOwner", "Admin");
+            }
+        }
+
+        public ActionResult AddCompany()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCompany(AddCompanyViewModel viewmodel)
+        {
+            try
+            {
+                if (viewmodel != null)
+                {
+                    AdminBL BL = new AdminBL();
+                    BL.AddCompany(viewmodel);
+                    return RedirectToAction("AddCompany", "Admin");
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return View();
+            }
+        }
+
+        //Add category
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCategory(AddCategoryViewModel viewmodel)
+        {
+            try
+            {
+                if (viewmodel != null)
+                {
+                    AdminBL BL = new AdminBL();
+                    BL.AddCategory(viewmodel);
+                    return RedirectToAction("AddCategory", "Admin");
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.massage = ex.Message;
+                return RedirectToAction("AddCategory", "Admin");
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult DisplayAllProduct(int? id)
+        {
+            try
+            {
+                AdminBL adminBL = new AdminBL();
+                if (id > 0)
+                {
+                    var product = adminBL.GetProductByID(id);
+                    return View(product);
+                }
+                return View(adminBL.GetProducts());
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", "Admin", new { message = ex.Message });
+            }
+        }
+
         public bool Delete(int? id)
         {
             if (id != null)
@@ -107,6 +313,7 @@ namespace MobileMart.Controllers
                 return false;
             }
         }
+
         public bool IsActive(int productID)
         {
             var IsActive = adminBL.IsActive(productID);
@@ -122,102 +329,7 @@ namespace MobileMart.Controllers
                 return adminBL.ChangeProductStateTo(productID, IsActive);
             }
         }
-        public ActionResult AllCustomers()
-        {
-            return View(adminBL.GetAllCustomers());
-        }
 
-        public ActionResult DeleteShop (string UserID)
-        {
-            AdminBL BL = new AdminBL();
-            BL.DeleteUser(UserID);
-            return RedirectToAction("DisplayAllShops", "Admin");
-        }
-
-        [HttpGet]
-        public ActionResult EditOwner(int? ownerID)
-        {
-            if (ownerID != null)
-            {
-                AdminBL BL = new AdminBL();
-                var owner = BL.GetOwnerByID(ownerID);
-                return View(owner);
-            }
-            return View("DisplayAllShops");
-        }
-
-        [HttpGet]
-        public ActionResult EditShop(int? ownerID)
-        {
-            AdminBL adminBL = new AdminBL();
-            if (ownerID != null)
-            {
-                var shop = adminBL.GetShopByOwnerID(ownerID);
-                var countries = adminBL.GetCountries().Select(s => new
-                {
-                    Text = s.name,
-                    Value = s.id
-                }).ToList();
-                ViewBag.OwnerID = ownerID;
-                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
-                return View(shop);
-            }
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public ActionResult EditShop(CreateShopViewModel viewModel)
-        {
-            if (viewModel != null)
-            {
-                AdminBL adminBL = new AdminBL();
-                adminBL.UpdateEditedShop(viewModel);
-                return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
-            }
-            return RedirectToAction("CreateShop", "Admin");
-        }
-
-        public ActionResult AddCompany()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddCompany(AddCompanyViewModel viewmodel)
-        {
-            if (viewmodel != null)
-            {
-                AdminBL BL = new AdminBL();
-                BL.AddCompany(viewmodel);
-                return RedirectToAction("AddCompany" , "Admin");
-            }
-            return View();
-        }
-        
-        //Add category
-        public ActionResult AddCategory()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddCategory(AddCategoryViewModel viewmodel)
-        {
-
-            if (viewmodel != null)
-            {
-                AdminBL BL = new AdminBL();
-                BL.AddCategory(viewmodel);
-                return RedirectToAction("AddCategory", "Admin");
-            }
-            return View();
-        }
-
-        [AllowAnonymous]
-        public ActionResult DisplayAllProduct()
-        {
-            return View();
-        }
     }
+
 }

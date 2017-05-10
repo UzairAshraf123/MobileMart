@@ -1,0 +1,59 @@
+﻿@model MobileMart.DB.ViewModel.CustomerDetailViewModel
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-striped table-hover dataTable" id="table-editable">
+            <thead>
+                <tr role="row">
+                    <th>
+                        <label>Customer Name</label>
+                    </th>
+                    <th>
+                        <label>Tax</label>
+                    </th>
+                    <th>
+                        <label>Shipping</label>
+                    </th>
+                    <th>
+                        <label>Sub-Total</label>
+                    </th>
+                    <th>
+                        <label>Total</label>
+                    </th>
+                    <th>
+                        <label>Created</label>
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CustomerOrders)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tax)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Shipping)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "MyOrdersDetails", "Home", new { orderID = item.OrderID }, new { @class = "glyphicon glyphicon-eye-open" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

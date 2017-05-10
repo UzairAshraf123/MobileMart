@@ -19,6 +19,7 @@ namespace MobileMart.DB.ViewModel
         public string ProductImage3 { get; set; }
         public string ProductImage4 { get; set; }
         public string Color { get; set; }
+        public string Company { get; set; }
         public Shop ProductShop { get; set; }
     }
 }

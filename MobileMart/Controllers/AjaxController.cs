@@ -1,13 +1,13 @@
 ﻿using MobileMart.BL;
-using MobileMart.Utility;
 using MobileMart.DB.ViewModel;
+using MobileMart.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
+using MobileMart.Repository;
 namespace MobileMart.Controllers
 {
     public class AjaxController : Controller
@@ -33,7 +33,7 @@ namespace MobileMart.Controllers
             var fetchedSubCategory = ajaxBL.GetSubCategoryByID(categoryID).Select(s => new
             {
                 Text = s.CategoryName,
-                Id = s.ParentCategory
+                Id = s.CategoryID
             }).ToList();
             var subCategory = new SelectList(fetchedSubCategory, "Id", "Text");
             return Json(new { subCategory }, JsonRequestBehavior.AllowGet);
@@ -65,10 +65,20 @@ namespace MobileMart.Controllers
             });
             return Json(searchedUsers, JsonRequestBehavior.AllowGet);
         }
-        //[HttpPost]
-        //public JsonResult AddItemInCart()
-        //{
-        //    return Json( ,JsonRequestBehavior.AllowGet);
-        //}
+
+        [HttpPost]
+        public int AddToWishList(int? productID)
+        {
+            var homeBL = new HomeBL();
+            homeBL.AddToWishList(productID, User.Identity.GetCustomerID());
+            return User.Identity.GetCustomerWishList();
+        }
+
+        [HttpPost]
+        public int DeleteItemFromWishList(int wishListID)
+        {
+            new WishListRepository().Delete(wishListID);
+            return User.Identity.GetCustomerWishList();
+        }
     }
 }

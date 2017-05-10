@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,9 +51,8 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -178,6 +177,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -216,6 +216,7 @@
     <Content Include="Content\alertifyjs\themes\semantic.rtl.css" />
     <Content Include="Content\alertifyjs\themes\semantic.rtl.min.css" />
     <Content Include="Content\autocomplete.css" />
+    <Content Include="Content\Avatar\avatar1.png" />
     <Content Include="Content\AwesomeFonts\fontawesome-webfont.svg" />
     <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker-1.6.4-dist\css\bootstrap-datepicker.css.map" />
@@ -456,6 +457,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\table_editable.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Admin\AddCategory.cshtml" />
     <Content Include="Views\Admin\AddCompany.cshtml" />
@@ -533,13 +535,31 @@
     <Content Include="Views\Cart\CheckoutReview.cshtml" />
     <Content Include="Views\Cart\CheckoutCancel.cshtml" />
     <Content Include="Views\Cart\Thankyou.cshtml" />
-    <Content Include="Views\Admin\DisplayAllProduct.cshtml" />
     <Content Include="Views\Notification\CustomerDetail.cshtml" />
     <Content Include="Views\Notification\OrderDetail.cshtml" />
     <Content Include="Views\Notification\ProductDetail.cshtml" />
     <Content Include="Views\Notification\ShopDetail.cshtml" />
-    <Content Include="Views\Admin\DisplayProduct.cshtml" />
-    <Content Include="Views\Admin\DisplayProductbyid.cshtml" />
+    <Content Include="Views\Notification\CustomerNotifications.cshtml" />
+    <Content Include="Views\Notification\ProductNotifications.cshtml" />
+    <Content Include="Views\Notification\ShopNotifications.cshtml" />
+    <Content Include="Views\Notification\OrderNotifications.cshtml" />
+    <Content Include="Views\Admin\DisplayAllProduct.cshtml" />
+    <Content Include="Views\Admin\DisplayOrders.cshtml" />
+    <Content Include="Views\Admin\OrderDetails.cshtml" />
+    <Content Include="Views\ShopOwner\DisplayOrder.cshtml" />
+    <Content Include="Views\ShopOwner\OrderDetails.cshtml" />
+    <Content Include="Views\Home\Shop.cshtml" />
+    <Content Include="Views\Shared\_Products.cshtml" />
+    <Content Include="Views\Home\MyProfile.cshtml" />
+    <Content Include="Views\Shared\_CustomerChangePassword.cshtml" />
+    <Content Include="Views\Error\Page404.cshtml" />
+    <Content Include="Views\Error\Page500.cshtml" />
+    <Content Include="Views\Home\MyOrdersDetails.cshtml" />
+    <Content Include="Views\Home\WishList.cshtml" />
+    <None Include="Views\Shared\_CustomerLoginPartial.cshtml" />
+    <Content Include="Views\Shared\_CustomerProfilePartial.cshtml" />
+    <Content Include="Views\Shared\_CustomerOrdersPartial.cshtml" />
+    <Content Include="Views\Shared\_CustomerWishListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -605,8 +625,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.4\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
