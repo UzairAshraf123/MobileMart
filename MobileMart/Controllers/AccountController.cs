@@ -15,7 +15,7 @@ using MobileMart.DB.ViewModel;
 namespace MobileMart.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : HomeBaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

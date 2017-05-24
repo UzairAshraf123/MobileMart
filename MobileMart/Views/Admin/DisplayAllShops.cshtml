@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MobileMart.DB.ViewModel.DisplayShopViewModel>
+﻿@model MobileMart.DB.ViewModel.ShopReportViewModel
 
 @{
     ViewBag.Title = "DisplayAllShops";
@@ -10,40 +10,68 @@
 <p>
     @Html.ActionLink("Create New", "CreateShop", "Admin")
 </p>
-<div class="row">
+@using (Html.BeginForm("DisplayAllShops", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group form-inline">
+                <div class="col-md-5">
+                    <label for="From" style="cursor:pointer">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </label>
+                    @Html.TextBoxFor(m => m.From, new { @class = "form-control", @placeholder = "From", @hidden = "hidden" })
+                    @Html.ValidationMessageFor(m => m.From, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-5">
+                    <label for="To" style="cursor:pointer">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </label>
+                    @Html.TextBoxFor(m => m.To, new { @class = "form-control", @placeholder = "To", @max = DateTime.Now })
+                    @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" name="Find" value="Find" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row" id="ShopsToPrint">
     <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1><span><i onclick="Print('ShopsToPrint')" class="fa fa-print pull-right" style="cursor:pointer" title="Print"></i></span></h1>
         <table class="table table-striped table-hover dataTable" id="table-editable">
             <thead>
                 <tr role="row">
                     <th>
-                        @Html.DisplayNameFor(model => model.OwnerName)
+                        Owner Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.OwnerProfile)
+                        Profile Photo</th>
+                    <th>
+                        Mobile
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Contact)
+                        Shop Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShopName)
+                        Shop Logo
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShopLogo)
+                        Address    
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShopAddress)
+                        Products
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.productcount)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ShopCreatedOn)
+                        Created
                     </th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Shops)
                 {
                     <tr id='@("DeleteShop"+item.ShopID)'>
                         <td>
@@ -87,7 +115,47 @@
     </div>
 </div>
 @section scripts{
-    <script src="~/Scripts/jquery-1.11.js"></script>
+<script type="text/javascript">
+        $(function () {
+            var dateFormat = "mm/dd/yy",
+                from = $("#From")
+                    .datepicker({
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        numberOfMonths: 1
+                    })
+                    .on("change", function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+                to = $("#To").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                    .on("change", function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        });
+        $(document).ready(function () {
+            $("#From").val("");
+            $("#To").val("");
+
+        });
+</script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    @*<script src="~/Scripts/jquery-1.11.js"></script>*@
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/table_editable.js"></script>
 

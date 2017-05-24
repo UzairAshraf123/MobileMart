@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MobileMart.BL;
 using MobileMart.DB.ViewModel;
+using MobileMart.Services;
 using MobileMart.Utility;
 using System;
 using System.Linq;
@@ -8,16 +9,17 @@ using System.Web.Mvc;
 
 namespace MobileMart.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : HomeBaseController
     {
         HomeBL BL = new HomeBL();
 
         public ActionResult Index()
         {
             var model = BL.GetHomeDetails();
+            ViewBag.Companies = BL.GetCompanies();
             return View(model);
         }
-
+       
         public ActionResult RegisterAndLogin()
         {
             AdminBL adminBL = new AdminBL();
@@ -137,15 +139,90 @@ namespace MobileMart.Controllers
             }
         }
 
-        public ActionResult WishList()
+        public ActionResult WishList(int? page)
         {
             if (User.Identity.GetCustomerID()>0)
             {
-                var model =  new HomeBL().GetMyWishList(User.Identity.GetCustomerID());
-                return View(model);
+                var wishList =  new HomeBL().GetMyWishList(User.Identity.GetCustomerID());
+                var pager = new Pager(wishList.Count(), page);
+                var model = new WishListViewModel()
+                {
+                    Pager = pager,
+                    WishList = wishList
+                };
+                return View(model);    
             }
             ViewBag.ErrorMessage = "Something went wrong While processing your request. Please check your request.";
             return View();
         }
+
+        public ActionResult AllProducts(int? page)
+        {
+            var products = new HomeBL().GetAllProducts();
+            var pager = new Pager(products.Count(), page);
+            var model = new AllProductsViewModel()
+            {
+                Pager = pager,
+                ProductsList = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
+            };
+            return View(model);
+        }
+
+        public ActionResult Page(int? page)
+        {
+            var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
+            var pager = new Pager(dummyItems.Count(), page);
+
+            var viewModel = new PagerViewModel
+            {
+                Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager
+            };
+
+            return View(viewModel);
+        }
+
+        public ActionResult Companies()
+        {
+            return View(new HomeBL().GetCompanies());
+        }
+
+        public ActionResult ProductsByBrand(int? companyID)
+        {
+            ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
+            return View(new HomeBL().GetProductByCompanyID(companyID));
+        }
+
+        public ActionResult NewProducts()
+        {
+            return View(new HomeBL().GetNewProducts());
+        }
+
+        public ActionResult NewItems(int? categoryID)
+        {
+            return View(new HomeBL().GetNewTablets(categoryID));
+        }
+     
+        public ActionResult ProductBySubCategory(int? categoryID,int? subCategoryID)
+        {
+            return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID));
+        }
+
+        public ActionResult OldProducts()
+        {
+            return View(new HomeBL().GetOldItems());
+        }
+
+        public ActionResult OldItems(int? categoryID)
+        {
+            return View(new HomeBL().GetOldItemsByCategoryID(categoryID));
+        }
+
+        public ActionResult ProductsByCategories(int? categoryID, int? subCategoryID)
+        {
+            return View(new HomeBL().GetOldItemsByCategories(categoryID, subCategoryID));
+        }
+
+       
     }
 }

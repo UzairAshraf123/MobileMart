@@ -48,6 +48,15 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.4.0.5\lib\net45\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Plugins.DiskCache, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.Plugins.DiskCache.4.0.5\lib\net45\ImageResizer.Plugins.DiskCache.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Plugins.PrettyGifs, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.Plugins.PrettyGifs.4.0.5\lib\net45\ImageResizer.Plugins.PrettyGifs.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -178,6 +187,7 @@
     <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -331,6 +341,7 @@
     <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.11.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
@@ -354,7 +365,6 @@
     <Content Include="Content\footer.css" />
     <Content Include="Content\header.css" />
     <Content Include="Content\DefaultImages\Icons\favicon.png" />
-    <Content Include="Content\DefaultImages\Logo\logo.png" />
     <Content Include="Content\material-design-iconic-font.css" />
     <Content Include="Content\material-design-iconic-font.min.css" />
     <Content Include="Content\nivo-slider.css" />
@@ -429,6 +439,7 @@
     <Content Include="fonts\Material-Design-Iconic-Font.ttf" />
     <Content Include="fonts\Material-Design-Iconic-Font.woff" />
     <Content Include="fonts\Material-Design-Iconic-Font.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -510,11 +521,9 @@
     <Content Include="Views\Admin\AdminLogin.cshtml" />
     <Content Include="Views\Admin\CreateOwner.cshtml" />
     <Content Include="Views\Admin\CreateShop.cshtml" />
-    <Content Include="Views\Admin\AllShops.cshtml" />
     <Content Include="Views\Admin\DisplayShop.cshtml" />
     <Content Include="Views\Admin\DisplayAllShops.cshtml" />
     <Content Include="Views\Admin\EditOwner.cshtml" />
-    <Content Include="Views\Admin\EditSHopDetails.cshtml" />
     <Content Include="Views\ShopOwner\Login.cshtml" />
     <Content Include="Views\Home\RegisterAndLogin.cshtml" />
     <Content Include="Views\ShopOwner\AddCompany.cshtml" />
@@ -556,6 +565,17 @@
     <Content Include="Views\Error\Page500.cshtml" />
     <Content Include="Views\Home\MyOrdersDetails.cshtml" />
     <Content Include="Views\Home\WishList.cshtml" />
+    <Content Include="Views\Home\Page.cshtml" />
+    <Content Include="Views\Home\Companies.cshtml" />
+    <Content Include="Views\Home\ProductsByBrand.cshtml" />
+    <Content Include="Views\Home\NewProducts.cshtml" />
+    <Content Include="Views\Home\NewItems.cshtml" />
+    <Content Include="Views\Home\ProductBySubCategory.cshtml" />
+    <Content Include="Views\Home\OldProducts.cshtml" />
+    <Content Include="Views\Home\OldItems.cshtml" />
+    <Content Include="Views\Home\ProductsByCategories.cshtml" />
+    <Content Include="Views\Shared\_ByBrandPartial.cshtml" />
+    <Content Include="Views\Home\AllProducts.cshtml" />
     <None Include="Views\Shared\_CustomerLoginPartial.cshtml" />
     <Content Include="Views\Shared\_CustomerProfilePartial.cshtml" />
     <Content Include="Views\Shared\_CustomerOrdersPartial.cshtml" />
@@ -563,9 +583,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\DefaultImages\Logo\" />
     <Folder Include="Content\plugins\" />
     <Folder Include="Views\Ajax\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\HomeBase\" />
     <Folder Include="Views\ShopKeeperBase\" />
   </ItemGroup>
   <ItemGroup>

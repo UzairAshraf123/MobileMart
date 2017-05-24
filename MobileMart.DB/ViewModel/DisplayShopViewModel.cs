@@ -10,7 +10,7 @@ namespace MobileMart.DB.ViewModel
     public class DisplayShopViewModel
     {
         public string UserID { get; set; }
-        public int OwnerID { get; set; }
+        public int? OwnerID { get; set; }
         [Required]
         [Display(Name = "Owner Name")]
         public string OwnerName { get; set; }

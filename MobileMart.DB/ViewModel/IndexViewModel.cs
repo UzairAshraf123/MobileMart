@@ -10,9 +10,13 @@ namespace MobileMart.DB.ViewModel
   public  class IndexViewModel
     {
         public int ProductID { get; set; }
+
         public string Category { get; set; }
+
         public string Company { get; set; }
+
         public string Color { get; set; }
+
         [Display(Name ="Product Name")]
         public string ProductName { get; set; }
 
@@ -24,12 +28,20 @@ namespace MobileMart.DB.ViewModel
         [Display(Name ="Product Detail")]
         public string ProductDetail { get; set; }
 
+        public bool? IsOld { get; set; }
+
+        public bool? IsActive { get; set; }
+
+        public DateTime? CreatedOn { get; set; }
+
         public int OwnerID { get; set; }
+
+        public bool? IsFeature { get; set; }
 
         [Display(Name ="Owner Name")]
         public string OwnerName { get; set; }
 
-        public int ShopID { get; set; }
+        public int? ShopID { get; set; }
 
         [Display(Name ="Shop Name")]
         public string ShopName { get; set; }

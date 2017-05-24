@@ -1,0 +1,36 @@
+﻿@using MobileMart.DB.ViewModel
+@{
+    IEnumerable<CompanyDetailViewModel> layoutData = ViewBag.Companies;
+}
+<!-- BY BRAND SECTION START-->
+<div class="by-brand-section mb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center mb-50">
+                    <h2 class="uppercase">By Brands</h2>
+                    <h6>There are many variations of passages of brands available,</h6>
+                </div>
+            </div>
+        </div>
+        <div class="by-brand-product">
+            <div class="row active-by-brand slick-arrow-2">
+                @foreach (var item in layoutData)
+                {
+                     <!-- single-brand-product start -->
+                    <div class="col-xs-12">
+                        <div class="single-brand-product">
+                            <a href="single-product.html"><img src="@Url.Content(item.Logo)?w=170&h=170&mode=stretch|" alt=""></a>
+                            <h3 class="brand-title text-gray">
+                                <a href="@Url.Action("ProductsByBrand","Home", new { @item.CompanyId})">@item.CompanyName</a>
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- single-brand-product end -->
+                }
+               
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BY BRAND SECTION END -->

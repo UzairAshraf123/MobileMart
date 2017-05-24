@@ -1,4 +1,5 @@
 ﻿using MobileMart.DB.Model;
+using MobileMart.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -97,5 +98,14 @@ namespace MobileMart.DB.ViewModel
         public ProductDetailViewModel Product { get; set; }
 
         public int WishListID { get; set; }
+
+        public IEnumerable<string> Items { get; set; }
+        public Pager Pager { get; set; }
+    }
+    public class WishListViewModel
+    {
+        public IEnumerable<DisplayWishListViewModel> WishList { get; set; }
+        public Pager Pager { get; set; }
+
     }
 }

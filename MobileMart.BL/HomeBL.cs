@@ -25,7 +25,7 @@ namespace MobileMart.BL
             var shops = Shop.Get().ToList();
             var owners = Owner.Get().ToList();
 
-            foreach (var item in products)
+            foreach (var item in products.Where(s=> s.IsActive == true))
             {
                 IndexViewModel viewmodel = new IndexViewModel();
                 viewmodel.ProductID = item.ProductID;
@@ -38,6 +38,42 @@ namespace MobileMart.BL
                 viewmodel.Price = item.Price;
                 viewmodel.ProductDetail = item.ProductDetails;
                 viewmodel.Company = item.Company.CompanyName;
+                viewmodel.IsActive = item.IsActive;
+                viewmodel.IsFeature = item.IsFeature;
+                viewmodel.CreatedOn = item.CreatedOn;
+                list.Add(viewmodel);
+            }
+            return list;
+        }
+
+        public IEnumerable<IndexViewModel> GetAllProducts()
+        {
+            IProductRepository productRepo = new ProductRepository();
+            IShopRepository Shop = new ShopRepository();
+            IOwnerRepository Owner = new OwnerRepository();
+
+            List<IndexViewModel> list = new List<IndexViewModel>();
+
+            var products = productRepo.Get().ToList();
+            var shops = Shop.Get().ToList();
+            var owners = Owner.Get().ToList();
+
+            foreach (var item in products.Where(s => s.IsActive == true))
+            {
+                IndexViewModel viewmodel = new IndexViewModel();
+                viewmodel.ProductID = item.ProductID;
+                viewmodel.ProductName = item.ProductName;
+                viewmodel.OwnerID = owners.FirstOrDefault().OwnerID;
+                viewmodel.OwnerName = owners.FirstOrDefault().OwnerName;
+                viewmodel.ShopID = shops.FirstOrDefault().ShopID;
+                viewmodel.ShopName = shops.FirstOrDefault().ShopName;
+                viewmodel.ProductImage = item.ProductImage1;
+                viewmodel.Price = item.Price;
+                viewmodel.ProductDetail = item.ProductDetails;
+                viewmodel.Company = item.Company.CompanyName;
+                viewmodel.IsActive = item.IsActive;
+                viewmodel.IsFeature = item.IsFeature;
+                viewmodel.CreatedOn = item.CreatedOn;
                 list.Add(viewmodel);
             }
             return list;
@@ -253,5 +289,152 @@ namespace MobileMart.BL
             viewmodel.Price = item.Price;
             return viewmodel;
         }
+
+        public IEnumerable<CompanyDetailViewModel> GetCompanies()
+        {
+            return new CompanyRepository().GetCompany().Select(s=> new CompanyDetailViewModel
+            {
+                CompanyId = s.CompanyID,
+                CompanyName = s.CompanyName,
+                Logo = s.CompanyLogo,
+            }); 
+        }
+
+        public IEnumerable<IndexViewModel> GetProductByCompanyID(int? companyID)
+        {
+            return new ProductRepository().Get().Where(s => s.CompanyID == companyID).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage  = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+
+        public IEnumerable<IndexViewModel> GetNewProducts()
+        {
+            return new ProductRepository().Get().Where(s => s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+
+        public CompanyDetailViewModel GetCompanyByID(int? companyID)
+        {
+            var company =  new CompanyRepository().GetByID(companyID);
+            var viewModel = new CompanyDetailViewModel();
+            viewModel.CompanyId = company.CompanyID;
+            viewModel.CompanyName = company.CompanyName;
+            viewModel.Logo = company.CompanyLogo;
+            return viewModel;
+        }
+
+        public IEnumerable<IndexViewModel> GetNewTablets(int? categoryID)
+        {
+            return new ProductRepository().Get().Where(s => s.SubCategoryID == categoryID && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+        
+        public IEnumerable<IndexViewModel> GetNewTabletsByCategory(int? categoryID, int? subCategoryID)
+        {
+            return new ProductRepository().Get().Where(s => s.CategoryID == categoryID && s.SubCategoryID == subCategoryID && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+
+        public IEnumerable<IndexViewModel> GetOldItems()
+        {
+            return new ProductRepository().Get().Where(s => s.IsOld == true && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+
+        public IEnumerable<IndexViewModel> GetOldItemsByCategoryID(int? categoryID)
+        {
+            return new ProductRepository().Get().Where(s =>s.SubCategoryID==categoryID && s.IsOld == true && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+
+        public IEnumerable<IndexViewModel> GetOldItemsByCategories(int? categoryID, int? subCategoryID)
+        {
+            return new ProductRepository().Get().Where(s => s.CategoryID == categoryID && s.SubCategoryID == subCategoryID && s.IsOld == true && s.IsActive == true).Select(w => new IndexViewModel
+            {
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IsActive = w.IsActive,
+                IsOld = w.IsOld,
+                Price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage = w.ProductImage1,
+                ProductName = w.ProductName,
+                ShopID = w.Supplier.ShopID
+            });
+        }
+        
     }
 }

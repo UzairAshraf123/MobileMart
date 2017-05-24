@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AdminBL.cs" />
     <Compile Include="AjaxBL.cs" />
+    <Compile Include="BaseControllerBL.cs" />
     <Compile Include="CartBL.cs" />
     <Compile Include="CustomerBL.cs" />
     <Compile Include="HomeBL.cs" />

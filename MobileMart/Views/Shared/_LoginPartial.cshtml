@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using MobileMart.Utility
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && Context.User.IsInRole("Customer"))
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -12,7 +12,7 @@
                     <li>
                         <a href="@Url.Action("WishList","Home")">
                             <i class="zmdi zmdi-favorite"></i>
-                            Wish List (<span id="WishListCount">@User.Identity.GetCustomerWishList()</span>)
+                            Wish List (<span id = "WishListCount" > @User.Identity.GetCustomerWishList() </span>)
                         </a>
                     </li>
                     <li>

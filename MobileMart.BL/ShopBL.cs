@@ -59,5 +59,14 @@ namespace MobileMart.BL
             viewModel.ShopDetail = shopVM;
             return viewModel;
         }
+
+        public int GetNewOrdersCount()
+        {
+            return new OrderRepository().Get().Where(s=> s.CreatedOn >= DateTime.Now.AddDays(-7)).Count();
+        }
+        public int GetAllOrdersCount()
+        {
+            return new OrderRepository().Get().Count();
+        }
     }
 }

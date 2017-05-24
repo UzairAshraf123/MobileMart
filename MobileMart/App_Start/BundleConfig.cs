@@ -37,14 +37,14 @@ namespace MobileMart
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/core.css",
+                      "~/Content/nivo-slider.css",
                       "~/Content/shortcode/shortcodes.css",
                       "~/Content/color-core.css",
-                      "~/Content/nivo-slider.css",
-                      "~/Content/responsive.css",
                       "~/Content/default.css",
                       "~/Content/custom.css",
+                      "~/Content/core.css",
                       "~/Content/style.css",
+                      "~/Content/responsive.css",
                       "~/Content/site.css"));
 
             //bundles.Add(new StyleBundle("").Include(

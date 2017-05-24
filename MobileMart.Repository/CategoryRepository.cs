@@ -23,7 +23,7 @@ namespace MobileMart.Repository
 
         public IEnumerable<Category> GetCategory()
         {
-            return _context.Categories.Where(s=>s.ParentCategory == null).ToList();
+            return _context.Categories.ToList();
         }
 
         public void insert(Category entity)

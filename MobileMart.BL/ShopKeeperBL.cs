@@ -17,13 +17,21 @@ namespace MobileMart.BL
         ICategoryRepository categoryRepo = new CategoryRepository();
         IProductRepository productRepo = new ProductRepository();
         //Add Company
-        public void AddCompany(AddCompanyViewModel viewModel)
+        public string AddCompany(AddCompanyViewModel viewmodel)
         {
-            Company entity = new Company();
-            entity.CompanyName = viewModel.CompanyName;
-            entity.CompanyLogo = viewModel.CompanyLogo;
-            companyRepo.insert(entity);
+            var fileName1 = Path.GetFileNameWithoutExtension(viewmodel.CompanyLogo.FileName);
+            fileName1 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.CompanyLogo.FileName);
+            var basePath = "~/Content/Campanies/" + viewmodel.CompanyName + "/Logo/";
+            var path1 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName1);
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Campanies/" + viewmodel.CompanyName + "/Logo/"));
+            viewmodel.CompanyLogo.SaveAs(path1);
+           
 
+            Company entity = new Company();
+            entity.CompanyName = viewmodel.CompanyName;
+            entity.CompanyLogo = basePath + fileName1;
+            companyRepo.insert(entity);
+            return "Company has been added successfully..";
         }
         //Add Supplier
         public int AddSupplier(AddSupplierViewModel viewmodel)
@@ -55,7 +63,7 @@ namespace MobileMart.BL
         //GetCategory
         public IEnumerable<Category> GetCategory()
         {
-            return categoryRepo.GetCategory();
+            return categoryRepo.GetCategory().Where(s=> s.ParentCategory == null);
         }
         //GetSupplier
         public IEnumerable<DisplaySupplierViewModel> GetSupplier(int shopID)
@@ -143,6 +151,7 @@ namespace MobileMart.BL
             entity.Quantity = viewmodel.Quantity;
             entity.IsOld = viewmodel.IsOld;
             entity.SubCategoryID = viewmodel.SubCategoryID;
+            entity.IsActive = true;
             var productID = productRepo.InsertAndGetID(entity);
 
             var productNE = new ProductNotification();
@@ -311,6 +320,68 @@ namespace MobileMart.BL
                 SubTotal = s.SubTotal,
             });
             return orderList;
+        }
+
+        public IEnumerable<DisplayOrderViewModel> GetOrdersByRange(int? shopID, DateTime from, DateTime to)
+        {
+            var orderRepo = new OrderRepository();
+            var customerRepo = new CustomerRepository();
+            IEnumerable<DisplayOrderViewModel> orderList = orderRepo.GetByShopID(shopID).Where(w=> w.CreatedOn >= from && w.CreatedOn <= to).Select(s => new DisplayOrderViewModel
+            {
+                OrderID = s.OrderID,
+                CustomerName = customerRepo.GetCustomerByID(s.CustomerID).FirstName,
+                CreatedOn = s.CreatedOn,
+                Tax = s.Tax,
+                Total = s.Total,
+                Shipping = s.Shipping,
+                SubTotal = s.SubTotal,
+            });
+            return orderList;
+        }
+        //GetProducts
+        public IEnumerable<DisplayProductViewModel> GetProductsByRange(int? shopID, DateTime from, DateTime to)
+        {
+            var products = productRepo.GetProduct(shopID).Where(s => s.CreatedOn >= from && s.CreatedOn <= to);
+            IEnumerable<DisplayProductViewModel> productList = products.Select(w => new DisplayProductViewModel
+            {
+                CreatedOn = w.CreatedOn,
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IMEI = w.IMEI,
+                IsActive = w.IsActive,
+                New = w.IsOld , 
+                price = w.Price,
+                ProductDetail =w.ProductDetails , 
+                ProductID = w.ProductID, 
+                ProductImage1 = w.ProductImage1 ,
+                ProductImage2 = w.ProductImage2,
+                ProductImage3 = w.ProductImage3, 
+                ProductImage4 = w.ProductImage4, 
+                ProductName = w.ProductName,
+            });
+            return productList;
+            //foreach (var item in products)
+            //{
+            //    DisplayProductViewModel viewmodel = new DisplayProductViewModel();
+            //    viewmodel.ProductID = item.ProductID;
+            //    viewmodel.Category = categoryRepo.GetCategory().FirstOrDefault(s => s.CategoryID == item.CategoryID).CategoryName;
+            //    viewmodel.Company = companyRepo.GetCompany().FirstOrDefault(s => s.CompanyID == item.CompanyID).CompanyName;
+            //    viewmodel.ProductName = item.ProductName;
+            //    viewmodel.ProductImage1 = item.ProductImage1;
+            //    viewmodel.ProductImage2 = item.ProductImage2;
+            //    viewmodel.ProductImage3 = item.ProductImage3;
+            //    viewmodel.ProductImage4 = item.ProductImage4;
+            //    viewmodel.ProductDetail = item.ProductDetails;
+            //    viewmodel.Color = item.ProductColor;
+            //    viewmodel.CreatedOn = item.CreatedOn;
+            //    viewmodel.IMEI = item.IMEI;
+            //    viewmodel.price = item.Price;
+            //    viewmodel.New = item.IsOld;
+            //    viewmodel.IsActive = item.IsActive;
+            //    viewmodellist.Add(viewmodel);
+            //}
+            //return viewmodellist;
         }
     }
 }

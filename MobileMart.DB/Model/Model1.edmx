@@ -166,6 +166,7 @@
           <Property Name="SupplierID" Type="int" />
           <Property Name="CategoryID" Type="int" />
           <Property Name="SubCategoryID" Type="int" />
+          <Property Name="IsFeature" Type="bit" />
         </EntityType>
         <EntityType Name="ProductNotification">
           <Key>
@@ -287,7 +288,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
@@ -989,6 +992,7 @@
           <NavigationProperty Name="ProductNotifications" Relationship="MobileMartModel.FK_ProductNotification_Product" FromRole="Product" ToRole="ProductNotification" />
           <Property Name="SubCategoryID" Type="Int32" />
           <NavigationProperty Name="WishLists" Relationship="MobileMartModel.FK_WishList_Product" FromRole="Product" ToRole="WishList" />
+          <Property Name="IsFeature" Type="Boolean" />
         </EntityType>
         <EntityType Name="ProductNotification">
           <Key>
@@ -1543,6 +1547,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="MobileMartModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IsFeature" ColumnName="IsFeature" />
                 <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />

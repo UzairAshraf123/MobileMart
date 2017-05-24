@@ -12,5 +12,6 @@ namespace MobileMart.Repository
         void insert(Company Entity);
         void Delete(int id);
         IEnumerable<Company> GetCompany();
+        Company GetByID(int? companyID);
     }
 }

@@ -30,13 +30,30 @@ namespace MobileMart.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult AllCustomers()
         {
             try
             {
-                IEnumerable<DisplayAllCustomers> model = adminBL.GetAllCustomers();
-                return View(model.OrderByDescending(s => s.CreatedON));
+                var model = new CustomersReport();
+                model.Customers = adminBL.GetAllCustomers().OrderByDescending(s => s.CreatedON);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AllCustomers(CustomersReport viewModel)
+        {
+            try
+            {
+                var customers = adminBL.GetCustomersByRange(viewModel.From, viewModel.To).OrderByDescending(s => s.CreatedON);
+                viewModel.Customers = null;
+                viewModel.Customers = customers;
+                return View(viewModel);
             }
             catch (Exception ex)
             {
@@ -104,13 +121,46 @@ namespace MobileMart.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult DisplayAllShops()
         {
             try
             {
                 AdminBL BL = new AdminBL();
-                IEnumerable<DisplayShopViewModel> shop = BL.GetAllShops();
-                return View(shop.OrderByDescending(s => s.ShopCreatedOn));
+                var viewModel = new ShopReportViewModel();
+                viewModel.Shops = BL.GetAllShops().OrderByDescending(s => s.ShopCreatedOn);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
+        }
+        
+        [HttpPost]
+        public ActionResult DisplayAllShops(ShopReportViewModel model)
+        {
+            try
+            {
+                AdminBL BL = new AdminBL();
+                model.Shops = BL.GetAllShopsByRange(model.From, model.To).OrderByDescending(s => s.ShopCreatedOn);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+            }
+        }
+        
+        [HttpGet]
+        public ActionResult DisplayOrders()
+        {
+            try
+            {
+                var adminBL = new AdminBL();
+                var model = new OrderReportViewModel();
+                model.Orders = adminBL.GetAllOrders();
+                return View(model);
             }
             catch (Exception ex)
             {
@@ -118,12 +168,14 @@ namespace MobileMart.Controllers
             }
         }
 
-        public ActionResult DisplayOrders()
+        [HttpPost]
+        public ActionResult DisplayOrders(OrderReportViewModel viewModel)
         {
             try
             {
                 var adminBL = new AdminBL();
-                IEnumerable<DisplayOrderViewModel> model = adminBL.GetAllOrders();
+                var model = new OrderReportViewModel();
+                model.Orders = adminBL.GetAllOrdersByRange(viewModel.From, viewModel.To);
                 return View(model);
             }
             catch (Exception ex)
@@ -283,21 +335,56 @@ namespace MobileMart.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult DisplayAllProduct(int? id)
         {
             try
             {
+                var model = new ProductReporViewModel();
                 AdminBL adminBL = new AdminBL();
                 if (id > 0)
                 {
-                    var product = adminBL.GetProductByID(id);
-                    return View(product);
+                    
+                    model.Products= adminBL.GetProductByID(id);
+                    return View(model);
                 }
-                return View(adminBL.GetProducts());
+                model.Products = adminBL.GetProducts();
+                return View(model);
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Error", "Admin", new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult DisplayAllProduct(ProductReporViewModel viewModel)
+        {
+            try
+            {
+                var model = new ProductReporViewModel();
+                AdminBL adminBL = new AdminBL();
+                model.Products = adminBL.GetProductsByRange(viewModel.From, viewModel.To);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", "Admin", new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public bool DeleteCustomer(string aspID)
+        {
+            if (aspID != null)
+            {
+                adminBL.DeleteCustomerByID(aspID);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

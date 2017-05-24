@@ -40,6 +40,7 @@ namespace MobileMart.DB.Model
         public Nullable<int> SupplierID { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public Nullable<int> SubCategoryID { get; set; }
+        public Nullable<bool> IsFeature { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Company Company { get; set; }

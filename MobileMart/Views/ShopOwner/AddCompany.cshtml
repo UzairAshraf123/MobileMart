@@ -5,47 +5,66 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>AddCompany</h2>
+<h2>Add Company</h2>
 <h3 class="alert">@ViewBag.message</h3>
+<h3 class="success">@ViewBag.Added</h3>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm("AddCompany", "ShopOwner", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
 
+            <div class="form-horizontal">
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-@using (Html.BeginForm("AddCompany","ShopOwner", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>AddCompanyViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        <label class="btn btn-default btn-file" for="CompanyLogo">
+                            Upload Photo..
+                            <i class="glyphicon glyphicon-folder-open"></i>
+                            @Html.TextBoxFor(m => m.CompanyLogo, new { Type = "File", accept = "image/*", onchange = "loadFile(event)" })
+                        </label>
+                        @Html.ValidationMessageFor(model => model.CompanyLogo, "", new { @class = "text-danger" })
+                    </div>
+                        
+                        @*<input type="file" id="LogoPath" name="LogoPath" class="form-control file-upload" />*@
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CompanyLogo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" id="LogoPath" name="LogoPath" class="form-control file-upload" />
-              @*@Html.EditorFor(model => model.CompanyLogo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyLogo, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+        }
     </div>
-}
+    <div class="col-md-4">
+        <label for="CompanyLogo" style="cursor:pointer">
+            <img src="~/Content/DefaultImages/default.jpg" id="output" class="img-responsive img-thumbnail" height="250" width="250" />
+        </label>
+    </div>
+</div>
 
+    
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 }

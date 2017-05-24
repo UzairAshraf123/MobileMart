@@ -16,7 +16,7 @@ using MobileMart.DB.Model;
 
 namespace MobileMart.Controllers
 {
-    public class CartController : Controller
+    public class CartController : HomeBaseController
     {
         // GET: Cart
         public ActionResult Index()
@@ -125,7 +125,7 @@ namespace MobileMart.Controllers
                     {
                         new Transaction
                         {
-                            description = $"BeerPal Brewery Shopping Cart Purchase",
+                            description = $"Transaction Description",
                             amount = new Amount
                             {
                                 currency = "USD",
@@ -203,7 +203,6 @@ namespace MobileMart.Controllers
             orderNR.Insert(orderNE);
             // Get PayPal API Context using configuration from web.config
             var apiContext = GetApiContext();
-
             // Set the payer for the payment
             var paymentExecution = new PaymentExecution()
             {

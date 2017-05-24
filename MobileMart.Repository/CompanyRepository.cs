@@ -18,7 +18,10 @@ namespace MobileMart.Repository
         {
             return  _context.Companies.ToList();
         }
-
+        public Company GetByID(int? companyID)
+        {
+            return GetCompany().Where(s => s.CompanyID == companyID).FirstOrDefault();
+        }
         public void Delete(int id)
         {
             var DeleteCompany= _context.Companies.Where(s => s.CompanyID == id).FirstOrDefault();

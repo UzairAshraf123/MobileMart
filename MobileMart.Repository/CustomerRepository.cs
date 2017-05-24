@@ -87,8 +87,14 @@ namespace MobileMart.Repository
 
         public int GetCustomerID(string aspID)
         {
-            _context = new MobileMartEntities();
-            return _context.Customers.FirstOrDefault(s => s.AspNetUserID == aspID).CustomerID;
+            if (aspID != null) {
+                _context = new MobileMartEntities();
+                return _context.Customers.FirstOrDefault(s => s.AspNetUserID == aspID).CustomerID;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

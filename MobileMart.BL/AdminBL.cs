@@ -159,6 +159,27 @@ namespace MobileMart.BL
             return list;
         }
 
+        public IEnumerable<DisplayShopViewModel> GetAllShopsByRange(DateTime from, DateTime to)
+        {
+            var shop = new ShopRepository().Get().Where(s=>s.CreatedOn>=from && s.CreatedOn <= to);
+            IEnumerable<DisplayShopViewModel> shopList = shop.Select(s => new DisplayShopViewModel
+            {
+                OwnerName = s.Owner.OwnerName,
+                OwnerID = s.OwnerID,
+                OwnerCreatedOn = s.Owner.CreatedOn,
+                Contact = s.Owner.OwnerContact,
+                UserID = s.Owner.AspNetUserID,
+                OwnerProfile = s.Owner.OwnerPicture,
+                ShopID = s.ShopID,
+                ShopName = s.ShopName,
+                ShopAddress = s.ShopAddress,
+                ShopCreatedOn = s.CreatedOn,
+                ShopLogo = s.ShopLogo,
+                productcount =new ProductRepository().GetProduct(s.ShopID).Count()
+            });
+            return shopList;
+        }
+
         public IEnumerable<DisplayAllCustomers> GetAllCustomers()
         {
             var customerRepo = new CustomerRepository();
@@ -187,6 +208,26 @@ namespace MobileMart.BL
                 customerList.Add(viewModel);
             }
             return customerList;
+        }
+
+        public IEnumerable<DisplayAllCustomers> GetCustomersByRange(DateTime from, DateTime to)
+        {
+            return new CustomerRepository().Get().Where(s=> s.CreatedOn >= from && s.CreatedOn<= s.CreatedOn).Select(i=> new DisplayAllCustomers
+            {
+                CustomerID = i.CustomerID,
+                Address1 = i.Address1,
+                AspID = i.AspNetUserID,
+                Mobile=i.PhoneNo,
+                City = i.city.name,
+                State = i.city.state.name,
+                Country = i.city.state.country.name,
+                CreatedON =i.CreatedOn,
+                DOB=i.DOB,
+                Email = i.Email,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
+                ProfilePicturePath = i.ProfilePicture
+            });
         }
 
         private city GetCityByID(int? cityID)
@@ -298,13 +339,22 @@ namespace MobileMart.BL
             return repo.Get().Count();
         }
 
-        public void AddCompany(AddCompanyViewModel viewModel)
+        public string AddCompany(AddCompanyViewModel viewmodel)
         {
-            ICompanyRepository companyrepo = new CompanyRepository();
+            ICompanyRepository companyRepo = new CompanyRepository();
             Company entity = new Company();
-            entity.CompanyName = viewModel.CompanyName;
-            entity.CompanyLogo = viewModel.CompanyLogo;
-            companyrepo.insert(entity);
+            var fileName1 = Path.GetFileNameWithoutExtension(viewmodel.CompanyLogo.FileName);
+            fileName1 += DateTime.Now.Ticks + Path.GetExtension(viewmodel.CompanyLogo.FileName);
+            var basePath = "~/Content/Campanies/" + viewmodel.CompanyName + "/Logo/";
+            var path1 = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName1);
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Campanies/" + viewmodel.CompanyName + "/Logo/"));
+            viewmodel.CompanyLogo.SaveAs(path1);
+
+            entity.CompanyName = viewmodel.CompanyName;
+            entity.CompanyLogo = basePath + fileName1;
+            companyRepo.insert(entity);
+
+            return "Company has been added successfully..";
         }
 
         public void AddCategory(AddCategoryViewModel viewmodel)
@@ -348,7 +398,27 @@ namespace MobileMart.BL
             var Products = productRepo.Get().ToList();
             return (Allproduct(Products));
         }
-
+        public IEnumerable<DisplayProductViewModel> GetProductsByRange(DateTime from, DateTime to)
+        {
+            return new ProductRepository().Get().Where(s => s.CreatedOn >= from && s.CreatedOn <= to).Select(w => new DisplayProductViewModel
+            {
+                CreatedOn = w.CreatedOn,
+                Category = w.Category.CategoryName,
+                Color = w.ProductColor,
+                Company = w.Company.CompanyName,
+                IMEI = w.IMEI,
+                IsActive = w.IsActive,
+                New = w.IsOld,
+                price = w.Price,
+                ProductDetail = w.ProductDetails,
+                ProductID = w.ProductID,
+                ProductImage1 = w.ProductImage1,
+                ProductImage2 = w.ProductImage2,
+                ProductImage3 = w.ProductImage3,
+                ProductImage4 = w.ProductImage4,
+                ProductName = w.ProductName,
+            });
+        }
         public IEnumerable<DisplayProductViewModel> GetProductByID(int? shopID)
         {
             var productRepo = new ProductRepository();
@@ -374,6 +444,8 @@ namespace MobileMart.BL
                 viewmodel.Color = item.ProductColor;
                 viewmodel.CreatedOn = item.CreatedOn;
                 viewmodel.price = item.Price;
+                viewmodel.Company = item.Company.CompanyName;
+                viewmodel.Category = item.Category.CategoryName;
                 viewmodellist.Add(viewmodel);
             }
             return viewmodellist;
@@ -385,6 +457,11 @@ namespace MobileMart.BL
             var productRepo = new ProductRepository();
             productRepo.delete(id);
             return "product delete";
+        }
+        
+        public void DeleteCustomerByID(string customerID)
+        {
+            new Repository.AspNetUser().DeleteUser(customerID);
         }
 
         public bool IsActive(int id)
@@ -411,6 +488,23 @@ namespace MobileMart.BL
             {
                 OrderID = s.OrderID,
                 CustomerName = customerRepo.GetCustomerByID(s.CustomerID).FirstName,
+                CreatedOn = s.CreatedOn,
+                Tax = s.Tax,
+                Total = s.Total,
+                Shipping = s.Shipping,
+                SubTotal = s.SubTotal,
+            });
+            return orderList;
+        }
+
+        public IEnumerable<DisplayOrderViewModel> GetAllOrdersByRange(DateTime from, DateTime to)
+        {
+            var orderRepo = new OrderRepository();
+            var customerRepo = new CustomerRepository();
+            IEnumerable<DisplayOrderViewModel> orderList = orderRepo.Get().Where(w => w.CreatedOn >= from && w.CreatedOn <= to).Select(s => new DisplayOrderViewModel
+            {
+                OrderID = s.OrderID,
+                CustomerName = s.Customer.FirstName,
                 CreatedOn = s.CreatedOn,
                 Tax = s.Tax,
                 Total = s.Total,

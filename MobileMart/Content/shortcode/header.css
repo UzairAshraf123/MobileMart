@@ -89,7 +89,7 @@ NOTE: This is Header style file. All Header related style included in this file.
 .mega-menu-area {
   background: #ffffff none repeat scroll 0 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
-  left: -16%;
+  left: -3%;
   padding: 45px 35px;
   position: absolute;
   text-align: left;
@@ -98,7 +98,7 @@ NOTE: This is Header style file. All Header related style included in this file.
   transform-origin: 0 0 0;
   transition: all 0.5s ease 0s;
   visibility: hidden;
-  width: 1130px;
+  /*width: 1130px;*/
   z-index: 2;
 }
 .mega-menu-link {

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MobileMart.DB.ViewModel
 {
@@ -13,8 +14,8 @@ namespace MobileMart.DB.ViewModel
         [Required]
         [Display(Name = "Company")]
         public string CompanyName { get; set; }
-
+        [Required]
         [Display(Name = "Company Logo")]
-        public string CompanyLogo { get; set; }
+        public HttpPostedFileBase CompanyLogo { get; set; }
     }
 }
