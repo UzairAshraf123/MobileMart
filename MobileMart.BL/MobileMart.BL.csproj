@@ -46,6 +46,7 @@
     <Compile Include="BaseControllerBL.cs" />
     <Compile Include="CartBL.cs" />
     <Compile Include="CustomerBL.cs" />
+    <Compile Include="DashboardBL.cs" />
     <Compile Include="HomeBL.cs" />
     <Compile Include="NotificationBL.cs" />
     <Compile Include="OrderBL.cs" />

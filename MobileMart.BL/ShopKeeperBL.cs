@@ -383,5 +383,30 @@ namespace MobileMart.BL
             //}
             //return viewmodellist;
         }
+
+        public string GetOwnerPicture(int shopID)
+        {
+            return new OwnerRepository().GetOwnerByShopID(shopID).OwnerPicture;
+        }
+
+        public DisplayShopViewModel GetShopAndOwnerByShopID(int? shopID)
+        {
+            var owner = new OwnerRepository().GetOwnerByShopID(shopID);
+            var shop = new ShopRepository().GetShopByID(shopID);
+            return new DisplayShopViewModel()
+            {
+                UserID = owner.AspNetUserID,
+                OwnerCreatedOn = owner.CreatedOn,
+                OwnerID = owner.OwnerID,
+                OwnerName = owner.OwnerName,
+                OwnerProfilePath = owner.OwnerPicture,
+                Contact = owner.OwnerContact,
+                ShopID = shop.ShopID,
+                ShopAddress = shop.ShopAddress,
+                ShopCreatedOn = shop.CreatedOn,
+                ShopLogo = shop.ShopLogo,
+                ShopName = shop.ShopName
+            };
+        }
     }
 }

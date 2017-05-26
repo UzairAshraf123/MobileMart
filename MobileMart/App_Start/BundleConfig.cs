@@ -19,9 +19,14 @@ namespace MobileMart
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-3.1.1.js"
                         ));
-            bundles.Add(new ScriptBundle("~/bundles/JSs").Include(
+            bundles.Add(new ScriptBundle("~/bundles/FrontEndJSs").Include(
+                        "~/Scripts/jquery-3.1.1.js",
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/jquery.nivo.slider.js",
                         "~/Scripts/plugins.js",
-                        "~/Scripts/main.js"
+                        "~/Scripts/main.js",
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/alertify.min.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

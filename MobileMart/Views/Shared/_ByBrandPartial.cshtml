@@ -13,6 +13,9 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <a href="@Url.Action("Companies","Home")" class="pull-right">View all...<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+        </div>
         <div class="by-brand-product">
             <div class="row active-by-brand slick-arrow-2">
                 @foreach (var item in layoutData)
@@ -20,7 +23,7 @@
                      <!-- single-brand-product start -->
                     <div class="col-xs-12">
                         <div class="single-brand-product">
-                            <a href="single-product.html"><img src="@Url.Content(item.Logo)?w=170&h=170&mode=stretch|" alt=""></a>
+                            <a href=""><img src="@Url.Content(item.Logo)?w=170&h=170&mode=stretch|" alt=""></a>
                             <h3 class="brand-title text-gray">
                                 <a href="@Url.Action("ProductsByBrand","Home", new { @item.CompanyId})">@item.CompanyName</a>
                             </h3>

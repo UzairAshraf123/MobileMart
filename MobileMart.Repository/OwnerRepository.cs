@@ -40,6 +40,7 @@ namespace MobileMart.Repository
             owner.OwnerName = entity.OwnerName;
             owner.OwnerContact = entity.OwnerContact;
             owner.CreatedOn = entity.CreatedOn;
+            owner.OwnerPicture = entity.OwnerPicture;
             _context.SaveChanges();
         }
         public Owner GetOwnerByID(int? ID)
@@ -51,6 +52,12 @@ namespace MobileMart.Repository
         {
             _context = new MobileMartEntities();
             return _context.Owners.FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
+        }
+
+        public Owner GetOwnerByShopID(int? shopID)
+        {
+            _context = new MobileMartEntities();
+            return _context.Owners.FirstOrDefault(s => s.Shops.Any(i => i.ShopID == shopID));
         }
     }
 }

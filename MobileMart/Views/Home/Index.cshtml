@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MobileMart.DB.ViewModel.IndexViewModel> 
+﻿@model IEnumerable<MobileMart.DB.ViewModel.IndexViewModel>
 <!-- START SLIDER AREA -->
 <div class="slider-area bg-3 bg-opacity-black-60 ptb-150 mb-80">
     <div class="container">
@@ -15,10 +15,10 @@
                         <h2 class="slider2-title-3">Samsung Galaxy S8</h2>
                     </div>
                     @*<div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                        <a href="#" class="button extra-small button-white">
-                            <span class="text-uppercase">Buy now</span>
-                        </a>
-                    </div>*@
+                            <a href="#" class="button extra-small button-white">
+                                <span class="text-uppercase">Buy now</span>
+                            </a>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -26,115 +26,13 @@
 </div>
 <!-- END SLIDER AREA -->
 
-<!-- FEATURED PRODUCT SECTION Starts -->
-<div class="featured-product-section mb-50">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title text-center mb-50">
-                    <h2 class="uppercase">Featured product</h2>
-                    <h6>There are many variations of passages of brands available,</h6>
-                </div>
-            </div>
-        </div>
-        <div class="featured-product">
-            <div class="row active-featured-product slick-arrow-2">
-                @foreach (var item in Model.Where(s => s.IsFeature == true))
-                {
-                    <!-- product-item start -->
-                        <div class="col-xs-12">
-                            <div class="product-item">
-                                <div class="product-img">
-                                    <a href="@Url.Action("ProductDetail","Home", new { ID = @item.ProductID })">
-                                        <img src="@Url.Content(item.ProductImage)?w=270&h=300&mode=stretch|" alt="" />
-                                    </a>
-                                </div>
-                                <div class="product-info">
-                                    <h6 class="product-title">
-                                        <a href="@Url.Action("ProductDetail", "Home", new { ID = @item.ProductID })">@item.ProductName</a>
-                                    </h6>
-                                    <h6 class="brand-name">@item.Company</h6>
-                                    <h6 class="brand-name text-center">Seller: @Html.ActionLink(@item.ShopName, "Shop", new { shopID = item.ShopID })</h6>
-                                    <h3 class="pro-price">$ @item.Price</h3>
-                                    <ul class="action-button">
-                                        <li class="btn-hover-2">
-                                            <button href="#" value="@item.ProductID" class="AddToWishList" title="Wishlist"><i class="glyphicon glyphicon-heart"></i></button>
-                                        </li>
-                                        <li class="btn-hover-2">
-                                            <button href="#" data-toggle="modal" data-target="#productModal_@item.ProductID" title="Quickview"><i class="glyphicon glyphicon-zoom-in"></i></button>
-                                        </li>
-                                        <li class="btn-hover-2">
-                                            <button type="button" value="@item.ProductID" class="AddToCart" title="Add to cart"><i class="glyphicon glyphicon-shopping-cart"></i></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- product-item end -->
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<!-- FEATURED PRODUCT SECTION END -->
+        <!-- FEATURED PRODUCT SECTION Starts -->
+        @Html.Partial("_FeaturedProductsPartial");
 
 
- 
-@Html.Partial("_ByBrandPartial");
+        @Html.Partial("_ByBrandPartial");
 
+        @Html.Partial("_NewArrivalPartial");
 
-<!-- New Arrival PRODUCT SECTION Starts -->
-<div class="featured-product-section mb-50">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title text-center mb-50">
-                    <h2 class="uppercase">Latest Products</h2>
-                    <h6>There are many variations of passages of brands available,</h6>
-                </div>
-            </div>
-        </div>
-        <div class="featured-product">
-            <div class="row active-featured-product slick-arrow-2">
-                @foreach (var item in Model.Where(s => s.CreatedOn >= DateTime.Now.AddDays(-7)))
-                {
-                    <!-- product-item start -->
-                    <div class="col-xs-12">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <a href="@Url.Action("ProductDetail","Home", new { ID = @item.ProductID })">
-                                    <img src="@Url.Content(item.ProductImage)?w=270&h=300&mode=stretch|" alt="" />
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="product-title">
-                                    <a href="@Url.Action("ProductDetail", "Home", new { ID = @item.ProductID })">@item.ProductName</a>
-                                </h6>
-                                <h6 class="brand-name">@item.Company</h6>
-                                <h6 class="brand-name text-center">Seller: @Html.ActionLink(@item.ShopName, "Shop", new { shopID = item.ShopID })</h6>
-                                <h3 class="pro-price">$ @item.Price</h3>
-                                <ul class="action-button">
-                                    <li class="btn-hover-2">
-                                        <button href="#" value="@item.ProductID" class="AddToWishList" title="Wishlist"><i class="glyphicon glyphicon-heart"></i></button>
-                                    </li>
-                                    <li class="btn-hover-2">
-                                        <button href="#" data-toggle="modal" data-target="#productModal_@item.ProductID" title="Quickview"><i class="glyphicon glyphicon-zoom-in"></i></button>
-                                    </li>
-                                    <li class="btn-hover-2">
-                                        <button type="button" value="@item.ProductID" class="AddToCart" title="Add to cart"><i class="glyphicon glyphicon-shopping-cart"></i></button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- product-item end -->
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<!-- New Arrival PRODUCT SECTION END -->
-
-
-@*@Html.Partial("_Products")*@
+        @*@Html.Partial("_Products")*@
 

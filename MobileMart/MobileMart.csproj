@@ -576,10 +576,15 @@
     <Content Include="Views\Home\ProductsByCategories.cshtml" />
     <Content Include="Views\Shared\_ByBrandPartial.cshtml" />
     <Content Include="Views\Home\AllProducts.cshtml" />
+    <Content Include="Views\Admin\Account.cshtml" />
+    <Content Include="Views\Home\FeaturedProducts.cshtml" />
     <None Include="Views\Shared\_CustomerLoginPartial.cshtml" />
     <Content Include="Views\Shared\_CustomerProfilePartial.cshtml" />
     <Content Include="Views\Shared\_CustomerOrdersPartial.cshtml" />
     <Content Include="Views\Shared\_CustomerWishListPartial.cshtml" />
+    <Content Include="Views\ShopOwner\Account.cshtml" />
+    <Content Include="Views\Shared\_NewArrivalPartial.cshtml" />
+    <Content Include="Views\Shared\_FeaturedProductsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

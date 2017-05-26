@@ -198,6 +198,18 @@ namespace MobileMart.Controllers
             return View(new HomeBL().GetNewProducts());
         }
 
+        public ActionResult FeaturedProducts(int? page)
+        {
+            var products = new HomeBL().GetAllProducts();
+            var pager = new Pager(products.Count(), page);
+            var model = new FeaturedProductsViewModel()
+            {
+                Pager = pager,
+                Products = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
+            };
+            return View(model);
+        }
+
         public ActionResult NewItems(int? categoryID)
         {
             return View(new HomeBL().GetNewTablets(categoryID));

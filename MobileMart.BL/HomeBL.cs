@@ -115,7 +115,7 @@ namespace MobileMart.BL
 
             viewModel.OwnerID = owner.OwnerID;
             viewModel.OwnerName = owner.OwnerName;
-            viewModel.OwnerProfile = owner.OwnerPicture;
+            viewModel.OwnerProfilePath = owner.OwnerPicture;
             viewModel.Contact = owner.OwnerContact;
 
             viewModel.ShopID = shop.ShopID;

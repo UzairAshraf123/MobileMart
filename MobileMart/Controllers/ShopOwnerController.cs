@@ -9,6 +9,7 @@ using MobileMart.Utility;
 
 namespace MobileMart.Controllers
 {
+    [Authorize(Roles = "ShopKeeper")]
     public class ShopOwnerController : ShopOwnerBaseController
     {
         // GET: ShopOwner
@@ -17,12 +18,58 @@ namespace MobileMart.Controllers
         public ActionResult Index()
         {
             var model = new ShopIndexViewModel();
-            model.NewOrders = new ShopBL().GetNewOrdersCount();
-            model.AllOrders = new ShopBL().GetAllOrdersCount();
-            return View();
+            var shopBL = new ShopBL();
+            var shopID = User.Identity.GetShopID();
+            model.NewOrdersCount = shopBL.GetNewOrders(shopID);
+            model.AllOrdersCount = shopBL.GetAllOrdersCount(shopID);
+            model.NewProductsCount = shopBL.GetNewProductsCount(shopID);
+            model.AllProductsCount = shopBL.GetAllProductsCount(shopID);
+            model.Orders = shopBL.TodaysOrders(shopID);
+            model.TotalOrders = new ShopKeeperBL().GetOrdersByShopID(shopID);
+            model.TotalSale = new ShopBL().GetTotalSaleOfShop(shopID);
+            return View(model);
         }
 
+        public ActionResult Account(int? shopID,string Message)
+        {
+            if (Message == "ChangePasswordSuccess")
+            {
+                ViewBag.Message = "Owner Updated Successfully...";
+            }
+            else
+            {
+                ViewBag.Message = Message;
+            }
+            var countries = new AdminBL().GetCountries().Select(s => new
+            {
+                Text = s.name,
+                Value = s.id
+            }).ToList();
+            ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+            return View(shopBL.GetShopAndOwnerByShopID(shopID));
+        }
+        [HttpPost]
+        [Authorize(Roles = "ShopKeeper")]
+        public ActionResult UpdateShop(DisplayShopViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel != null)
+                {
+                    
+                    new ShopBL().UpdateShop(viewModel);
+                    return RedirectToAction("Account", "ShopOwner", new { shopID = viewModel.ShopID });
+                }
+                return RedirectToAction("Account", "ShopOwner", new { shopID = viewModel.ShopID,Message = "Something went wrong while processing your request..." });
+            }
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                return RedirectToAction("Account", "ShopOwner", new { shopID = viewModel.ShopID,Message = ex.Message});
+            }
+        }
         // Shopkeeper Login
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Login()
         {
@@ -150,14 +197,23 @@ namespace MobileMart.Controllers
 
         //Display Product
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult DisplayProduct()
+        public ActionResult DisplayProduct(string products)
         {
             try
             {
                 var shopID = User.Identity.GetShopID();
-                var model =new ProductReporViewModel();
-                model.Products = shopBL.GetProduct(shopID).OrderByDescending(s => s.CreatedOn);
-                return View(model);
+                if (products == "new")
+                {
+                    var model = new ProductReporViewModel();
+                    model.Products = shopBL.GetProduct(shopID).Where(w => w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
+                    return View(model);
+                }
+                else
+                {
+                    var model = new ProductReporViewModel();
+                    model.Products = shopBL.GetProduct(shopID).OrderByDescending(s => s.CreatedOn);
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {
@@ -187,14 +243,24 @@ namespace MobileMart.Controllers
 
         //Display Orders
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult DisplayOrder()
+        public ActionResult DisplayOrder(string orders)
         {
             try
             {
                 var shopID = User.Identity.GetShopID();
-                var model = new OrderReportViewModel();
-                model.Orders = shopBL.GetOrdersByShopID(shopID).OrderByDescending(s => s.CreatedOn);
-                return View(model);
+
+                if (orders =="new")
+                {
+                    var model = new OrderReportViewModel();
+                    model.Orders = shopBL.GetOrdersByShopID(shopID).Where(w=> w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
+                    return View(model);
+                }
+                else
+                { 
+                    var model = new OrderReportViewModel();
+                    model.Orders = shopBL.GetOrdersByShopID(shopID).OrderByDescending(s => s.CreatedOn);
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {

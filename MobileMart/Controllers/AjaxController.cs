@@ -67,6 +67,20 @@ namespace MobileMart.Controllers
         }
 
         [HttpPost]
+        public JsonResult SearchProducts(string Prefix)
+        {
+            var products = new HomeBL().GetAllProducts();
+            Prefix = Prefix.ToLower();
+            //Searching records from list using LINQ query  
+            var searchedProducts = products.Where(w => w.ProductName.ToLower().StartsWith(Prefix) || w.ProductName.Contains(Prefix)).Select(s => new
+            {
+                Route = "/Home/ProductDetail?ID=" + s.ProductID,
+                Name = s.ProductName
+            });
+            return Json(searchedProducts, JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpPost]
         public int AddToWishList(int? productID)
         {
             var homeBL = new HomeBL();

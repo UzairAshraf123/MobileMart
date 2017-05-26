@@ -158,8 +158,8 @@
                                                 <i class="zmdi zmdi-search"></i>
                                             </button>
                                             <form action="#">
-                                                <div class="top-search-box">
-                                                    <input type="text" placeholder="Search here your product...">
+                                                <div class="top-search-box pull-right">
+                                                    <input type="text" id="SearchBox" class="pull-right" placeholder="Search here your product...">
                                                     <button type="submit">
                                                         <i class="zmdi zmdi-search"></i>
                                                     </button>
@@ -340,13 +340,9 @@
     @*<script src="~/Scripts/ajax-mail.js"></script>*@
     @*<script src="~/Scripts/map.js"></script>*@
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    
-    @Scripts.Render("~/bundles/JSs")
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/alertify.min.js"></script>
+    @Scripts.Render("~/bundles/FrontEndJSs")
 
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -357,6 +353,30 @@
                     return false;
                 }
             });
+
+            $("#SearchBox").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Ajax/SearchProducts",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Name, Route: item.Route };
+                            }))
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    //redirect to url
+                    window.location = ui.item.Route;
+                },
+                messages: {
+                    noResults: "", results: function (resultsCount) { }
+                }
+            });
+
             //--Add item in cart
             $('.AddToCart').click(function () {
                 var value = $(this).val();

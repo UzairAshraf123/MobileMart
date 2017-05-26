@@ -1,0 +1,233 @@
+﻿@model MobileMart.DB.ViewModel.DisplayShopViewModel
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="label-info">@ViewBag.Message</h2>
+<h2>Profile</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div id="exTab3">
+            <ul class="nav nav-pills nav-justified">
+                <li class="active">
+                    <a href="#1b" data-toggle="tab">Owner Detail</a>
+                </li>
+                <li>
+                    <a href="#2b" data-toggle="tab">Shop Detail</a>
+                </li>
+            </ul>
+
+            <div class="tab-content clearfix well">
+                <div class="tab-pane active" id="1b">
+                    @using (Html.BeginForm("EditOwnerOnly", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(model => model.OwnerID)
+                        @Html.HiddenFor(model=> model.ShopID)
+                        @Html.HiddenFor(model => model.UserID)
+                        <input type="hidden" name="OwnerProfilePath" value="@Model.OwnerProfilePath" />
+                        @Html.AntiForgeryToken()
+                        <h4>Owner Detail</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="@Url.Content(Model.OwnerProfilePath)" id="output" class="img-rounded" alt="" height="250" width="235" />
+                                <br />
+                                <h2 class="text-center" style="cursor:pointer"><label class="glyphicon glyphicon-camera" for="OwnerProfilePhoto"></label></h2>
+                                <input type="file" id="OwnerProfilePhoto" name="OwnerProfilePhoto" value="OwnerProfilePhoto" style="display:none" onchange="loadFile(event)" />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-horizontal">
+                                 
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OwnerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.OwnerName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.OwnerName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Save" class="btn btn-default" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    }
+                </div>
+                <div class="tab-pane" id="2b">
+                   @using (Html.BeginForm("UpdateShop", "ShopOwner",
+                      FormMethod.Post,
+                      new
+                      {
+                          @class = "form-horizontal",
+                          role = "form",
+                          enctype = "multipart/form-data"
+                      }))
+                   {
+                    @Html.HiddenFor(model => model.ShopID)
+
+                        @Html.AntiForgeryToken()
+                        <h4>Shop Detail</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="@Url.Content(Model.ShopLogo)" id="output1" class="img-rounded" alt="" height="250" width="235" />
+                                <br />
+                                <h2 class="text-center" style="cursor:pointer"><label class="glyphicon glyphicon-camera" for="ShopImage"></label></h2>
+                                <input type="file" id="ShopImage" name="ShopImage" value="ShopImage" style="display:none" onchange="loadFile(event)" />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-horizontal">
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ShopName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ShopName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ShopName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ShopAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ShopAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ShopAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(Model => Model.Country,
+                                                (SelectList)ViewBag.CountryDropDown,
+                                                "--Select Country--",
+                                                new { @class = "form-control", @id = "SelectedCountry" })
+                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(Model => Model.State,
+                                                new SelectList(string.Empty, "Value", "Text"),
+                                                "--Select State--",
+                                                new { @class = "form-control", @id = "States" })
+                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(Model => Model.City,
+                                                new SelectList(string.Empty, "Value", "Text"),
+                                                "--Select City--",
+                                                new { @class = "form-control", @id = "Cities" })
+                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var loadFile = function (event) {
+            var output = document.getElementById('output1');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script type="text/javascript">
+                $("#SelectedCountry").change(function () {
+                    var countryId = $('#SelectedCountry').val();
+                    $.ajax({
+                        url: "/Ajax/StatesByCountryID/" + countryId,
+                        type: "Get",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: 'JSON',
+                        success: function (data) {
+                            $('#States').empty();
+                            for (var i = 0; i < data.state.length; i++) {
+                                $('#States').append("<option value= " + data.state[i].Value + ">" + data.state[i].Text + "</option>");
+                            }
+                        }
+                    });
+                });
+
+                $("#States").change(function () {
+                    var stateId = $('#States').val();
+                    $.ajax({
+                        url: "/Ajax/CitesByStateID/" + stateId,
+                        type: "Get",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: 'JSON',
+                        success: function (data) {
+                            $('#Cities').empty();
+                            for (var i = 0; i < data.city.length; i++) {
+                                $('#Cities').append("<option value= " + data.city[i].Value + ">" + data.city[i].Text + "</option>");
+                            }
+                        }
+                    });
+                });
+</script>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MobileMart.DB.ViewModel
 {
-    public class ShopOwerLayoutViewModel
+    public class ShopProfileViewModel
     {
-        public  int ShopID { get; set; }
-        public decimal? TotalSale { get; set; }
+        public DisplayShopViewModel ShopDetail { get; set; }
 
     }
 }

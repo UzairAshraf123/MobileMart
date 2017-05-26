@@ -290,6 +290,27 @@ namespace MobileMart.Controllers
             AddErrors(result);
             return RedirectToAction("EditOwner","Admin",new { ownerID = model.OwnerID , Message ="Please enter valid information..."});
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditOwnerOnly(DisplayShopViewModel model)
+        {
+            var user = await UserManager.FindByIdAsync(model.UserID);
+            var result = await UserManager.ChangePasswordAsync(user.Id, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                AdminBL BL = new AdminBL();
+                BL.UpdateOwner(model);
+                return RedirectToAction("Account", "ShopOwner", new { shopID = model.ShopID, Message = ManageMessageId.ChangePasswordSuccess });
+
+                //if (user != null)
+                //{
+                //    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                //}
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            }
+            AddErrors(result);
+            return RedirectToAction("Account", "ShopOwner", new { shopID = model.ShopID, Message = "Please enter valid information..." });
+        }
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()

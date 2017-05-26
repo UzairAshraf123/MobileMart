@@ -102,7 +102,7 @@ namespace MobileMart.BL
             viewmodel.OwnerName = owner.OwnerName;
             viewmodel.Contact = owner.OwnerContact;
             viewmodel.OwnerCreatedOn = owner.CreatedOn;
-            viewmodel.OwnerProfile = owner.OwnerPicture;
+            viewmodel.OwnerProfilePath = owner.OwnerPicture;
 
             viewmodel.ShopID = shop.ShopID;
             viewmodel.ShopName = shop.ShopName;
@@ -143,7 +143,7 @@ namespace MobileMart.BL
                 viewmodel.UserID = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).AspNetUserID;
                 viewmodel.OwnerID = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerID;
                 viewmodel.OwnerName = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerName;
-                viewmodel.OwnerProfile = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerPicture;
+                viewmodel.OwnerProfilePath = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerPicture;
                 viewmodel.Contact = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).OwnerContact;
                 viewmodel.OwnerCreatedOn = ownerRepo.Get().FirstOrDefault(s => s.OwnerID == item.OwnerID).CreatedOn;
 
@@ -165,11 +165,11 @@ namespace MobileMart.BL
             IEnumerable<DisplayShopViewModel> shopList = shop.Select(s => new DisplayShopViewModel
             {
                 OwnerName = s.Owner.OwnerName,
-                OwnerID = s.OwnerID,
+                OwnerID = Convert.ToInt32(s.OwnerID),
                 OwnerCreatedOn = s.Owner.CreatedOn,
                 Contact = s.Owner.OwnerContact,
                 UserID = s.Owner.AspNetUserID,
-                OwnerProfile = s.Owner.OwnerPicture,
+                OwnerProfilePath = s.Owner.OwnerPicture,
                 ShopID = s.ShopID,
                 ShopName = s.ShopName,
                 ShopAddress = s.ShopAddress,
@@ -292,6 +292,30 @@ namespace MobileMart.BL
             OwnerRepo.Update(owner);
         }
 
+        public void UpdateOwner(DisplayShopViewModel viewModel)
+        {
+            IOwnerRepository OwnerRepo = new OwnerRepository();
+            Owner owner = new Owner();
+            if (viewModel.OwnerProfilePhoto != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(viewModel.OwnerProfilePhoto.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.OwnerProfilePhoto.FileName);
+                var basePath = "~/Content/ShopOwner/" + viewModel.UserID + "/Profile/Images/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/" + viewModel.UserID + "/Profile/Images/"));
+                viewModel.OwnerProfilePhoto.SaveAs(path);
+                owner.OwnerPicture = basePath + fileName;
+            }
+            else
+            {
+                owner.OwnerPicture = viewModel.OwnerProfilePath;
+            }
+            owner.OwnerID = viewModel.OwnerID;
+            owner.OwnerName = viewModel.OwnerName;
+            owner.OwnerContact = viewModel.Contact;
+            owner.CreatedOn = viewModel.OwnerCreatedOn;
+            OwnerRepo.Update(owner);
+        }
         public void UpdateEditedShop(CreateShopViewModel viewModel)
         {
             IShopRepository shopRepo = new ShopRepository();
@@ -548,6 +572,18 @@ namespace MobileMart.BL
             viewModel.SubTotal = order.SubTotal;
             viewModel.CreatedOn = order.CreatedOn;
             return viewModel;
+        }
+
+        public DisplayShopViewModel GetShopByID(int? shopID)
+        {
+            var shop = new ShopRepository().GetShopByID(shopID);
+            return new DisplayShopViewModel()
+            {
+                ShopAddress = shop.ShopAddress,
+                ShopID = shop.ShopID,
+                ShopLogo = shop.ShopLogo,
+                ShopName = shop.ShopName,
+            };
         }
     }
 }

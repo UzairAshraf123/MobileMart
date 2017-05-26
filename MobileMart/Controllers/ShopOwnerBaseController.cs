@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using MobileMart.BL;
 using MobileMart.DB.ViewModel;
 using MobileMart.Utility;
 using System;
@@ -13,9 +14,7 @@ namespace MobileMart.Controllers
     {
         public ShopOwnerBaseController()
         {
-            //ShopOwerLayoutViewModel layoutData = new ShopOwerLayoutViewModel();
-
-            //ViewBag.layout = layoutData;
+          
         }
     }
 }

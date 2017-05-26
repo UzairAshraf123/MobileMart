@@ -144,6 +144,7 @@
     <Compile Include="ViewModel\AllProductsViewModel.cs" />
     <Compile Include="ViewModel\CartSessionViewModel.cs" />
     <Compile Include="ViewModel\CategoryDetalViewModel.cs" />
+    <Compile Include="ViewModel\ChartViewModel.cs" />
     <Compile Include="ViewModel\CompanyDetailViewModel.cs" />
     <Compile Include="ViewModel\CompleteOrderDetail.cs" />
     <Compile Include="ViewModel\CreateOwnerViewModel.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="ViewModel\EditShopViewModel.cs" />
     <Compile Include="ViewModel\DisplayProductViewModel.cs" />
     <Compile Include="ViewModel\EditSupplierViewModel.cs" />
+    <Compile Include="ViewModel\FeaturedProductsViewModel.cs" />
     <Compile Include="ViewModel\HomeLayoutViewModel.cs" />
     <Compile Include="ViewModel\IndexViewModel.cs" />
     <Compile Include="ViewModel\AdminLayoutViewModel.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="ViewModel\ShopDetailViewModel.cs" />
     <Compile Include="ViewModel\ShopIndexViewModel.cs" />
     <Compile Include="ViewModel\ShopOwerLayoutViewModel.cs" />
+    <Compile Include="ViewModel\ShopProfileViewModel.cs" />
     <Compile Include="ViewModel\ShopReportViewModel.cs" />
     <Compile Include="ViewModel\ShopWithProductsViewModel.cs" />
   </ItemGroup>

@@ -22,22 +22,49 @@ namespace MobileMart.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            return View();
+            var model = new AdminIndexViewModel();
+            var dashboardBL = new DashboardBL();
+            model.NewOrdersCount = dashboardBL.GetNewOrders();
+            model.AllOrdersCount = dashboardBL.GetAllOrdersCount();
+            model.NewProductsCount = dashboardBL.GetNewProductsCount();
+            model.AllProductsCount = dashboardBL.GetAllProductsCount();
+            model.NewCustomersCount = dashboardBL.GetNewCustomersCount();
+            model.AllCustomersCount = dashboardBL.GetAllCustomersCount();
+            model.NewShopsCount = dashboardBL.GetNewShopsCount();
+            model.AllShopsCount = dashboardBL.GetAllShopsCount();
+            model.Orders = dashboardBL.TodaysOrders();
+            model.TotalOrders =  dashboardBL.GetOrders();
+            model.TotalSale = dashboardBL.GetTotalSale();
+            model.NewCustomers = dashboardBL.GetNewCustomers();
+            return View(model);
         }
 
+        public ActionResult Account()
+        {
+            return View();
+        }
         [AllowAnonymous]
         public ActionResult AdminLogin()
         {
             return View();
         }
         [HttpGet]
-        public ActionResult AllCustomers()
+        public ActionResult AllCustomers(string customers)
         {
             try
             {
-                var model = new CustomersReport();
-                model.Customers = adminBL.GetAllCustomers().OrderByDescending(s => s.CreatedON);
-                return View(model);
+                if (customers == "new")
+                {
+                    var model = new CustomersReport();
+                    model.Customers = adminBL.GetAllCustomers().Where(w => w.CreatedON >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedON); ;
+                    return View(model);
+                }
+                else
+                {
+                    var model = new CustomersReport();
+                    model.Customers = adminBL.GetAllCustomers().OrderByDescending(s => s.CreatedON);
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {
@@ -122,14 +149,21 @@ namespace MobileMart.Controllers
         }
 
         [HttpGet]
-        public ActionResult DisplayAllShops()
+        public ActionResult DisplayAllShops(string shops)
         {
             try
             {
-                AdminBL BL = new AdminBL();
-                var viewModel = new ShopReportViewModel();
-                viewModel.Shops = BL.GetAllShops().OrderByDescending(s => s.ShopCreatedOn);
-                return View(viewModel);
+                if (shops == "new")
+                {
+                    var model = new ShopReportViewModel();
+                    model.Shops = adminBL.GetAllShops().Where(w => w.ShopCreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.ShopCreatedOn); ;
+                    return View(model);
+                }
+                else { 
+                    var viewModel = new ShopReportViewModel();
+                    viewModel.Shops = adminBL.GetAllShops().OrderByDescending(s => s.ShopCreatedOn);
+                    return View(viewModel);
+                }
             }
             catch (Exception ex)
             {
@@ -153,14 +187,21 @@ namespace MobileMart.Controllers
         }
         
         [HttpGet]
-        public ActionResult DisplayOrders()
+        public ActionResult DisplayOrders(string orders)
         {
             try
             {
-                var adminBL = new AdminBL();
                 var model = new OrderReportViewModel();
-                model.Orders = adminBL.GetAllOrders();
-                return View(model);
+                if (orders == "new")
+                {
+                    model.Orders = adminBL.GetAllOrders().Where(w => w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
+                    return View(model);
+                }
+                else
+                {
+                    model.Orders = adminBL.GetAllOrders();
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {
@@ -336,20 +377,28 @@ namespace MobileMart.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult DisplayAllProduct(int? id)
+        public ActionResult DisplayAllProduct(int? id,string products)
         {
             try
             {
                 var model = new ProductReporViewModel();
-                AdminBL adminBL = new AdminBL();
-                if (id > 0)
+                if (products == "new")
                 {
-                    
-                    model.Products= adminBL.GetProductByID(id);
+
+                    model.Products = adminBL.GetProducts().Where(w => w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
                     return View(model);
                 }
-                model.Products = adminBL.GetProducts();
-                return View(model);
+                else if (id > 0)
+                {
+
+                    model.Products = adminBL.GetProductByID(id);
+                    return View(model);
+                }
+                else
+                {
+                    model.Products = adminBL.GetProducts();
+                    return View(model);
+                }
             }
             catch (Exception ex)
             {

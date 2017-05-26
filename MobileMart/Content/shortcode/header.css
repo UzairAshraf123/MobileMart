@@ -356,7 +356,8 @@ NOTE: This is Header style file. All Header related style included in this file.
   opacity: 1;
   right: 20px;
   visibility: visible;
-  width: 500px;
+  width: 300px;
+  padding:10px;
 }
 .sticky .header-search-inner:hover .top-search-box {
   width: 400px;

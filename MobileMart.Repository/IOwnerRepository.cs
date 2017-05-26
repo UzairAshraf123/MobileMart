@@ -14,6 +14,7 @@ namespace MobileMart.Repository
         void Update(Owner entity);
         IEnumerable<Owner> Get();
         Owner GetOwnerByID(int? ID);
+        Owner GetOwnerByShopID(int? shopID);
         int GetOwnerIDByUserID(string userID);
     }
 }

@@ -23,7 +23,20 @@ namespace MobileMart.Utility
             }
             return 0;
         }
-    
+        public static string GetOwnerPicture(this IIdentity identity)
+        {
+            if (identity.GetUserId() != "")
+            {
+                var path = new ShopKeeperBL().GetOwnerPicture(identity.GetShopID());
+                if (path != null)
+                {
+                    return path;
+                }
+                return null;
+            }
+            return null;
+        }
+
         public static int GetCustomerID(this IIdentity identity)
         {
             if (identity.GetUserId() != "")
