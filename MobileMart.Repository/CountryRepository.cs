@@ -13,7 +13,7 @@ namespace MobileMart.Repository
         public IEnumerable<country> Get()
         {
             _context = new MobileMartEntities();
-            return _context.countries.ToList();
+            return _context.countries.Where(w => w.id == 166).ToList();
         }
 
         public country GetCountryByID(int? countryID)

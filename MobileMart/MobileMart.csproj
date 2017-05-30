@@ -599,6 +599,9 @@
     <Content Include="Views\Shared\_NewArrivalPartial.cshtml" />
     <Content Include="Views\Shared\_FeaturedProductsPartial.cshtml" />
     <Content Include="Views\ShopOwner\FeatureProducts.cshtml" />
+    <Content Include="Views\ShopOwner\AddCategory.cshtml" />
+    <Content Include="Views\Home\CreateOwner.cshtml" />
+    <Content Include="Views\Home\CreateShop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,12 +7,15 @@
 
 
  <!-- order-complete start -->
+<div class="container">
+    <h1><span><i onclick="Print('order-complete')" class="glyphicon glyphicon-print" style="cursor:pointer" title="Print"></i></span></h1>
+</div>
 <div class="tab-pane" id="order-complete">
     <div class="order-complete-content box-shadow">
         <div class="thank-you p-30 text-center">
             <h6 class="text-black-5 mb-0">Thank you. Your order has been received.</h6>
         </div>
-        <div class="order-info p-30 mb-10">
+        <div class="order-info p-30 mb-10" >
             <ul class="order-info-list">
                 <li>
                     <h6>Order no</h6>
@@ -70,3 +73,12 @@
     </div>
 </div>
 <!-- order-complete end -->
+<script type="text/javascript">
+    function Print(content) {
+        var printContents = document.getElementById(content).innerHTML;
+        w = window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+</script>

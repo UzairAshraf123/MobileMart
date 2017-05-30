@@ -11,10 +11,14 @@ namespace MobileMart.DB.ViewModel
    public class AddCategoryViewModel
     {
         [Required]
-        [Display(Name ="Category")]
+        [Display(Name ="Sub-Category")]
         public string CategoryName { get; set; }
 
         [Display(Name = "Category Image")]
         public HttpPostedFileBase CategoryImage { get; set; }
+
+        [Required(ErrorMessage = "You must select a category.")]
+        [Display(Name = "Category")]
+        public int CategoryID { get; set; }
     }
 }

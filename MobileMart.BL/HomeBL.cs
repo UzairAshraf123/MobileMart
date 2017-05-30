@@ -201,7 +201,7 @@ namespace MobileMart.BL
             var customerNR = new CustomerNotificationRepository();
             var customerNE = new CustomerNotification();
             customerNE.CusotmerID = customerID;
-            customerNE.Description = "New Customer has been added.";
+            customerNE.Description = "New Customer added.";
             customerNE.IsSeen = false;
             customerNE.URL = "/Notification/CustomerDetail?customerID=" + customerID;
             customerNE.Timestamp = DateTime.Now;

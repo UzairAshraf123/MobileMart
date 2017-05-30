@@ -368,5 +368,62 @@ namespace MobileMart.Controllers
                 return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
+
+        [HttpGet]
+        public ActionResult CreateOwner()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateShop(string userID)
+        {
+            try
+            {
+                AdminBL adminBL = new AdminBL();
+                if (userID != null)
+                {
+                    var countries = adminBL.GetCountries().Select(s => new
+                    {
+                        Text = s.name,
+                        Value = s.id
+                    }).ToList();
+                    ViewBag.OwnerID = adminBL.GetOwnerIDByUserID(userID);
+                    ViewBag.UserID = userID;
+                    ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateShop(CreateShopViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel != null)
+                {
+                    AdminBL adminBL = new AdminBL();
+                    var shopID = adminBL.CreateShopGetID(viewModel);
+                    return RedirectToAction("Login", "ShopKeeper", new { message = "Login to see your panel..." });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While creating Shop. Please check your request." });
+                }
+            }
+            catch 
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While creating Shop. Please check your request." });
+            }
+        }
     }
 }

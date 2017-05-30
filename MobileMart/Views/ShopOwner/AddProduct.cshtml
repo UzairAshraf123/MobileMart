@@ -6,7 +6,7 @@
 }
 @if (ViewBag.message!=null)
 {
-    <div><h2 class="alert-warning">@ViewBag.message</h2></div>
+    <div><h2 class="alert-warning text-center text-info">@ViewBag.message</h2></div>
 }
 @using (Html.BeginForm("AddProduct", "ShopOwner",FormMethod.Post,
             new { @class = "form-horizontal", @id="AddProductForm" , role = "form", enctype = "multipart/form-data" }))

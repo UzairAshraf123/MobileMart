@@ -84,8 +84,9 @@ namespace MobileMart.Controllers
         // Shopkeeper Login
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string message)
         {
+            ViewBag.Message = message;
             return View();
         }
 
@@ -458,6 +459,46 @@ namespace MobileMart.Controllers
                 return shopBL.ChangeFeatureState(productID, isFeature);
             }
         }
+        //Add category
+        public ActionResult AddCategory(string message)
+        {
+            try
+            {
+                ViewBag.Message = message;
+                var categories = new ShopKeeperBL().GetCategory().Select(s => new
+                {
+                    id = s.CategoryID,
+                    text = s.CategoryName
+                }).ToList();
+                ViewBag.CategoryDropDown = new SelectList(categories, "id", "text", "");
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult AddCategory(AddCategoryViewModel viewmodel)
+        {
+            try
+            {
+                if (viewmodel != null)
+                {
+                    AdminBL BL = new AdminBL();
+                    BL.AddSubCategory(viewmodel);
+                    return RedirectToAction("AddCategory", "ShopOwner", new{ message = "Category Added successfully..."});
+                }
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
+            }
+        }
+
 
     }
 }

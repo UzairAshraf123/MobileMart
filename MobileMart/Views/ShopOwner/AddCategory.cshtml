@@ -1,0 +1,62 @@
+﻿@model MobileMart.DB.ViewModel.AddCategoryViewModel
+
+@{
+    ViewBag.Title = "AddCatogory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Add Category</h2>
+<div><h3 class="text-center text-info">@ViewBag.message</h3></div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm("AddCategory", "ShopOwner", FormMethod.Post,
+                            new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(Model => Model.CategoryID, (SelectList)ViewBag.CategoryDropDown, "--Select Category--",
+                    new { @class = "form-control", @id = "SelectedCatogory" })
+                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @*<div class="col-md-4">
+        <label for="CompanyLogo" style="cursor:pointer">
+            <img src="~/Content/DefaultImages/default.jpg" id="output" class="img-responsive img-thumbnail" height="250" width="250" />
+        </label>
+    </div>*@
+</div>
+<div>
+    @Html.ActionLink("Back to dashboard", "Index")
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+}*@

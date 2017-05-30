@@ -13,16 +13,24 @@ namespace MobileMart.Controllers
         // GET: Notification
         public ActionResult CustomerDetail(int? customerID)
         {
-            if (customerID != null)
+            try
             {
-                var notificationBL = new NotificationBL();
-                var model = notificationBL.GetCustomerDetail(customerID);
-                return View(model);
+                if (customerID != null)
+                {
+                    var notificationBL = new NotificationBL();
+                    var model = notificationBL.GetCustomerDetail(customerID);
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+                }
             }
-            else
+            catch
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
             }
+           
         }
 
         public ActionResult OrderDetail(int? orderID)
@@ -41,30 +49,46 @@ namespace MobileMart.Controllers
 
         public ActionResult ProductDetail(int? productID)
         {
-            if (productID > 0)
+            try
             {
-                var notificationBL = new NotificationBL();
-                var model = notificationBL.GetProductDetail(productID);
-                return View(model);
+                if (productID != null)
+                {
+                    var notificationBL = new NotificationBL();
+                    var model = notificationBL.GetProductDetail(productID);
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+                }
             }
-            else
+            catch
             {
-                return RedirectToAction("Index", "Admin");               
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
             }
+            
         }
 
         public ActionResult ShopDetail(int? shopID)
         {
-            if (shopID > 0)
+            try
             {
-                var notificationBL = new NotificationBL();
-                var model = notificationBL.GetShopDetail(shopID);
-                return View(model);
+                if (shopID != null)
+                {
+                    var notificationBL = new NotificationBL();
+                    var model = notificationBL.GetShopDetail(shopID);
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+                }
             }
-            else
+            catch
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
             }
+
         }
 
         [HttpPost]
@@ -86,21 +110,43 @@ namespace MobileMart.Controllers
 
         public ActionResult CustomerNotifications()
         {
-            var notificationBL = new NotificationBL();
-            var model = notificationBL.GetCustomerNotifications();
-            return View(model);
+            try
+            {
+                var notificationBL = new NotificationBL();
+                var model = notificationBL.GetCustomerNotifications();
+                return View(model);
+            }
+            catch 
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+            }
         }
         public ActionResult ProductNotifications()
         {
-            var notificationBL = new NotificationBL();
-            var model = notificationBL.GetProductNotifications();
-            return View(model);
+            try
+            {
+                var notificationBL = new NotificationBL();
+                var model = notificationBL.GetProductNotifications();
+                return View(model);
+            }
+            catch 
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+            }
+
         }
         public ActionResult ShopNotifications()
         {
-            var notificationBL = new NotificationBL();
-            var model = notificationBL.GetShopNotifications();
-            return View(model);
+            try
+            {
+                var notificationBL = new NotificationBL();
+                var model = notificationBL.GetShopNotifications();
+                return View(model);
+            }
+            catch 
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your notification request. Please check your request." });
+            }
         }
         public ActionResult OrderNotifications()
         {

@@ -65,6 +65,39 @@ namespace MobileMart.BL
             shopNR.Insert(shopNE);
         }
 
+        public int CreateShopGetID(CreateShopViewModel model)
+        {
+            IShopRepository ownerRepo = new ShopRepository();
+            Shop entity = new Shop();
+
+            var fileName = Path.GetFileNameWithoutExtension(model.ShopLogo.FileName);
+            fileName += DateTime.Now.Ticks + Path.GetExtension(model.ShopLogo.FileName);
+            var basePath = "~/Content/ShopOwner/" + model.UserID + "/" + model.OwnerID + "/ShopLogo/";
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/" + model.UserID + "/" + model.OwnerID + "/ShopLogo/"));
+            model.ShopLogo.SaveAs(path);
+
+            entity.OwnerID = model.OwnerID;
+            entity.ShopName = model.ShopName;
+            entity.ShopAddress = model.ShopAddress;
+            entity.ShopLogo = basePath + fileName;
+            entity.CountryID = model.Country;
+            entity.StateID = model.State;
+            entity.CityID = model.City;
+            entity.CreatedOn = model.CreatedOn;
+            var shopID = ownerRepo.InsertAndGetID(entity);
+
+            var shopNR = new ShopNotificationRepository();
+            var shopNE = new ShopNotification();
+
+            shopNE.ShopID = shopID;
+            shopNE.Description = "New Shop added.";
+            shopNE.IsSeen = false;
+            shopNE.Timestamp = DateTime.Now;
+            shopNE.URL = "/Notification/ShopDetail?shopID=" + shopID;
+            shopNR.Insert(shopNE);
+            return shopID;
+        }
         public int GetOwnerIDByUserID(string userID)
         {
             IOwnerRepository ownerRepo = new OwnerRepository();
@@ -397,6 +430,14 @@ namespace MobileMart.BL
             entity.CategoryName = viewmodel.CategoryName;
             categoryrepo.insert(entity);
 
+        }
+        public void AddSubCategory(AddCategoryViewModel viewmodel)
+        {
+            ICategoryRepository categoryrepo = new CategoryRepository();
+            Category entity = new Category();
+            entity.CategoryName = viewmodel.CategoryName;
+            entity.ParentCategory = viewmodel.CategoryID;
+            categoryrepo.insert(entity);
         }
 
         //public IEnumerable<DisplayProductViewModel> GetAllProducts()

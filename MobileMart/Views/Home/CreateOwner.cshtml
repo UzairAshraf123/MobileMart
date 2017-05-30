@@ -1,0 +1,99 @@
+﻿@using MobileMart.DB.ViewModel
+@model CreateOwnerViewModel
+
+@{
+    ViewBag.Title = "CreateOwner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr/>
+<div class="row container well center-block">
+    <h2>Create Owner</h2>
+
+    @using (Html.BeginForm("OwnerRegister1", "Account", FormMethod.Post,
+                    new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-9 col-md-offset-3">
+                    <div id="imgpreview1" class="col-md-3 image-preview img-rounded img-responsive img-thumbnail" style="margin-top: 60px;">
+                        <label for="image-upload" id="image-label" class="image-preview-label">
+                            <span><i class="glyphicon glyphicon-plus"></i></span>
+                        </label>
+                        @Html.TextBoxFor(m => m.ProfilePhotoPath, new { Type = "File", @id = "image-upload", @class = "image-preview-input", onchange = "showpreview(this, 1)" })
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.ProfilePhotoPath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <input type="hidden" name="CreatedOn" value="@System.DateTime.Now" />
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OwnerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.OwnerName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OwnerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Register" />
+                </div>
+            </div>
+            @Html.ActionLink("Back to Home", "Index")
+        </div>
+    }
+</div>
+<div class="row center-block">
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        //var loadFile = function (event) {
+        //    var output = document.getElementById('output');
+        //    output.src = URL.createObjectURL(event.target.files[0]);
+        //};
+        function showpreview(input, num) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var loadedFile = e.target;
+                    $('#imgpreview' + num).css("background-image", "url(" + loadedFile.result + ")");
+                    $('#imgpreview' + num).css("background-size", "cover");
+                    $('#imgpreview' + num).css("background-position", "center center");
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

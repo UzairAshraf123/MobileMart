@@ -339,12 +339,6 @@
                                             </tr>
                                             count = @item.Total + count;
                                         }
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>@count</td>
-                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -402,8 +396,8 @@
         config = {
             data: data,
             xkey: 'y',
-            ykeys: ['a','b'],
-            labels: ['SubTotal', 'Total'],
+            ykeys: ['b'],
+            labels: [ 'Total'],
             fillOpacity: 0.6,
             hideHover: 'auto',
             behaveLikeLine: true,
