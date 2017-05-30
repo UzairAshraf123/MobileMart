@@ -19,23 +19,25 @@ namespace MobileMart.Controllers
     public class CartController : HomeBaseController
     {
         // GET: Cart
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-            try{
+            try
+            {
+                ViewBag.Message = message;
                 if (Session["Cart"] != null)
                 {
                     return View(new CartDisplayViewModel() { Cart = (List<CartSessionViewModel>)Session["Cart"] });
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message});
+                return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
             }
-            
+
         }
 
 
@@ -101,45 +103,47 @@ namespace MobileMart.Controllers
         [HttpPost]
         public ActionResult Checkout(CartDisplayViewModel viewModel)
         {
-            var cart = (List<CartSessionViewModel>)Session["Cart"]; 
-            if (cart.Any())
+            try
             {
-                // Flat rate shipping
-                int shipping = 200;
-
-                // Flat rate tax 10%
-                var taxRate = 0.1M;
-
-                var subtotal = cart.Sum(x => x.ProductDetail.Price * x.Quantity);
-                var tax = Convert.ToInt32((subtotal + shipping) * taxRate);
-                var total = subtotal + shipping + tax;
-                // Create an Order object to store info about the shopping cart
-                OrderBL orderDetailBL = new OrderBL();
-                AddOrderViewModel orderObj = new AddOrderViewModel()
+                var cart = (List<CartSessionViewModel>)Session["Cart"];
+                if (cart.Any())
                 {
-                    CustomerID = User.Identity.GetCustomerID(),
-                    PaymentID = 1,
-                    CreatedOn = DateTime.Now,
-                    Tax = tax,
-                    Total = total,
-                    Shipping = shipping,
-                    SubTotal = subtotal,
-                    Address = viewModel.Address,
-                    Mobile = viewModel.Mobile
-                };
-               
-                // Get PayPal API Context using configuration from web.config
-                var apiContext = GetApiContext();
+                    // Flat rate shipping
+                    int shipping = 200;
 
-                // Create a new payment object
-                var payment = new PayPal.Api.Payment
-                {
-                    intent = "sale",
-                    payer = new Payer
+                    // Flat rate tax 10%
+                    var taxRate = 0.1M;
+
+                    var subtotal = cart.Sum(x => x.ProductDetail.Price * x.Quantity);
+                    var tax = Convert.ToInt32((subtotal + shipping) * taxRate);
+                    var total = subtotal + shipping + tax;
+                    // Create an Order object to store info about the shopping cart
+                    OrderBL orderDetailBL = new OrderBL();
+                    AddOrderViewModel orderObj = new AddOrderViewModel()
                     {
-                        payment_method = "paypal"
-                    },
-                    transactions = new List<Transaction>
+                        CustomerID = User.Identity.GetCustomerID(),
+                        PaymentID = 1,
+                        CreatedOn = DateTime.Now,
+                        Tax = tax,
+                        Total = total,
+                        Shipping = shipping,
+                        SubTotal = subtotal,
+                        Address = viewModel.Address,
+                        Mobile = viewModel.Mobile
+                    };
+
+                    // Get PayPal API Context using configuration from web.config
+                    var apiContext = GetApiContext();
+
+                    // Create a new payment object
+                    var payment = new PayPal.Api.Payment
+                    {
+                        intent = "sale",
+                        payer = new Payer
+                        {
+                            payment_method = "paypal"
+                        },
+                        transactions = new List<Transaction>
                     {
                         new Transaction
                         {
@@ -164,109 +168,124 @@ namespace MobileMart.Controllers
                                     quantity = x.Quantity.ToString(),
                                     price = (x.ProductDetail.Price/100M).ToString(),
                                 }).ToList()
-                                
+
                             }
                         }
                     },
-                    redirect_urls = new RedirectUrls
+                        redirect_urls = new RedirectUrls
+                        {
+                            return_url = Url.Action("Return", "Cart", null, Request.Url.Scheme),
+                            cancel_url = Url.Action("CheckoutCancel", "Cart", null, Request.Url.Scheme)
+                        }
+                    };
+
+                    // Send the payment to PayPal
+                    var createdPayment = payment.Create(apiContext);
+
+                    // Save a reference to the paypal payment
+                    orderObj.PayPalReference = createdPayment.id;
+
+                    // Find the Approval URL to send our user to
+                    var approvalUrl =
+                        createdPayment.links.FirstOrDefault(
+                            x => x.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase));
+
+                    var orderID = orderDetailBL.AddOrderReturnID(orderObj);
+                    //Inserting data in OrderDetail Entity
+                    AddOrderDetailViewModel orderDetailVM = new AddOrderDetailViewModel();
+                    foreach (var item in cart)
                     {
-                        return_url = Url.Action("Return", "Cart", null, Request.Url.Scheme),
-                        cancel_url = Url.Action("CheckoutCancel", "Cart", null, Request.Url.Scheme)
+                        orderDetailVM.OrderID = orderID;
+                        orderDetailVM.UnitPrice = (item.ProductDetail.Price) * item.Quantity;
+                        orderDetailVM.Quantity = item.Quantity;
+                        orderDetailVM.ProductID = item.ProductID;
+                        orderDetailBL.AddOrderDetail(orderDetailVM);
                     }
-                };
 
-                // Send the payment to PayPal
-                var createdPayment = payment.Create(apiContext);
-
-                // Save a reference to the paypal payment
-                orderObj.PayPalReference = createdPayment.id;
-                
-                // Find the Approval URL to send our user to
-                var approvalUrl =
-                    createdPayment.links.FirstOrDefault(
-                        x => x.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase));
-
-                var orderID = orderDetailBL.AddOrderReturnID(orderObj);
-                //Inserting data in OrderDetail Entity
-                AddOrderDetailViewModel orderDetailVM = new AddOrderDetailViewModel();
-                foreach (var item in cart)
-                {
-                    orderDetailVM.OrderID = orderID;
-                    orderDetailVM.UnitPrice = (item.ProductDetail.Price) * item.Quantity;
-                    orderDetailVM.Quantity = item.Quantity;
-                    orderDetailVM.ProductID = item.ProductID;
-                    orderDetailBL.AddOrderDetail(orderDetailVM);
+                    // Send the user to PayPal to approve the payment
+                    return Redirect(approvalUrl.href);
                 }
-
-                // Send the user to PayPal to approve the payment
-                return Redirect(approvalUrl.href);
+                return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
             }
-
-            return RedirectToAction("Cart");
+            catch
+            {
+                return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
-
         [Authorize(Roles = "Customer")]
         public ActionResult Return(string payerId, string paymentId)
         {
-            // Fetch the existing order
-            OrderBL orderDetailBL = new OrderBL();
-            var order = orderDetailBL.GetOrderByPayPalReference(paymentId);
-            var orderID = order.OrderID;
-            var orderNR = new OrderNotificationRepository();
-            var orderNE = new OrderNotification();
-            orderNE.OrderID = orderID;
-            orderNE.Description = "New Order placed.";
-            orderNE.IsSeen = false;
-            orderNE.Timestamp = DateTime.Now;
-            orderNE.URL = "/Notification/OrderDetail?orderID=" + orderID;
-            orderNR.Insert(orderNE);
-            // Get PayPal API Context using configuration from web.config
-            var apiContext = GetApiContext();
-            // Set the payer for the payment
-            var paymentExecution = new PaymentExecution()
-            {
-                payer_id = payerId
-            };
+            try 
+            { 
+                // Fetch the existing order
+                OrderBL orderDetailBL = new OrderBL();
+                var order = orderDetailBL.GetOrderByPayPalReference(paymentId);
+                var orderID = order.OrderID;
+                var orderNR = new OrderNotificationRepository();
+                var orderNE = new OrderNotification();
+                orderNE.OrderID = orderID;
+                orderNE.Description = "New Order placed.";
+                orderNE.IsSeen = false;
+                orderNE.Timestamp = DateTime.Now;
+                orderNE.URL = "/Notification/OrderDetail?orderID=" + orderID;
+                orderNR.Insert(orderNE);
+                // Get PayPal API Context using configuration from web.config
+                var apiContext = GetApiContext();
+                // Set the payer for the payment
+                var paymentExecution = new PaymentExecution()
+                {
+                    payer_id = payerId
+                };
 
-            // Identify the payment to execute
-            var payment = new PayPal.Api.Payment()
+                // Identify the payment to execute
+                var payment = new PayPal.Api.Payment()
+                {
+                    id = paymentId
+                };
+                // Execute the Payment
+                var executedPayment = payment.Execute(apiContext, paymentExecution);
+                //ClearCart();
+                ClearCart();
+                return RedirectToAction("Thankyou", new { paypalID = paymentId });
+            }
+            catch
             {
-                id = paymentId
-            };
-            // Execute the Payment
-            var executedPayment = payment.Execute(apiContext, paymentExecution);
-            //ClearCart();
-            ClearCart();
-            return RedirectToAction("Thankyou",new { paypalID = paymentId });
+                return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
-
         [Authorize(Roles = "Customer")]
         public ActionResult Thankyou(string paypalID)
         {
-            if (paypalID!=null) { 
-            var order = new OrderBL().GetOrderByPayPalReference(paypalID);
-            var orderVM = new AddOrderViewModel()
-            {
-                Address = order.ShippingAddress,
-                CreatedOn = order.CreatedOn,
-                CustomerID = order.CustomerID,
-                Mobile = order.Mobile,
-                PayPalReference = order.PayPalReference,
-                Shipping = order.Shipping,
-                SubTotal = order.SubTotal,
-                Tax = order.Tax,
-                Total = order.Total,
-                OrderID = order.OrderID
-            };
-            IEnumerable<DisplayOrderDetailViewModel> orderDetail = new AdminBL().GetOrderDetailByOrderID(order.OrderID);
-            return View(new ThankYouViewModel() { Order = orderVM,OrderDetail= orderDetail});
+            try {
+                if (paypalID != null)
+                {
+                    var order = new OrderBL().GetOrderByPayPalReference(paypalID);
+                    var orderVM = new AddOrderViewModel()
+                    {
+                        Address = order.ShippingAddress,
+                        CreatedOn = order.CreatedOn,
+                        CustomerID = order.CustomerID,
+                        Mobile = order.Mobile,
+                        PayPalReference = order.PayPalReference,
+                        Shipping = order.Shipping,
+                        SubTotal = order.SubTotal,
+                        Tax = order.Tax,
+                        Total = order.Total,
+                        OrderID = order.OrderID
+                    };
+                    IEnumerable<DisplayOrderDetailViewModel> orderDetail = new AdminBL().GetOrderDetailByOrderID(order.OrderID);
+                    return View(new ThankYouViewModel() { Order = orderVM, OrderDetail = orderDetail });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Cart");
+                }
             }
-            else
+            catch
             {
-                return RedirectToAction("Index","Cart");
+                return RedirectToAction("Index", "Cart", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
-
         [Authorize(Roles = "Customer")]
         public ActionResult CheckoutCancel()
         {
@@ -281,12 +300,5 @@ namespace MobileMart.Controllers
             var apiContext = new APIContext(accessToken);
             return apiContext;
         }
-
-        public ActionResult CartErrors(string message)
-        {
-            ViewBag.ErrorMessage = message;
-            return View();
-        }
-
     }
 }

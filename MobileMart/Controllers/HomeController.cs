@@ -46,75 +46,92 @@ namespace MobileMart.Controllers
 
             return View();
         }
-
-        public ActionResult UserProfile(int ID)
-        {
-            HomeBL BL = new HomeBL();
-            var profile = BL.ShopDetails(ID);
-            return View(profile);
-        }
         
         public ActionResult ProductDetail(int? ID)
         {
-            
-            if (ID > 0)
+            try
             {
-                HomeBL BL = new HomeBL();
-                var detail = BL.Detail(ID);
-                return View(detail);
+                if (ID != null)
+                {
+                    HomeBL BL = new HomeBL();
+                    var detail = BL.Detail(ID);
+                    return View(detail);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+                }
             }
-            return RedirectToAction("Index", "Home");
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+            }
         }
 
-        public ActionResult Shop(int shopID,int? page)
+        public ActionResult Shop(int? shopID,int? page)
         {
             try
             {
-                if (shopID > 0)
+                if (shopID != 0)
                 {
                     var shopBL = new ShopBL();
-                    var shop = shopBL.GetShopDetail(shopID);
-                    var products = new ShopKeeperBL().GetProduct(shopID).Where(s=> s.IsActive == true);
+                    var shop = shopBL.GetShopDetail(Convert.ToInt32(shopID));
+                    var products = new ShopKeeperBL().GetProduct(Convert.ToInt32(shopID)).Where(s=> s.IsActive == true);
                     var pager = new Pager(products.Count(), page);
                     shop.Pager = pager;
                     shop.ProductDetail = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
                     return View(shop);
                 }
-                return View("Index");
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+                }
             }
-            catch(Exception ex)
+            catch
             {
-                ViewBag.message = ex.Message;
-                return View();
+                return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
             }
         }
 
-        public ActionResult MyProfile(int customerID ,string message)
+        public ActionResult MyProfile(int? customerID, string message)
         {
-            var homeBL = new HomeBL();
-            var countries = homeBL.GetCountries().Select(s => new
+            try
             {
-                Text = s.name,
-                Value = s.id
-            }).ToList();
-            
-            ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
-            var model = homeBL.GetCustomerDetailByID(customerID);
+                if (customerID !=null)
+                {
+                    var homeBL = new HomeBL();
+                    var countries = homeBL.GetCountries().Select(s => new
+                    {
+                        Text = s.name,
+                        Value = s.id
+                    }).ToList();
 
-            if (message == "ChangePasswordSuccess")
-            {
-                ViewBag.StatusMessage = "Password changed successfully...";
-            }
-            else if (message == "Error")
-            {
-                ViewBag.ErrorMessage = "Something went wrong While processing your request. Please check your request.";
-            }
-            model.CustomerOrders = homeBL.GetMyOrder(User.Identity.GetCustomerID());
-            model.WishList = homeBL.GetMyWishList(User.Identity.GetCustomerID());
+                    ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                    var model = homeBL.GetCustomerDetailByID(customerID);
 
-            return View(model);
+                    if (message == "ChangePasswordSuccess")
+                    {
+                        ViewBag.StatusMessage = "Password changed successfully...";
+                    }
+                    else if (message == "Error")
+                    {
+                        ViewBag.ErrorMessage = "Something went wrong While processing your request. Please check your request.";
+                    }
+                    model.CustomerOrders = homeBL.GetMyOrder(User.Identity.GetCustomerID());
+                    model.WishList = homeBL.GetMyWishList(User.Identity.GetCustomerID());
+
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+                }
+            }
+            catch 
+            {
+                return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+            }        
         }
-
         [HttpPost]
         public ActionResult MyProfile(CustomerDetailViewModel viewModel)
         {
@@ -125,86 +142,118 @@ namespace MobileMart.Controllers
             return RedirectToAction("MyProfile","Home" , new { customerID = viewModel.CustomerID});
         }
 
-        public ActionResult MyOrdersDetails(int orderID)
+        public ActionResult MyOrdersDetails(int? orderID)
         {
             try
             {
-                if (orderID > 0)
+                if (orderID !=null)
                 {
                     var adminBL = new AdminBL();
                     var model = new OrderViewModel();
-                    model.Order = adminBL.GetOrderByID(orderID);
-                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(orderID);
+                    model.Order = adminBL.GetOrderByID(Convert.ToInt32(orderID));
+                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(Convert.ToInt32(orderID));
                     return View(model);
                 }
-                return RedirectToAction("MyProfile", "Home",new {customerID = User.Identity.GetCustomerID() , message = "Error" });
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+                }
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
             }
         }
 
         public ActionResult WishList(int? page)
         {
-            if (User.Identity.GetCustomerID()>0)
+            try
             {
-                var wishList =  new HomeBL().GetMyWishList(User.Identity.GetCustomerID());
-                var pager = new Pager(wishList.Count(), page);
-                var model = new WishListViewModel()
+                if (User.Identity.GetCustomerID() > 0)
                 {
-                    Pager = pager,
-                    WishList = wishList
-                };
-                return View(model);    
+                    var wishList = new HomeBL().GetMyWishList(User.Identity.GetCustomerID());
+                    var pager = new Pager(wishList.Count(), page);
+                    var model = new WishListViewModel()
+                    {
+                        Pager = pager,
+                        WishList = wishList
+                    };
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
             }
-            ViewBag.ErrorMessage = "Something went wrong While processing your request. Please check your request.";
-            return View();
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult AllProducts(int? page)
         {
-            var products = new HomeBL().GetAllProducts();
-            var pager = new Pager(products.Count(), page);
-            var model = new AllProductsViewModel()
+            try
             {
-                Pager = pager,
-                ProductsList = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
-            };
-            return View(model);
+                var products = new HomeBL().GetAllProducts();
+                var pager = new Pager(products.Count(), page);
+                var model = new AllProductsViewModel()
+                {
+                    Pager = pager,
+                    ProductsList = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
+                };
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
-        public ActionResult Page(int? page)
-        {
-            var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
-            var pager = new Pager(dummyItems.Count(), page);
+        //public ActionResult Page(int? page)
+        //{
+        //    var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
+        //    var pager = new Pager(dummyItems.Count(), page);
 
-            var viewModel = new PagerViewModel
-            {
-                Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                Pager = pager
-            };
+        //    var viewModel = new PagerViewModel
+        //    {
+        //        Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+        //        Pager = pager
+        //    };
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
         public ActionResult Companies()
         {
-            return View(new HomeBL().GetCompanies());
+            try
+            {
+                return View(new HomeBL().GetCompanies());
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult ProductsByBrand(int? companyID)
         {
-            if (companyID!=null)
+            try
             {
-                ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
-                return View(new HomeBL().GetProductByCompanyID(companyID));
+                if (companyID != null)
+                {
+                    ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
+                    return View(new HomeBL().GetProductByCompanyID(companyID));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Bad Request..." });
+                }
             }
-            else
+            catch
             {
-                return RedirectToAction("Index","Home",new { message="Bad Request..."});
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
             }
-            
         }
 
         public ActionResult NewProducts()
@@ -214,41 +263,110 @@ namespace MobileMart.Controllers
 
         public ActionResult FeaturedProducts(int? page)
         {
-            var products = new HomeBL().GetAllProducts();
-            var pager = new Pager(products.Count(), page);
-            var model = new FeaturedProductsViewModel()
+            try
             {
-                Pager = pager,
-                Products = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
-            };
-            return View(model);
+                var products = new HomeBL().GetAllProducts();
+                var pager = new Pager(products.Count(), page);
+                var model = new FeaturedProductsViewModel()
+                {
+                    Pager = pager,
+                    Products = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize)
+                };
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult NewItems(int? categoryID)
         {
-            return View(new HomeBL().GetNewTablets(categoryID));
+            try
+            {
+                if (categoryID!=null)
+                {
+                    return View(new HomeBL().GetNewTablets(categoryID));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
+
         }
      
         public ActionResult ProductBySubCategory(int? categoryID,int? subCategoryID)
         {
-            return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID));
+            try
+            {
+                if (categoryID !=null && subCategoryID!=null)
+                {
+                    return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult OldProducts()
         {
-            return View(new HomeBL().GetOldItems());
+            try
+            {
+                return View(new HomeBL().GetOldItems());
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult OldItems(int? categoryID)
         {
-            return View(new HomeBL().GetOldItemsByCategoryID(categoryID));
+            try
+            {
+                if (categoryID != null)
+                {
+                    return View(new HomeBL().GetOldItemsByCategoryID(categoryID));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult ProductsByCategories(int? categoryID, int? subCategoryID)
         {
-            return View(new HomeBL().GetOldItemsByCategories(categoryID, subCategoryID));
+            try
+            {
+                if (categoryID != null && subCategoryID != null)
+                {
+                    return View(new HomeBL().GetOldItemsByCategories(categoryID, subCategoryID));
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
-
-       
     }
 }

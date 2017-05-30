@@ -52,6 +52,7 @@ namespace MobileMart.Controllers
                 return RedirectToAction("Index", "Admin");               
             }
         }
+
         public ActionResult ShopDetail(int? shopID)
         {
             if (shopID > 0)

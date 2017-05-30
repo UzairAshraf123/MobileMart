@@ -14,20 +14,27 @@ namespace MobileMart.Controllers
     {
         // GET: ShopOwner
         ShopKeeperBL shopBL = new ShopKeeperBL();
-        [Authorize(Roles = "ShopKeeper")]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-            var model = new ShopIndexViewModel();
-            var shopBL = new ShopBL();
-            var shopID = User.Identity.GetShopID();
-            model.NewOrdersCount = shopBL.GetNewOrders(shopID);
-            model.AllOrdersCount = shopBL.GetAllOrdersCount(shopID);
-            model.NewProductsCount = shopBL.GetNewProductsCount(shopID);
-            model.AllProductsCount = shopBL.GetAllProductsCount(shopID);
-            model.Orders = shopBL.TodaysOrders(shopID);
-            model.TotalOrders = new ShopKeeperBL().GetOrdersByShopID(shopID);
-            model.TotalSale = new ShopBL().GetTotalSaleOfShop(shopID);
-            return View(model);
+            try
+            {
+                ViewBag.Message = message;
+                var model = new ShopIndexViewModel();
+                var shopBL = new ShopBL();
+                var shopID = User.Identity.GetShopID();
+                model.NewOrdersCount = shopBL.GetNewOrders(shopID);
+                model.AllOrdersCount = shopBL.GetAllOrdersCount(shopID);
+                model.NewProductsCount = shopBL.GetNewProductsCount(shopID);
+                model.AllProductsCount = shopBL.GetAllProductsCount(shopID);
+                model.Orders = shopBL.TodaysOrders(shopID);
+                model.TotalOrders = new ShopKeeperBL().GetOrdersByShopID(shopID);
+                model.TotalSale = new ShopBL().GetTotalSaleOfShop(shopID);
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Page404", "Error", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         public ActionResult Account(int? shopID,string Message)
@@ -52,11 +59,10 @@ namespace MobileMart.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "ShopOwner");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
         [HttpPost]
-        [Authorize(Roles = "ShopKeeper")]
         public ActionResult UpdateShop(DisplayShopViewModel viewModel)
         {
             try
@@ -84,7 +90,6 @@ namespace MobileMart.Controllers
         }
 
         // add company 
-        [Authorize(Roles = "ShopKeeper")]
         public ActionResult AddCompany()
         {
             return View();
@@ -102,17 +107,17 @@ namespace MobileMart.Controllers
                 }
                 return View();
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
+                ViewBag.message = "Something went wrong while processing your request...";
                 return View();
             }
         }
 
         //Add Supplier
-        [Authorize(Roles = "ShopKeeper")]
-        public ActionResult AddSupplier()
+        public ActionResult AddSupplier(string message)
         {
+            ViewBag.Message = message;
             return View();
         }
 
@@ -124,24 +129,24 @@ namespace MobileMart.Controllers
                 if (viewmodel != null)
                 {
                     viewmodel.ShopID = User.Identity.GetShopID();
-                    return RedirectToAction("AddProduct", "ShopOwner", new { SupplierID = shopBL.AddSupplier(viewmodel) });
+                    return RedirectToAction("AddProduct", "ShopOwner", new { SupplierID = shopBL.AddSupplier(viewmodel), message ="Supplier Added..." });
                 }
                 return View();
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
+                ViewBag.message = "Something went wrong while processing your request...";
                 return RedirectToAction("AddSupplier", "ShopOwner");
             }
         }
 
         //Add product
-        [Authorize(Roles = "ShopKeeper")]
         [HttpGet]
-        public ActionResult AddProduct()
+        public ActionResult AddProduct(string message)
         {
             try
             {
+                ViewBag.Message = message;
                 if (Request.QueryString["SupplierID"] != null && Request.QueryString["SupplierID"] != "")
                 {
                     var companies = shopBL.GetCompany().Select(s => new
@@ -160,12 +165,11 @@ namespace MobileMart.Controllers
                     ViewBag.CategoryDropDown = new SelectList(categories, "id", "text", "");
                     return View(new AddProductViewModel { IsOld = false });
                 }
-                return RedirectToAction("AddSupplier", "ShopOwner");
+                return RedirectToAction("AddSupplier", "ShopOwner",new { message = "Bad Request..."});
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("AddProduct", "ShopOwner");
+                return RedirectToAction("AddProduct", "ShopOwner",new { message = "Something went wrong while processing your request...."});
             }
         }
 
@@ -177,18 +181,14 @@ namespace MobileMart.Controllers
                 viewmodel.ShopID = User.Identity.GetShopID();
                 shopBL.AddProduct(viewmodel);
                 return RedirectToAction("DisplayProduct");
-
-
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("AddProduct", "ShopOwner");
+                return RedirectToAction("AddProduct", "ShopOwner", new { message = "Something went wrong while processing your request...." });
             }
         }
 
         //Display Supplier
-        [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplaySupplier()
         {
             try
@@ -196,18 +196,26 @@ namespace MobileMart.Controllers
                 var shopID = User.Identity.GetShopID();
                 return View(shopBL.GetSupplier(shopID));
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
         public ActionResult FeatureProducts()
         {
-            var model = new ProductReporViewModel();
-            var shopID = User.Identity.GetShopID();
-            model.Products = shopBL.GetProduct(shopID).Where(w =>w.IsFeatured == true).OrderByDescending(s => s.CreatedOn); ;
-            return View(model);
+            try
+            {
+                var model = new ProductReporViewModel();
+                var shopID = User.Identity.GetShopID();
+                model.Products = shopBL.GetProduct(shopID).Where(w => w.IsFeatured == true).OrderByDescending(s => s.CreatedOn); ;
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
+            }
+            
         }
         //Display Product
         [Authorize(Roles = "ShopKeeper")]
@@ -228,15 +236,14 @@ namespace MobileMart.Controllers
                     return View(model);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
         //Display Product According to range
         [HttpPost]
-        [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplayProduct(ProductReporViewModel viewmodel)
         {
             try
@@ -248,14 +255,13 @@ namespace MobileMart.Controllers
                 model.Products = products;
                 return View(model);
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
         //Display Orders
-        [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplayOrder(string orders)
         {
             try
@@ -275,15 +281,14 @@ namespace MobileMart.Controllers
                     return View(model);
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
         //Orders According to Range
         [HttpPost]
-        [Authorize(Roles = "ShopKeeper")]
-        public ActionResult DisplayOrder(OrderReportViewModel viewModel)
+         public ActionResult DisplayOrder(OrderReportViewModel viewModel)
         {
             try
             {
@@ -292,29 +297,29 @@ namespace MobileMart.Controllers
                 model.Orders = shopBL.GetOrdersByRange(shopID, viewModel.From, viewModel.To).OrderByDescending(s => s.CreatedOn);
                 return View(model);
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
         //Display Order detail by orderID
-        public ActionResult OrderDetails(int orderID)
+        public ActionResult OrderDetails(int? orderID)
         {
             try
             {
-                if (orderID > 0)
+                if (orderID != 0)
                 {
                     var adminBL = new AdminBL();
                     var model = new OrderViewModel();
-                    model.Order = adminBL.GetOrderByID(orderID);
-                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(orderID);
+                    model.Order = adminBL.GetOrderByID(Convert.ToInt32(orderID));
+                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(Convert.ToInt32(orderID));
                     return View(model);
                 }
-                return RedirectToAction("DisplayOrders", "Admin");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
@@ -335,11 +340,11 @@ namespace MobileMart.Controllers
 
         //Update Product
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult EditProduct(int id)
+        public ActionResult EditProduct(int? id)
         {
             try
             {
-                if (id > 0)
+                if (id !=null)
                 {
                     var companies = shopBL.GetCompany().Select(s => new
                     {
@@ -355,18 +360,17 @@ namespace MobileMart.Controllers
                     ViewBag.CompanyDropdown = new SelectList(companies, "id", "text");
                     ViewBag.CategoryDropDown = new SelectList(categories, "id", "text");
                     var shopID = User.Identity.GetShopID();
-                    var product = shopBL.UpdteProductlist(id, shopID);
+                    var product = shopBL.UpdteProductlist(Convert.ToInt32(id), shopID);
                     return View(product);
                 }
                 else
                 {
-                    return View("DisplayProduct");
+                    return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
                 }
             }
-            catch (Exception ex)
+            catch  
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditProduct", "ShopOwner");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
@@ -379,26 +383,31 @@ namespace MobileMart.Controllers
                 shopBL.UpdateProduct(viewmodel);
                 return RedirectToAction("DisplayProduct");
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditProduct", "ShopOwner");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
         //Edit Supplier
         [Authorize(Roles = "ShopKeeper")]
-        public ActionResult EditSupplier(int id)
+        public ActionResult EditSupplier(int? id)
         {
             try
             {
-                var supplier = shopBL.UpdteSupplierlist(id);
-                return View(supplier);
+                if (id!=null)
+                {
+                    var supplier = shopBL.UpdteSupplierlist(Convert.ToInt32(id));
+                    return View(supplier);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "ShopOwner", new { message = "Bad Request..." });
+                }
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditSupplier", "ShopOwner");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 
@@ -410,10 +419,9 @@ namespace MobileMart.Controllers
                 shopBL.UpdateSupplier(viewmodel);
                 return RedirectToAction("DisplaySupplier");
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditSupplier", "ShopOwner");
+                return RedirectToAction("Index", "ShopOwner", new { message = "Something went wrong while processing your request. Please try again." });
             }
         }
 

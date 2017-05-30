@@ -6,7 +6,11 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h3 class="alert">@ViewBag.message</h3>
+@if (ViewBag.message!=null)
+{
+    <h3 class="alert">@ViewBag.message</h3>
+
+}
 <div class="row">
     <div class="col-md-4">
         <h2>Add Supplier</h2>

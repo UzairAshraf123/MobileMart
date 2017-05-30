@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MobileMart.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : HomeBaseController
     {
         // GET: /Error/Page404
         public ActionResult Page404(string message)

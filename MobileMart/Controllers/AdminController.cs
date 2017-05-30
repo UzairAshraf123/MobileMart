@@ -19,38 +19,61 @@ namespace MobileMart.Controllers
     {
         AdminBL adminBL = new AdminBL();
         // GET: Admin
-        [Authorize(Roles = "Admin")]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-            var model = new AdminIndexViewModel();
-            var dashboardBL = new DashboardBL();
-            model.NewOrdersCount = dashboardBL.GetNewOrders();
-            model.AllOrdersCount = dashboardBL.GetAllOrdersCount();
-            model.NewProductsCount = dashboardBL.GetNewProductsCount();
-            model.AllProductsCount = dashboardBL.GetAllProductsCount();
-            model.NewCustomersCount = dashboardBL.GetNewCustomersCount();
-            model.AllCustomersCount = dashboardBL.GetAllCustomersCount();
-            model.NewShopsCount = dashboardBL.GetNewShopsCount();
-            model.AllShopsCount = dashboardBL.GetAllShopsCount();
-            model.Orders = dashboardBL.TodaysOrders();
-            model.TotalOrders =  dashboardBL.GetOrders();
-            model.TotalSale = dashboardBL.GetTotalSale();
-            model.NewCustomers = dashboardBL.GetNewCustomers();
-            return View(model);
+            try
+            {
+                ViewBag.Message = message;
+                var model = new AdminIndexViewModel();
+                var dashboardBL = new DashboardBL();
+                model.NewOrdersCount = dashboardBL.GetNewOrders();
+                model.AllOrdersCount = dashboardBL.GetAllOrdersCount();
+                model.NewProductsCount = dashboardBL.GetNewProductsCount();
+                model.AllProductsCount = dashboardBL.GetAllProductsCount();
+                model.NewCustomersCount = dashboardBL.GetNewCustomersCount();
+                model.AllCustomersCount = dashboardBL.GetAllCustomersCount();
+                model.NewShopsCount = dashboardBL.GetNewShopsCount();
+                model.AllShopsCount = dashboardBL.GetAllShopsCount();
+                model.Orders = dashboardBL.TodaysOrders();
+                model.TotalOrders = dashboardBL.GetOrders();
+                model.TotalSale = dashboardBL.GetTotalSale();
+                model.NewCustomers = dashboardBL.GetNewCustomers();
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Page404", "Error", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
+            
         }
         [HttpGet]
         public ActionResult Account(string Message)
         {
-            ViewBag.Message = Message;
-            return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
+            try
+            {
+                ViewBag.Message = Message;
+                return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
         [HttpPost]
         public ActionResult Account(AdminProfileViewModel viewModel)
         {
-            viewModel.AspNetID = User.Identity.GetUserId();
-            new AdminBL().UpateAdmin(viewModel);
-            return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
+            try
+            {
+                viewModel.AspNetID = User.Identity.GetUserId();
+                new AdminBL().UpateAdmin(viewModel);
+                return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
+
         [AllowAnonymous]
         public ActionResult AdminLogin()
         {
@@ -74,9 +97,9 @@ namespace MobileMart.Controllers
                     return View(model);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -90,9 +113,9 @@ namespace MobileMart.Controllers
                 viewModel.Customers = customers;
                 return View(viewModel);
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -105,24 +128,33 @@ namespace MobileMart.Controllers
         [HttpGet]
         public ActionResult CreateShop(string userID)
         {
-            AdminBL adminBL = new AdminBL();
-            if (userID != null)
+            try
             {
-                var countries = adminBL.GetCountries().Select(s => new
+                AdminBL adminBL = new AdminBL();
+                if (userID != null)
                 {
-                    Text = s.name,
-                    Value = s.id
-                }).ToList();
-                ViewBag.OwnerID = adminBL.GetOwnerIDByUserID(userID);
-                ViewBag.UserID = userID;
-                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
-                return View();
+                    var countries = adminBL.GetCountries().Select(s => new
+                    {
+                        Text = s.name,
+                        Value = s.id
+                    }).ToList();
+                    ViewBag.OwnerID = adminBL.GetOwnerIDByUserID(userID);
+                    ViewBag.UserID = userID;
+                    ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
             }
-            return RedirectToAction("CreateOwner", "Admin");
+            catch
+            {
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+            }
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateShop(CreateShopViewModel viewModel)
         {
             try
@@ -133,26 +165,35 @@ namespace MobileMart.Controllers
                     adminBL.CreateShop(viewModel);
                     return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
                 }
-                return RedirectToAction("CreateShop", "Admin");
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
             }
             catch (Exception ex)
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("CreateShop", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
-        public ActionResult DisplayShop(int ownerID)
+        public ActionResult DisplayShop(int? ownerID)
         {
             try
             {
-                AdminBL BL = new AdminBL();
-                var owner = BL.ShopAndOwnerByOwnerID(ownerID);
-                return View(owner);
+                if (ownerID != null)
+                { 
+                    AdminBL BL = new AdminBL();
+                    var owner = BL.ShopAndOwnerByOwnerID(Convert.ToInt32(ownerID));
+                    return View(owner);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -173,9 +214,9 @@ namespace MobileMart.Controllers
                     return View(viewModel);
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
         
@@ -188,9 +229,9 @@ namespace MobileMart.Controllers
                 model.Shops = BL.GetAllShopsByRange(model.From, model.To).OrderByDescending(s => s.ShopCreatedOn);
                 return View(model);
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
         
@@ -211,9 +252,9 @@ namespace MobileMart.Controllers
                     return View(model);
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -227,41 +268,55 @@ namespace MobileMart.Controllers
                 model.Orders = adminBL.GetAllOrdersByRange(viewModel.From, viewModel.To);
                 return View(model);
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
-        public ActionResult OrderDetails(int orderID)
+        public ActionResult OrderDetails(int? orderID)
         {
             try
             {
-                if (orderID > 0)
+                if (orderID !=null)
                 {
                     var adminBL = new AdminBL();
                     var model = new OrderViewModel();
-                    model.Order = adminBL.GetOrderByID(orderID);
-                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(orderID);
+                    model.Order = adminBL.GetOrderByID(Convert.ToInt32(orderID));
+                    model.OrderDetail = adminBL.GetOrderDetailByOrderID(Convert.ToInt32(orderID));
                     return View(model);
                 }
-                return RedirectToAction("DisplayOrders", "Admin");
+                else
+                {
+                    return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Page404", "Error", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
+
         [HttpPost]
         public bool DeleteShop(string UserID)
         {
-            if (UserID != null)
+            try
             {
-                AdminBL BL = new AdminBL();
-                BL.DeleteUser(UserID);
-                return true;
+                if (UserID != null)
+                {
+                    AdminBL BL = new AdminBL();
+                    BL.DeleteUser(UserID);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         [HttpGet]
@@ -275,12 +330,11 @@ namespace MobileMart.Controllers
                     var owner = BL.GetOwnerByID(ownerID);
                     return View(owner);
                 }
-                return View("DisplayAllShops");
+                return RedirectToAction("DisplayAllShops","Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditOwner", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -304,15 +358,13 @@ namespace MobileMart.Controllers
                 }
                 return View();
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditOwner", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public ActionResult EditShop(CreateShopViewModel viewModel)
         {
             try
@@ -323,12 +375,11 @@ namespace MobileMart.Controllers
                     adminBL.UpdateEditedShop(viewModel);
                     return RedirectToAction("DisplayShop", "Admin", new { ownerID = viewModel.OwnerID });
                 }
-                return RedirectToAction("CreateShop", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.message = ex.Message;
-                return RedirectToAction("EditOwner", "Admin");
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
@@ -346,13 +397,15 @@ namespace MobileMart.Controllers
                 {
                     AdminBL BL = new AdminBL();
                     BL.AddCompany(viewmodel);
-                    return RedirectToAction("AddCompany", "Admin");
+                    ViewBag.message = "Company Successfully Added.";
+                    return View();
                 }
+                ViewBag.message = "Something went wrong While processing your request. Please check your request.";
                 return View();
             }
-            catch (Exception ex)
+            catch 
             {
-                ViewBag.message = ex.Message;
+                ViewBag.message = "Company Successfully Added.";
                 return View();
             }
         }
@@ -376,14 +429,12 @@ namespace MobileMart.Controllers
                 }
                 return View();
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.massage = ex.Message;
                 return RedirectToAction("AddCategory", "Admin");
             }
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public ActionResult DisplayAllProduct(int? id,string products)
         {
@@ -396,7 +447,7 @@ namespace MobileMart.Controllers
                     model.Products = adminBL.GetProducts().Where(w => w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
                     return View(model);
                 }
-                else if (id > 0)
+                else if (id !=null)
                 {
 
                     model.Products = adminBL.GetProductByID(id);
@@ -408,14 +459,13 @@ namespace MobileMart.Controllers
                     return View(model);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return RedirectToAction("Error", "Admin", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult DisplayAllProduct(ProductReporViewModel viewModel)
         {
             try
@@ -425,9 +475,9 @@ namespace MobileMart.Controllers
                 model.Products = adminBL.GetProductsByRange(viewModel.From, viewModel.To);
                 return View(model);
             }
-            catch (Exception ex)
+            catch 
             {
-                return RedirectToAction("Error", "Admin", new { message = ex.Message });
+                return RedirectToAction("Index", "Admin", new { message = "Something went wrong While processing your request. Please check your request." });
             }
         }
 
