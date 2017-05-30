@@ -17,5 +17,6 @@ namespace MobileMart.Repository
         Product GetProductByID(int? productID);
         int InsertAndGetID(Product entity);
         bool ChangeActiveStatus(Product entity);
+        bool? ChangeFeatureStatus(Product entity);
     }
 }

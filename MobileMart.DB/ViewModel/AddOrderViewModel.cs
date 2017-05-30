@@ -16,5 +16,8 @@ namespace MobileMart.DB.ViewModel
         public decimal? Shipping { get; set; }
         public string PayPalReference { get; set; }
         public decimal? SubTotal { get; set; }
+        public string Mobile { get; set; }
+        public string Address { get; set; }
+        public int OrderID { get; set; }
     }
 }

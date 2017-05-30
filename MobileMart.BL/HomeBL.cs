@@ -265,7 +265,7 @@ namespace MobileMart.BL
         {
             var wishListRepository = new WishListRepository();
             var wishList = wishListRepository.Get();
-            return wishList.Select(s => new DisplayWishListViewModel
+            return wishList.Where(w=> w.CustomerID == customerID).Select(s => new DisplayWishListViewModel
             {
                 CustomerID = s.CustomerID,
                 Product = GetProductByID(s.ProductID),
@@ -312,9 +312,10 @@ namespace MobileMart.BL
                 Price = w.Price,
                 ProductDetail = w.ProductDetails,
                 ProductID = w.ProductID,
-                ProductImage  = w.ProductImage1,
+                ProductImage = w.ProductImage1,
                 ProductName = w.ProductName,
-                ShopID = w.Supplier.ShopID
+                ShopID = w.Supplier.ShopID,
+                ShopName = w.Supplier.Shop.ShopName
             });
         }
 

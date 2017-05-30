@@ -88,7 +88,7 @@ namespace MobileMart.Repository
             shop.CountryID = entity.CountryID;
             shop.StateID = entity.StateID;
             shop.CityID = entity.CityID;
-            shop.CreatedOn = entity.CreatedOn;
+            shop.CreatedOn = DateTime.Now;
             _context.SaveChanges();
         }
     }

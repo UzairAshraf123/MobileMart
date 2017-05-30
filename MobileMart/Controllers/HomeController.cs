@@ -13,10 +13,11 @@ namespace MobileMart.Controllers
     {
         HomeBL BL = new HomeBL();
 
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
             var model = BL.GetHomeDetails();
             ViewBag.Companies = BL.GetCompanies();
+            ViewBag.Message = message;
             return View(model);
         }
        
@@ -65,14 +66,19 @@ namespace MobileMart.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Shop(int shopID)
+        public ActionResult Shop(int shopID,int? page)
         {
             try
             {
                 if (shopID > 0)
                 {
                     var shopBL = new ShopBL();
-                    return View(shopBL.GetShopDetail(shopID));
+                    var shop = shopBL.GetShopDetail(shopID);
+                    var products = new ShopKeeperBL().GetProduct(shopID).Where(s=> s.IsActive == true);
+                    var pager = new Pager(products.Count(), page);
+                    shop.Pager = pager;
+                    shop.ProductDetail = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
+                    return View(shop);
                 }
                 return View("Index");
             }
@@ -189,8 +195,16 @@ namespace MobileMart.Controllers
 
         public ActionResult ProductsByBrand(int? companyID)
         {
-            ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
-            return View(new HomeBL().GetProductByCompanyID(companyID));
+            if (companyID!=null)
+            {
+                ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
+                return View(new HomeBL().GetProductByCompanyID(companyID));
+            }
+            else
+            {
+                return RedirectToAction("Index","Home",new { message="Bad Request..."});
+            }
+            
         }
 
         public ActionResult NewProducts()

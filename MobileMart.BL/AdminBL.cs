@@ -39,7 +39,7 @@ namespace MobileMart.BL
 
             var fileName = Path.GetFileNameWithoutExtension(model.ShopLogo.FileName);
             fileName += DateTime.Now.Ticks + Path.GetExtension(model.ShopLogo.FileName);
-            var basePath = "~/Content/ShopOwner/" + model.UserID+"/"+ model.OwnerID +"/ShopLogo/";
+            var basePath = "~/Content/ShopOwner/" + model.UserID + "/" + model.OwnerID + "/ShopLogo/";
             var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
             Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/ShopOwner/" + model.UserID + "/" + model.OwnerID + "/ShopLogo/"));
             model.ShopLogo.SaveAs(path);
@@ -58,7 +58,7 @@ namespace MobileMart.BL
             var shopNE = new ShopNotification();
 
             shopNE.ShopID = shopID;
-            shopNE.Description = "New Shop has been added.";
+            shopNE.Description = "New Shop added.";
             shopNE.IsSeen = false;
             shopNE.Timestamp = DateTime.Now;
             shopNE.URL = "/Notification/ShopDetail?shopID=" + shopID;
@@ -128,7 +128,7 @@ namespace MobileMart.BL
 
             return viewModel;
         }
-        
+
         public List<DisplayShopViewModel> GetAllShops()
         {
             IShopRepository shopRepo = new ShopRepository();
@@ -161,7 +161,7 @@ namespace MobileMart.BL
 
         public IEnumerable<DisplayShopViewModel> GetAllShopsByRange(DateTime from, DateTime to)
         {
-            var shop = new ShopRepository().Get().Where(s=>s.CreatedOn>=from && s.CreatedOn <= to);
+            var shop = new ShopRepository().Get().Where(s => s.CreatedOn >= from && s.CreatedOn <= to);
             IEnumerable<DisplayShopViewModel> shopList = shop.Select(s => new DisplayShopViewModel
             {
                 OwnerName = s.Owner.OwnerName,
@@ -175,7 +175,7 @@ namespace MobileMart.BL
                 ShopAddress = s.ShopAddress,
                 ShopCreatedOn = s.CreatedOn,
                 ShopLogo = s.ShopLogo,
-                productcount =new ProductRepository().GetProduct(s.ShopID).Count()
+                productcount = new ProductRepository().GetProduct(s.ShopID).Count()
             });
             return shopList;
         }
@@ -212,17 +212,17 @@ namespace MobileMart.BL
 
         public IEnumerable<DisplayAllCustomers> GetCustomersByRange(DateTime from, DateTime to)
         {
-            return new CustomerRepository().Get().Where(s=> s.CreatedOn >= from && s.CreatedOn<= s.CreatedOn).Select(i=> new DisplayAllCustomers
+            return new CustomerRepository().Get().Where(s => s.CreatedOn >= from && s.CreatedOn <= s.CreatedOn).Select(i => new DisplayAllCustomers
             {
                 CustomerID = i.CustomerID,
                 Address1 = i.Address1,
                 AspID = i.AspNetUserID,
-                Mobile=i.PhoneNo,
+                Mobile = i.PhoneNo,
                 City = i.city.name,
                 State = i.city.state.name,
                 Country = i.city.state.country.name,
-                CreatedON =i.CreatedOn,
-                DOB=i.DOB,
+                CreatedON = i.CreatedOn,
+                DOB = i.DOB,
                 Email = i.Email,
                 FirstName = i.FirstName,
                 LastName = i.LastName,
@@ -242,16 +242,16 @@ namespace MobileMart.BL
             return stateRepo.GetStateByID(state);
         }
 
-        private country GetCountryByID (int? countryID)
+        private country GetCountryByID(int? countryID)
         {
             ICountryRepository countryRepo = new CountryRepository();
-            return countryRepo.GetCountryByID(countryID); 
+            return countryRepo.GetCountryByID(countryID);
         }
 
         public void DeleteUser(string userID)
         {
             IAspNetUser Repo = new Repository.AspNetUser();
-            Repo.DeleteUser(userID);            
+            Repo.DeleteUser(userID);
         }
 
         public EditShopViewModel GetOwnerByID(int? ownerID)
@@ -482,7 +482,7 @@ namespace MobileMart.BL
             productRepo.delete(id);
             return "product delete";
         }
-        
+
         public void DeleteCustomerByID(string customerID)
         {
             new Repository.AspNetUser().DeleteUser(customerID);
@@ -517,6 +517,7 @@ namespace MobileMart.BL
                 Total = s.Total,
                 Shipping = s.Shipping,
                 SubTotal = s.SubTotal,
+                PayPalReference = s.PayPalReference
             });
             return orderList;
         }
@@ -534,6 +535,7 @@ namespace MobileMart.BL
                 Total = s.Total,
                 Shipping = s.Shipping,
                 SubTotal = s.SubTotal,
+                PayPalReference = s.PayPalReference
             });
             return orderList;
         }
@@ -584,6 +586,41 @@ namespace MobileMart.BL
                 ShopLogo = shop.ShopLogo,
                 ShopName = shop.ShopName,
             };
+        }
+
+        public AdminProfileViewModel GetAdminInformation(string aspID)
+        {
+            var admin =  new AdminRepository().Get(aspID) ;
+            return new AdminProfileViewModel()
+            {
+                AdminID = admin.ID,
+                AspNetID = admin.AspNetID,
+                ImagePath = admin.ProfilePhoto,
+                Name = admin.Name,
+                Mobile = admin.Mobile
+            };
+        }
+        public void UpateAdmin(AdminProfileViewModel viewModel)
+        {
+            var admin = new Admin();
+            if (viewModel.ProfileImage != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(viewModel.ProfileImage.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ProfileImage.FileName);
+                var basePath = "~/Content/Admin/" + viewModel.AspNetID + "/Profile/Images/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Admin/" + viewModel.AspNetID + "/Profile/Images/"));
+                viewModel.ProfileImage.SaveAs(path);
+                admin.ProfilePhoto = basePath + fileName;
+            }
+            else
+            {
+                admin.ProfilePhoto = viewModel.ImagePath;
+            }
+            admin.Name = viewModel.Name;
+            admin.Mobile = viewModel.Mobile;
+            admin.AspNetID = viewModel.AspNetID;
+            new AdminRepository().Edit(admin);
         }
     }
 }

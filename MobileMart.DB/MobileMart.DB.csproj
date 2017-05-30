@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Admin.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AspNetUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -141,6 +144,7 @@
     <Compile Include="ViewModel\AddProductViewModel.cs" />
     <Compile Include="ViewModel\AddSupplierViewModel.cs" />
     <Compile Include="ViewModel\AdminMenuViewModel.cs" />
+    <Compile Include="ViewModel\AdminProfileViewModel.cs" />
     <Compile Include="ViewModel\AllProductsViewModel.cs" />
     <Compile Include="ViewModel\CartSessionViewModel.cs" />
     <Compile Include="ViewModel\CategoryDetalViewModel.cs" />
@@ -175,6 +179,7 @@
     <Compile Include="ViewModel\ShopProfileViewModel.cs" />
     <Compile Include="ViewModel\ShopReportViewModel.cs" />
     <Compile Include="ViewModel\ShopWithProductsViewModel.cs" />
+    <Compile Include="ViewModel\ThankYouViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

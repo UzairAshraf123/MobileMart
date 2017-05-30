@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -11,8 +10,7 @@
                     <div class="breadcrumbs-inner">
                         <h1 class="breadcrumbs-title">Contact</h1>
                         <ul class="breadcrumb-list">
-                            <li><a href="index.html">Home</a></li>
-                            <li>Contact</li>
+                            <li><a href="@Url.Action("Index","Home")">Home</a></li>
                         </ul>
                     </div>
                 </div>
@@ -30,85 +28,26 @@
                 <div class="col-sm-4 col-xs-12">
                     <div class="contact-address box-shadow">
                         <i class="zmdi zmdi-pin"></i>
-                        <h6>House 06, Road 01, Katashur, Mohammadpur,</h6>
-                        <h6>Dhaka-1207, Bangladesh</h6>
+                        <h6>Gujranwala, Pakistan</h6>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-12">
                     <div class="contact-address box-shadow">
                         <i class="zmdi zmdi-phone"></i>
-                        <h6>(+880) 1945 082759</h6>
-                        <h6>(+880) 1945 082759</h6>
+                        <h6>(+92) 335 1314141</h6>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-12">
                     <div class="contact-address box-shadow">
                         <i class="zmdi zmdi-email"></i>
-                        <h6>companyname@gmail.com</h6>
-                        <h6>info@domainname.com</h6>
+                        <h6>uzair.m.ashraf@gmail.com</h6>
+                        <h6>mobilephonemart1@gmail.com</h6>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- ADDRESS SECTION END -->
-    <!-- GOOGLE MAP SECTION START -->
-    <div class="google-map-section">
-        <div class="container-fluid">
-            <div class="google-map">
-                <div id="googleMap"></div>
-            </div>
-        </div>
-    </div>
-    <!-- GOOGLE MAP SECTION END -->
-    <!-- MESSAGE BOX SECTION START -->
-    <div class="message-box-section mt--50 mb-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="message-box box-shadow white-bg">
-                        <form id="contact-form" action="mail.php" method="post">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4 class="blog-section-title border-left mb-30">get in touch</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="name" placeholder="Your name here">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="email" placeholder="Your email here">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="subject" placeholder="Subject here">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="phone" placeholder="Your phone here">
-                                </div>
-                                <div class="col-md-12">
-                                    <textarea class="custom-textarea" name="message" placeholder="Message"></textarea>
-                                    <button class="submit-btn-1 mt-30 btn-hover-1" type="submit">submit message</button>
-                                </div>
-                            </div>
-                        </form>
-                        <p class="form-messege"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MESSAGE BOX SECTION END -->
 </section>
 <!-- End page content -->
 
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>

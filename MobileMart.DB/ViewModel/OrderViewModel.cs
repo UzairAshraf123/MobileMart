@@ -33,6 +33,9 @@ namespace MobileMart.DB.ViewModel
 
         [Display(Name = "SubTotal")]
         public decimal? SubTotal { get; set; }
+
+        [Display(Name = "Reference ID")]
+        public string PayPalReference { get; set; }
     }
     public class DisplayOrderDetailViewModel
     {

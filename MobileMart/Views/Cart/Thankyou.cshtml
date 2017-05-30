@@ -1,8 +1,72 @@
-﻿
+﻿@model MobileMart.DB.ViewModel.ThankYouViewModel
+
 @{
     ViewBag.Title = "Thankyou";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Thank you</h2>
-@ViewBag.id
+
+ <!-- order-complete start -->
+<div class="tab-pane" id="order-complete">
+    <div class="order-complete-content box-shadow">
+        <div class="thank-you p-30 text-center">
+            <h6 class="text-black-5 mb-0">Thank you. Your order has been received.</h6>
+        </div>
+        <div class="order-info p-30 mb-10">
+            <ul class="order-info-list">
+                <li>
+                    <h6>Order no</h6>
+                    <p>@Model.Order.OrderID</p>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <!-- our order -->
+            <div class="col-md-6">
+                <div class="payment-details p-30">
+                    <h6 class="widget-title border-left mb-20">My order</h6>
+                    <table>
+                        @foreach (var item in Model.OrderDetail)
+                        {
+                            <tr>
+                                <td class="td-title-1">@item.Product x @item.Quantity</td>
+                            </tr>
+                        }
+                       <tr>
+                            <td class="td-title-1">Cart Subtotal</td>
+                            <td class="td-title-2">@Model.Order.SubTotal Rs</td>
+                        </tr>
+                        <tr>
+                            <td class="td-title-1">Shipping</td>
+                            <td class="td-title-2">@Model.Order.Shipping Rs</td>
+                        </tr>
+                        <tr>
+                            <td class="td-title-1">Tax</td>
+                            <td class="td-title-2">@Model.Order.Tax Rs</td>
+                        </tr>
+                        <tr>
+                            <td class="order-total">Order Total</td>
+                            <td class="order-total-price">@Model.Order.Total Rs</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bill-details p-30">
+                    <h6 class="widget-title border-left mb-20">Shipping details</h6>
+                    <ul class="bill-address">
+                        <li>
+                            <span>Address:</span>
+                            @Model.Order.Address
+                        </li>
+                        <li>
+                            <span>Phone : </span>
+                            @Model.Order.Mobile
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- order-complete end -->

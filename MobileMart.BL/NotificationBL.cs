@@ -32,6 +32,7 @@ namespace MobileMart.BL
                 CustomerNotificationIsSeen = i.IsSeen,
                 CustomerNotificationURL = i.URL,
                 CreatedON = i.Timestamp,
+                Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CustomerImage = customerRepo.Get().Where(s => s.CustomerID == i.CusotmerID).Select(s => s.ProfilePicture).FirstOrDefault(),
             }).ToList();
 
@@ -43,6 +44,7 @@ namespace MobileMart.BL
                 OrderNotificationID = i.OrderNotificationID,
                 OrderNotificationIsSeen = i.IsSeen,
                 OrderNotificationURL = i.URL,
+                Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CreatedON = i.Timestamp,
             }).ToList();
 
@@ -54,6 +56,7 @@ namespace MobileMart.BL
                 ProductNotificationID = i.ProductNotificationID,
                 ProductNotificationIsSeen = i.IsSeen,
                 ProductNotificationURL = i.URL,
+                Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CreatedON = i.Timestamp,
                 ProductImage = productRepo.Get().Where(s => s.ProductID == i.ProductID).Select(s => s.ProductImage1).FirstOrDefault(),
             }).ToList().OrderByDescending(s => s.CreatedON);
@@ -66,6 +69,7 @@ namespace MobileMart.BL
                 ShopNotificationID = i.ShopNotificationID,
                 ShopNotificationIsSeen = i.IsSeen,
                 ShopNotificationURL = i.URL,
+                Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CreatedON = i.Timestamp,
                 ShopLogo = shopRepo.Get().Where(s => s.ShopID == i.ShopID).Select(s => s.ShopLogo).FirstOrDefault(),
             }).ToList().OrderByDescending(s => s.CreatedON);
@@ -80,10 +84,10 @@ namespace MobileMart.BL
             //    SupplierNotificationURL = i.URL
             //}).ToList();
 
-            list.CustomerNotificationList = customerNL;
-            list.OrderNotificationList = orderNL;
-            list.ProductNotificationList = productNL;
-            list.ShopNotificationList = shopNL;
+            list.CustomerNotificationList = customerNL.OrderByDescending(s=>s.CreatedON);
+            list.OrderNotificationList = orderNL.OrderByDescending(s => s.CreatedON);
+            list.ProductNotificationList = productNL.OrderByDescending(s => s.CreatedON);
+            list.ShopNotificationList = shopNL.OrderByDescending(s => s.CreatedON);
             //list.SupplierNotificationList = supplierNL;
             return list;
         }
@@ -100,7 +104,8 @@ namespace MobileMart.BL
                 OrderNotificationIsSeen = i.IsSeen,
                 OrderNotificationURL = i.URL,
                 CreatedON = i.Timestamp,
-            }).ToList();
+                Days = (DateTime.Now - i.Timestamp.Value).Days
+            }).ToList().OrderByDescending(s => s.CreatedON);
             list.OrderNotificationList = orderNL;
             return list;
         }

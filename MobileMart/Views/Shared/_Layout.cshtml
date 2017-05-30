@@ -32,7 +32,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/Images/Icons/favicon.png">
-    @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/css")*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/nivo-slider.css" rel="stylesheet" />
+    <link href="~/Content/shortcode/shortcodes.css" rel="stylesheet" />
+    <link href="~/Content/color-core.css" rel="stylesheet" />
+    <link href="~/Content/default.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/core.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
@@ -307,20 +318,20 @@
                         <div class="col-md-4 col-sm-4">
                             <ul class="footer-social footer-social-2">
                                 <li>
-                                    <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
+                                    <a class="facebook" href="https://www.facebook.com/mobilephonemart/" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
                                 </li>
                                 <li>
-                                    <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
+                                    <a class="google-plus" href="https://plus.google.com/113844908382593308903" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
                                 </li>
                                 <li>
-                                    <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
+                                    <a class="twitter" href="https://twitter.com/MobilePhoneMar2" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-4 col-sm-3">
                             <ul class="footer-payment">
                                 <li>
-                                    <a style="cursor:pointer"><i class="zmdi zmdi-paypal"></i></a>
+                                    <a href="https://www.paypal.com/us/home" style="cursor:pointer"><i class="zmdi zmdi-paypal"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -353,7 +364,12 @@
                     return false;
                 }
             });
-
+            $(function () {
+                $("#DOB").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                });
+            });
             $("#SearchBox").autocomplete({
                 source: function (request, response) {
                     $.ajax({

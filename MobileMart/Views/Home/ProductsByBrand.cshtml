@@ -38,7 +38,7 @@
                             <a href="@Url.Action("ProductDetail", "Home", new { ID = @item.ProductID })">@item.ProductName</a>
                         </h6>
                         <h6 class="brand-name">@item.Company</h6>
-                        <h6 class="brand-name pull-right">Shop: @Html.ActionLink(@item.Company, "Shop", new { shopID = item.ShopID })</h6>
+                        <h6 class="brand-name">Shop:<a href="@Url.Action("Shop","Home", new { shopID = item.ShopID})">@item.ShopName</a></h6>
                         <h3 class="pro-price">$ @item.Price</h3>
                     </div>
                     <ul class="action-button">

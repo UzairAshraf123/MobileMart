@@ -52,5 +52,8 @@ namespace MobileMart.DB.ViewModel
         public bool IsActive { get; set; }
 
         public bool? New { get; set; }
+
+        public bool? IsFeatured { get; set; }
+
     }
 }

@@ -29,7 +29,7 @@
                             </div>
                             <div class="product-info">
                                 <h6 class="product-title">
-                                    <a href="single-product.html">Product Name</a>
+                                    <a href="@Url.Action("ProductDetail","Home",new { ID = item.ProductID})">@item.ProductName</a>
                                 </h6>
                                 <h3 class="pro-price">@item.Price Rs</h3>
                                 <ul class="action-button">

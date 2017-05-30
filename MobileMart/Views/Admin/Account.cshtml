@@ -1,16 +1,28 @@
-﻿
+﻿@using MobileMart.DB.ViewModel
+@model AdminProfileViewModel
 @{
     ViewBag.Title = "Account";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
+<h3 class="alert-danger">
+    @ViewBag.Message
+</h3>
 <h2>Profile</h2>
+@using (Html.BeginForm("ChangeAdminPassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
 <div class="row">
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Panel heading without title</div>
+            <div class="panel-heading">Profile Photo</div>
             <div class="panel-body">
-                <img src="~/Content/DefaultImages/default.jpg?w=270&h=370&mode=max" />
+                <img src="@Url.Content(Model.ImagePath)?w=270&h=370&mode=max" id="output" class="img-rounded"/>
+
+                <br />
+                <h2 class="text-center" style="cursor:pointer"><label class="glyphicon glyphicon-camera" for="ProfileImage"></label></h2>
+                <input type="file" id="ProfileImage" name="ProfileImage" value="ProfileImage" style="display:none" onchange="loadFile(event)" />
+
             </div>
         </div>
     </div>
@@ -18,22 +30,67 @@
         <div id="exTab3">
             <ul class="nav nav-pills nav-justified">
                 <li class="active">
-                    <a href="#1b" data-toggle="tab">Overview</a>
-                </li>
-                <li>
-                    <a href="#2b" data-toggle="tab">Using nav-pills</a>
+                    <a href="#1b" data-toggle="tab">My Detail</a>
                 </li>
             </ul>
-
+           
+            <input type="hidden" name="ImagePath" value="@Model.ImagePath" />
             <div class="tab-content clearfix">
                 <div class="tab-pane active" id="1b">
-                    <h3>Same as example 1 but we have now styled the tab's corner</h3>
-                </div>
-                <div class="tab-pane" id="2b">
-                    <h3>We use the class nav-pills instead of nav-tabs which automatically creates a background color for the tab</h3>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
                 </div>
             </div>
+         
         </div>
 
     </div>
 </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+}

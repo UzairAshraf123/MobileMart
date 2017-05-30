@@ -84,6 +84,9 @@
                         New
                     </th>
                     <th>
+                        Feature
+                    </th>
+                    <th>
                         Active
                     </th>
                     <th>
@@ -133,6 +136,17 @@
                             {
                                 <p>New</p>
                             }
+                        </td>
+                        <td>
+                            @if (item.IsFeatured == true)
+                            {
+                                <label class="ToActive" id="ToFeature_@item.ProductID">Yes</label>
+                            }
+                            else
+                            {
+                                <label class="ToActive" id="ToFeature_@item.ProductID">No</label>
+                            }
+                            <a value="@item.ProductID" onclick="MakeUnMakeFeature(@item.ProductID)" class="btn glyphicon glyphicon-ok-circle"></a>
                         </td>
                         <td>
                             @*@Html.DisplayFor(modelItem => item.IsActive)*@
@@ -217,6 +231,26 @@
                     else{
                         $("#ToActive_" + id).empty();
                         $("#ToActive_" + id).append("De-Active");
+                    }
+                }
+            });
+        }
+        function MakeUnMakeFeature(productID) {
+            debugger;
+            var id = productID;
+            $.ajax({
+                url: "@Url.Action("MakeFeature", "ShopOwner")",
+                method: "POST",
+                data: { productID: id },
+                success: function (data) {
+                    debugger;
+                    if (data =="True") {
+                        $("#ToFeature_"+id).empty();
+                        $("#ToFeature_" + id).append("Yes");
+                    }
+                    else{
+                        $("#ToFeature_" + id).empty();
+                        $("#ToFeature_" + id).append("No");
                     }
                 }
             });

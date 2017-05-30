@@ -708,7 +708,8 @@ transform: scale(1);
 ------------------------------------- */
 .breadcrumbs-section {}
 .breadcrumbs {
-  background: #f6f6f6 url("img/breadcrumb/1.png") no-repeat scroll center center; 
+    background-image: url('DefaultImages/about-us-page-680x330.jpg');
+    /*background: #f6f6f6 url("img/breadcrumb/1.png") no-repeat scroll center center;*/
 }
 .overlay-bg { 
   position: relative;

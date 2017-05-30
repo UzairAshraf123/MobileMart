@@ -31,25 +31,26 @@ namespace MobileMart.BL
                 SupplierAddress = s.SupplierAddress,
                 Supplierno = s.SupplierContact
             }).ToList();
-            viewModel.ProductDetail = products.Select(s => new ProductDetailViewModel
-            {
-                ProductID = s.ProductID,
-                ProductName = s.ProductName,
-                ProductDetail = s.ProductDetails,
-                ProductImage1 = s.ProductImage1,
-                ProductImage2 = s.ProductImage2,
-                ProductImage3 = s.ProductImage4,
-                ProductImage4 = s.ProductImage4,
-                Color = s.ProductColor,
-                Price = s.Price,
-                Company = s.Company.CompanyName
-            }).ToList();
+            //viewModel.ProductDetail = products.Where(w=> w.IsActive == true).Select(s => new ProductDetailViewModel
+            //{
+            //    ProductID = s.ProductID,
+            //    ProductName = s.ProductName,
+            //    ProductDetail = s.ProductDetails,
+            //    ProductImage1 = s.ProductImage1,
+            //    ProductImage2 = s.ProductImage2,
+            //    ProductImage3 = s.ProductImage4,
+            //    ProductImage4 = s.ProductImage4,
+            //    Color = s.ProductColor,
+            //    Price = s.Price,
+            //    Company = s.Company.CompanyName
+            //}).ToList();
             var countryRepo = new CountryRepository();
             var stateRepo = new StateRepository();
             var cityRepo = new CityRepository();
             var shopVM = new ShopDetailViewModel();
             var ownerRepo = new OwnerRepository();
             var owner = ownerRepo.GetOwnerByID(shop.OwnerID);
+            shopVM.ShopID = shop.ShopID;
             shopVM.ShopName = shop.ShopName;
             shopVM.ShopAddress = shop.ShopAddress;
             shopVM.Logo = shop.ShopLogo;
@@ -97,7 +98,7 @@ namespace MobileMart.BL
         {
             IShopRepository shopRepo = new ShopRepository();
             Shop shopEntity = new Shop();
-            if (viewModel.ShopLogo != null)
+            if (viewModel.ShopImage != null)
             {
                 var fileName = Path.GetFileNameWithoutExtension(viewModel.ShopImage.FileName);
                 fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ShopImage.FileName);

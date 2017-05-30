@@ -23,7 +23,7 @@
                      <!-- single-brand-product start -->
                     <div class="col-xs-12">
                         <div class="single-brand-product">
-                            <a href=""><img src="@Url.Content(item.Logo)?w=170&h=170&mode=stretch|" alt=""></a>
+                            <a href="@Url.Action("ProductsByBrand","Home", new { companyID = item.CompanyId} )"><img src="@Url.Content(item.Logo)?w=170&h=170&mode=stretch|" alt=""></a>
                             <h3 class="brand-title text-gray">
                                 <a href="@Url.Action("ProductsByBrand","Home", new { @item.CompanyId})">@item.CompanyName</a>
                             </h3>

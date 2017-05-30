@@ -62,6 +62,9 @@
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DisplayOrders" ? "active" : "")">
                 <a href="@Url.Action("DisplayOrders","Admin")"><i class="fa fa-fw fa-bar-chart-o"></i> Orders<span class="badge">@adminData.OrderCount</span></a>
             </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddCategory" ? "active" : "")">
+                <a href="@Url.Action("AddCategory","Admin")"><i class="fa fa-fw fa-plus"></i> Add Category</a>
+            </li>
         </ul>
     </div>
 }

@@ -50,6 +50,8 @@
         <AssociationConnector Association="MobileMartModel.FK_Category_Category" />
         <AssociationConnector Association="MobileMartModel.FK_WishList_Customer" />
         <AssociationConnector Association="MobileMartModel.FK_WishList_Product" />
+        <EntityTypeShape EntityType="MobileMartModel.Admin" Width="1.5" PointX="3" PointY="23.25" />
+        <AssociationConnector Association="MobileMartModel.FK_Admin_AspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

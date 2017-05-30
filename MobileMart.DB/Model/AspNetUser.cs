@@ -19,6 +19,7 @@ namespace MobileMart.DB.Model
         {
             this.Customers = new HashSet<Customer>();
             this.Owners = new HashSet<Owner>();
+            this.Admins = new HashSet<Admin>();
         }
     
         public string Id { get; set; }
@@ -38,5 +39,7 @@ namespace MobileMart.DB.Model
         public virtual ICollection<Customer> Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owners { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Admin> Admins { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace MobileMart.DB.Model
         public Nullable<decimal> Shipping { get; set; }
         public Nullable<decimal> Total { get; set; }
         public Nullable<decimal> SubTotal { get; set; }
+        public string Mobile { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Payment Payment { get; set; }

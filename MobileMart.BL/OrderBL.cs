@@ -52,6 +52,8 @@ namespace MobileMart.BL
             entity.Total = viewModel.Total;
             entity.Shipping = viewModel.Shipping;
             entity.PayPalReference = viewModel.PayPalReference;
+            entity.ShippingAddress = viewModel.Address;
+            entity.Mobile = viewModel.Mobile;
             return orderRepo.InsertAndReturnID(entity);
         }
     }

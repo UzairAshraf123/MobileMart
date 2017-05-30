@@ -104,6 +104,7 @@ namespace MobileMart.BL
                 viewmodel.price = item.Price;
                 viewmodel.New = item.IsOld;
                 viewmodel.IsActive = item.IsActive;
+                viewmodel.IsFeatured = item.IsFeature;
                 viewmodellist.Add(viewmodel);
             }
             return viewmodellist;
@@ -159,7 +160,7 @@ namespace MobileMart.BL
 
             productNE.ProductID = productID;
             productNE.Timestamp = DateTime.Now;
-            productNE.Description = "New Product has been added..";
+            productNE.Description = "New Product added.";
             productNE.URL = "/Notification/ProductDetail?productID="+productID;
             productNE.IsSeen = false;
 
@@ -293,10 +294,23 @@ namespace MobileMart.BL
             var isactive = productRepo.GetProduct(shopID).FirstOrDefault(s => s.ProductID == id).IsActive;
             return (isactive);
         }
+        //IsFeatureProducts
+        public bool? IsFeature(int id, int shopID)
+        {
+            var isFeature = productRepo.GetProduct(shopID).FirstOrDefault(s => s.ProductID == id).IsFeature;
+            return (isFeature);
+        }
         public bool ChangeProductStateTo(int productID, bool IsActive)
         {
             var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
             entity.IsActive = IsActive;
+            entity.ProductID = productID;
+            return productRepo.ChangeActiveStatus(entity);
+        }
+        public bool ChangeFeatureState(int productID, bool? IsFeature)
+        {
+            var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
+            entity.IsFeature = IsFeature;
             entity.ProductID = productID;
             return productRepo.ChangeActiveStatus(entity);
         }
@@ -318,6 +332,7 @@ namespace MobileMart.BL
                 Total = s.Total,
                 Shipping = s.Shipping,
                 SubTotal = s.SubTotal,
+                PayPalReference = s.PayPalReference
             });
             return orderList;
         }
@@ -335,6 +350,7 @@ namespace MobileMart.BL
                 Total = s.Total,
                 Shipping = s.Shipping,
                 SubTotal = s.SubTotal,
+                PayPalReference = s.PayPalReference
             });
             return orderList;
         }

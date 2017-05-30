@@ -35,6 +35,8 @@ namespace MobileMart.DB.ViewModel
 
         [Display(Name = "Time")]
         public DateTime? CreatedON { get; set; }
+        public int Days { get; set; }
+
     }
     public class OrderNotificationViewModel
     {
@@ -52,6 +54,8 @@ namespace MobileMart.DB.ViewModel
 
         [Display(Name = "Time")]
         public DateTime? CreatedON { get; set; }
+
+        public int Days { get; set; }
     }
     //public class SupplierNotificationViewModel
     //{
@@ -85,6 +89,8 @@ namespace MobileMart.DB.ViewModel
 
         [Display(Name = "Time")]
         public DateTime? CreatedON { get; set; }
+        public int Days { get; set; }
+
     }
     public class ShopNotificationViewModel
     {
@@ -105,6 +111,7 @@ namespace MobileMart.DB.ViewModel
 
         [Display(Name = "Time")]
         public DateTime? CreatedON { get; set; }
+        public int Days { get; set; }
     }
 
     public class SeenNotifications

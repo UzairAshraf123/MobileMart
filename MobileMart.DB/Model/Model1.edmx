@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MobileMartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="nvarchar(max)" />
+          <Property Name="ProfilePhoto" Type="nvarchar(max)" />
+          <Property Name="AspNetID" Type="nvarchar" MaxLength="128" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,6 +113,7 @@
           <Property Name="Shipping" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SubTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -263,6 +274,18 @@
           <Property Name="ProductID" Type="int" />
           <Property Name="CustomerID" Type="int" />
         </EntityType>
+        <Association Name="FK_Admin_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Admin" Type="Self.Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="AspNetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Category_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Category1" Type="Self.Category" Multiplicity="*" />
@@ -564,6 +587,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MobileMartModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
@@ -586,6 +610,10 @@
           <EntitySet Name="SupplierNotification" EntityType="Self.SupplierNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WishList" EntityType="Self.WishList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Admin_AspNetUsers" Association="Self.FK_Admin_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Admin" EntitySet="Admin" />
+          </AssociationSet>
           <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="Category1" EntitySet="Category" />
@@ -798,6 +826,11 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="WishList" EntitySet="WishLists" />
           </AssociationSet>
+          <EntitySet Name="Admins" EntityType="MobileMartModel.Admin" />
+          <AssociationSet Name="FK_Admin_AspNetUsers" Association="MobileMartModel.FK_Admin_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Admin" EntitySet="Admins" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
@@ -817,6 +850,7 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="MobileMartModel.FK_Customer_AspNetUsers" FromRole="AspNetUser" ToRole="Customer" />
           <NavigationProperty Name="Owners" Relationship="MobileMartModel.FK_Owner_AspNetUsers" FromRole="AspNetUser" ToRole="Owner" />
+          <NavigationProperty Name="Admins" Relationship="MobileMartModel.FK_Admin_AspNetUsers" FromRole="AspNetUser" ToRole="Admin" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -917,6 +951,7 @@
           <NavigationProperty Name="Shipper" Relationship="MobileMartModel.FK_Order_Shipper1" FromRole="Order" ToRole="Shipper" />
           <NavigationProperty Name="OrderDetails" Relationship="MobileMartModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
           <NavigationProperty Name="OrderNotifications" Relationship="MobileMartModel.FK_OrderNotification_Order" FromRole="Order" ToRole="OrderNotification" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -1387,6 +1422,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AspNetID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="MobileMartModel.FK_Admin_AspNetUsers" FromRole="Admin" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_Admin_AspNetUsers">
+          <End Type="MobileMartModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="MobileMartModel.Admin" Role="Admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Admin">
+              <PropertyRef Name="AspNetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1484,6 +1542,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="MobileMartModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Shipping" ColumnName="Shipping" />
@@ -1670,6 +1729,17 @@
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="WishListID" ColumnName="WishListID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="MobileMartModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AspNetID" ColumnName="AspNetID" />
+                <ScalarProperty Name="ProfilePhoto" ColumnName="ProfilePhoto" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

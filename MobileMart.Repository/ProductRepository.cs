@@ -60,5 +60,13 @@ namespace MobileMart.Repository
             _context.SaveChanges();
             return product.IsActive;
         }
+
+        public bool? ChangeFeatureStatus(Product entity)
+        {
+            var product = _context.Products.Where(s => s.ProductID == entity.ProductID).FirstOrDefault();
+            product.IsFeature = entity.IsFeature;
+            _context.SaveChanges();
+            return product.IsFeature;
+        }
     }
 }

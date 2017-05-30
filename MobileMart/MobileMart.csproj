@@ -319,6 +319,9 @@
     <Content Include="Content\bootstrap-toggle.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\DefaultImages\D1.png" />
+    <Content Include="Content\DefaultImages\D1a.png" />
+    <Content Include="Content\DefaultImages\hassaan.jpg" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -327,6 +330,19 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\plugins\animate.css" />
+    <Content Include="Content\plugins\fancybox\blank.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\plugins\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\plugins\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\plugins\fancybox\jquery.fancybox.css" />
+    <Content Include="Content\plugins\jquery-ui.min.css" />
+    <Content Include="Content\plugins\jquery.mb.YTPlayer.min.css" />
+    <Content Include="Content\plugins\meanmenu.min.css" />
+    <Content Include="Content\plugins\slick.css" />
+    <Content Include="Content\plugins\textanimate.css" />
     <Content Include="Content\shortcode\default.css" />
     <Content Include="Content\shortcode\footer.css" />
     <Content Include="Content\shortcode\header.css" />
@@ -585,11 +601,11 @@
     <Content Include="Views\ShopOwner\Account.cshtml" />
     <Content Include="Views\Shared\_NewArrivalPartial.cshtml" />
     <Content Include="Views\Shared\_FeaturedProductsPartial.cshtml" />
+    <Content Include="Views\ShopOwner\FeatureProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\DefaultImages\Logo\" />
-    <Folder Include="Content\plugins\" />
     <Folder Include="Views\Ajax\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\HomeBase\" />

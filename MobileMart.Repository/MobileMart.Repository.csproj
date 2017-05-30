@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminRepository.cs" />
     <Compile Include="AspNetUser.cs" />
     <Compile Include="CategoryRepository.cs" />
     <Compile Include="CityRepository.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="CountryRepository.cs" />
     <Compile Include="CustomerNotificationRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
+    <Compile Include="IAdminRepository.cs" />
     <Compile Include="IAspNetUser.cs" />
     <Compile Include="ICategoryRepository.cs" />
     <Compile Include="ICityRepository.cs" />

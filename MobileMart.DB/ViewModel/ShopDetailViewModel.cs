@@ -9,6 +9,7 @@ namespace MobileMart.DB.ViewModel
 {
     public class ShopDetailViewModel
     {
+        public int ShopID { get; set; }
         public string ShopName { get; set; }
         public string ShopAddress { get; set; }
         public string Country { get; set; }

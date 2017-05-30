@@ -18,7 +18,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="@Url.Action("Account","ShopOwner",new {shopID = User.Identity.GetShopID() })"><i class="fa fa-fw fa-user"></i> Profile</a>
+                    <a href="@Url.Action("Account", "ShopOwner", new { shopID = User.Identity.GetShopID() })"><i class="fa fa-fw fa-user"></i> Profile</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -30,13 +30,16 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
             <li>
-                <img src="@Url.Content(User.Identity.GetOwnerPicture())" alt="" class="img-circle img-responsive img-rounded img-thumbnail"  />
+                <img src="@Url.Content(User.Identity.GetOwnerPicture())?w=170&h=170&mode=stretch|" alt="" class="img-circle img-responsive img-rounded img-thumbnail"  />
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "" )">
-                <a href="@Url.Action("Index", "ShopOwner")"><i class="fa fa-fw fa-plus"></i>Dashboard</a>
+                <a href="@Url.Action("Index", "ShopOwner")"><i class="fa fa-fw fa-dashboard"></i>Dashboard</a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddSupplier" ? "active" : "" )">
                 <a href="@Url.Action("AddSupplier", "ShopOwner")"><i class="fa fa-fw fa-plus"></i>Insert New Product</a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "FeatureProducts" ? "active" : "" )">
+                <a href="@Url.Action("FeatureProducts", "ShopOwner")"><i class="fa fa-fw fa-photo"></i>Feature Products</a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AddCompany" ? "active" : "" )">
                 <a href="@Url.Action("AddCompany", "ShopOwner")"><i class="fa fa-fw fa-plus"></i>Add New Company</a>

@@ -21,8 +21,23 @@ namespace MobileMart.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            return View((List<CartSessionViewModel>)Session["Cart"]);
+            try{
+                if (Session["Cart"] != null)
+                {
+                    return View(new CartDisplayViewModel() { Cart = (List<CartSessionViewModel>)Session["Cart"] });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Page404", "Error", new { message = ex.Message});
+            }
+            
         }
+
 
         [HttpPost]
         public JsonResult AddItemInCart(int productID, int quantity = 1)
@@ -82,8 +97,9 @@ namespace MobileMart.Controllers
             return (List<CartSessionViewModel>)Session["Cart"];
         }
 
-        [Authorize(Roles ="Customer")]
-        public ActionResult Checkout()
+        [Authorize(Roles = "Customer")]
+        [HttpPost]
+        public ActionResult Checkout(CartDisplayViewModel viewModel)
         {
             var cart = (List<CartSessionViewModel>)Session["Cart"]; 
             if (cart.Any())
@@ -108,6 +124,8 @@ namespace MobileMart.Controllers
                     Total = total,
                     Shipping = shipping,
                     SubTotal = subtotal,
+                    Address = viewModel.Address,
+                    Mobile = viewModel.Mobile
                 };
                
                 // Get PayPal API Context using configuration from web.config
@@ -187,6 +205,7 @@ namespace MobileMart.Controllers
             return RedirectToAction("Cart");
         }
 
+        [Authorize(Roles = "Customer")]
         public ActionResult Return(string payerId, string paymentId)
         {
             // Fetch the existing order
@@ -196,7 +215,7 @@ namespace MobileMart.Controllers
             var orderNR = new OrderNotificationRepository();
             var orderNE = new OrderNotification();
             orderNE.OrderID = orderID;
-            orderNE.Description = "New Placed Order..";
+            orderNE.Description = "New Order placed.";
             orderNE.IsSeen = false;
             orderNE.Timestamp = DateTime.Now;
             orderNE.URL = "/Notification/OrderDetail?orderID=" + orderID;
@@ -218,21 +237,37 @@ namespace MobileMart.Controllers
             var executedPayment = payment.Execute(apiContext, paymentExecution);
             //ClearCart();
             ClearCart();
-            return RedirectToAction("Thankyou");
+            return RedirectToAction("Thankyou",new { paypalID = paymentId });
         }
 
-        public ActionResult Thankyou()
+        [Authorize(Roles = "Customer")]
+        public ActionResult Thankyou(string paypalID)
         {
-            return View();
+            if (paypalID!=null) { 
+            var order = new OrderBL().GetOrderByPayPalReference(paypalID);
+            var orderVM = new AddOrderViewModel()
+            {
+                Address = order.ShippingAddress,
+                CreatedOn = order.CreatedOn,
+                CustomerID = order.CustomerID,
+                Mobile = order.Mobile,
+                PayPalReference = order.PayPalReference,
+                Shipping = order.Shipping,
+                SubTotal = order.SubTotal,
+                Tax = order.Tax,
+                Total = order.Total,
+                OrderID = order.OrderID
+            };
+            IEnumerable<DisplayOrderDetailViewModel> orderDetail = new AdminBL().GetOrderDetailByOrderID(order.OrderID);
+            return View(new ThankYouViewModel() { Order = orderVM,OrderDetail= orderDetail});
+            }
+            else
+            {
+                return RedirectToAction("Index","Cart");
+            }
         }
 
-        
-        public ActionResult CartErrors(string message)
-        {
-            ViewBag.ErrorMessage = message;
-            return View();
-        }
-        
+        [Authorize(Roles = "Customer")]
         public ActionResult CheckoutCancel()
         {
             return View();
@@ -247,6 +282,11 @@ namespace MobileMart.Controllers
             return apiContext;
         }
 
-        
+        public ActionResult CartErrors(string message)
+        {
+            ViewBag.ErrorMessage = message;
+            return View();
+        }
+
     }
 }

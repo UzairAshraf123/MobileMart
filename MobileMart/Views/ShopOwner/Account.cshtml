@@ -31,7 +31,7 @@
                         <h4>Owner Detail</h4>
                         <hr />
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-center">
                                 <img src="@Url.Content(Model.OwnerProfilePath)" id="output" class="img-rounded" alt="" height="250" width="235" />
                                 <br />
                                 <h2 class="text-center" style="cursor:pointer"><label class="glyphicon glyphicon-camera" for="OwnerProfilePhoto"></label></h2>
@@ -98,13 +98,15 @@
                           enctype = "multipart/form-data"
                       }))
                    {
+                    @Html.HiddenFor(model => model.OwnerID)
                     @Html.HiddenFor(model => model.ShopID)
-
+                    @Html.HiddenFor(model => model.UserID)
+                    <input type="hidden" name="ShopLogo" value="@Model.ShopLogo" />
                         @Html.AntiForgeryToken()
                         <h4>Shop Detail</h4>
                         <hr />
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-center">
                                 <img src="@Url.Content(Model.ShopLogo)" id="output1" class="img-rounded" alt="" height="250" width="235" />
                                 <br />
                                 <h2 class="text-center" style="cursor:pointer"><label class="glyphicon glyphicon-camera" for="ShopImage"></label></h2>
@@ -226,8 +228,3 @@
                 });
 </script>
 }
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

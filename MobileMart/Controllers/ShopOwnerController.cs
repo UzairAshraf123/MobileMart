@@ -32,21 +32,28 @@ namespace MobileMart.Controllers
 
         public ActionResult Account(int? shopID,string Message)
         {
-            if (Message == "ChangePasswordSuccess")
+            if (shopID != null)
             {
-                ViewBag.Message = "Owner Updated Successfully...";
+                if (Message == "ChangePasswordSuccess")
+                {
+                    ViewBag.Message = "Owner Updated Successfully...";
+                }
+                else
+                {
+                    ViewBag.Message = Message;
+                }
+                var countries = new AdminBL().GetCountries().Select(s => new
+                {
+                    Text = s.name,
+                    Value = s.id
+                }).ToList();
+                ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
+                return View(shopBL.GetShopAndOwnerByShopID(shopID));
             }
             else
             {
-                ViewBag.Message = Message;
+                return RedirectToAction("Index", "ShopOwner");
             }
-            var countries = new AdminBL().GetCountries().Select(s => new
-            {
-                Text = s.name,
-                Value = s.id
-            }).ToList();
-            ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
-            return View(shopBL.GetShopAndOwnerByShopID(shopID));
         }
         [HttpPost]
         [Authorize(Roles = "ShopKeeper")]
@@ -195,22 +202,28 @@ namespace MobileMart.Controllers
             }
         }
 
+        public ActionResult FeatureProducts()
+        {
+            var model = new ProductReporViewModel();
+            var shopID = User.Identity.GetShopID();
+            model.Products = shopBL.GetProduct(shopID).Where(w =>w.IsFeatured == true).OrderByDescending(s => s.CreatedOn); ;
+            return View(model);
+        }
         //Display Product
         [Authorize(Roles = "ShopKeeper")]
         public ActionResult DisplayProduct(string products)
         {
             try
             {
+                var model = new ProductReporViewModel();
                 var shopID = User.Identity.GetShopID();
                 if (products == "new")
                 {
-                    var model = new ProductReporViewModel();
                     model.Products = shopBL.GetProduct(shopID).Where(w => w.CreatedOn >= DateTime.Now.AddDays(-7)).OrderByDescending(s => s.CreatedOn); ;
                     return View(model);
                 }
                 else
                 {
-                    var model = new ProductReporViewModel();
                     model.Products = shopBL.GetProduct(shopID).OrderByDescending(s => s.CreatedOn);
                     return View(model);
                 }
@@ -419,6 +432,22 @@ namespace MobileMart.Controllers
             {
                 IsActive = true;
                 return shopBL.ChangeProductStateTo(productID, IsActive);
+            }
+        }
+        public bool MakeFeature(int productID)
+        {
+            var shopID = User.Identity.GetShopID();
+            var isFeature = shopBL.IsFeature(productID, shopID);
+            if (isFeature == true)
+            {
+                isFeature = false;
+                return shopBL.ChangeFeatureState(productID, isFeature);
+
+            }
+            else
+            {
+                isFeature = true;
+                return shopBL.ChangeFeatureState(productID, isFeature);
             }
         }
 

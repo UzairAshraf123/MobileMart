@@ -231,7 +231,7 @@ namespace MobileMart.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return RedirectToAction("MyProfile", "Home", new { model });
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.ChangePassword.OldPassword, model.ChangePassword.NewPassword);
             if (result.Succeeded)
@@ -246,7 +246,27 @@ namespace MobileMart.Controllers
             AddErrors(result);
             return RedirectToAction("MyProfile", "Home", new { model });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeAdminPassword(AdminProfileViewModel model)
+        {
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    model.AspNetID = User.Identity.GetUserId();
+                    new AdminBL().UpateAdmin(model);
+                    return RedirectToAction("Account", "Admin", new { Message = "Profile Successfully updated.." });
+                }
+                return RedirectToAction("Account", "Admin", new { Message = "Profile Couldn't changed.." });
+            }
+            AddErrors(result);
+            return RedirectToAction("Account", "Admin", new { Message = "Profile Couldn't changed.." });
 
+        }
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]

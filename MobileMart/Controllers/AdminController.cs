@@ -38,10 +38,18 @@ namespace MobileMart.Controllers
             model.NewCustomers = dashboardBL.GetNewCustomers();
             return View(model);
         }
-
-        public ActionResult Account()
+        [HttpGet]
+        public ActionResult Account(string Message)
         {
-            return View();
+            ViewBag.Message = Message;
+            return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
+        }
+        [HttpPost]
+        public ActionResult Account(AdminProfileViewModel viewModel)
+        {
+            viewModel.AspNetID = User.Identity.GetUserId();
+            new AdminBL().UpateAdmin(viewModel);
+            return View(new AdminBL().GetAdminInformation(User.Identity.GetUserId()));
         }
         [AllowAnonymous]
         public ActionResult AdminLogin()

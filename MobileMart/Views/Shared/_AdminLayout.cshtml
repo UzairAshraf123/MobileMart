@@ -84,7 +84,7 @@
 
                         $("#OrderNotifications").append("<li class=\"list-group-item active ToRemove \">Order Notifications</li>");
                         for (var i = 0; i < data.OrderNotificationList.length; i++) {
-                            $("#OrderNotifications").append("<li class=\"ToRemove\" value=\"" + data.OrderNotificationList[i].OrderNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.OrderNotificationList[i].OrderNotificationURL + "\">" + data.OrderNotificationList[i].OrderNotificationDescription + "</a></li>");
+                            $("#OrderNotifications").append("<li class=\"ToRemove\" value=\"" + data.OrderNotificationList[i].OrderNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.OrderNotificationList[i].OrderNotificationURL + "\">" + data.OrderNotificationList[i].OrderNotificationDescription + "<small class=\"pull-right small\">" + data.OrderNotificationList[i].Days + " Days Ago</small></a></li>");
                         }
                         $("#OrderNotifications").append("<li class=\"ToRemove\"\><a class=\"list-group-item list-group-item-action text-right\" href= \"@Url.Action("OrderNotifications", "Notification")\">View all...</a></li>");
                         //for (var i = 0; i < data.SupplierNotificationList.length; i++) {
@@ -93,19 +93,19 @@
 
                         $("#ProductNotifications").append("<li class=\"list-group-item active ToRemove\">Product Notifications</li>");
                         for (var i = 0; i < data.ProductNotificationList.length; i++) {
-                            $("#ProductNotifications").append("<li class=\"ToRemove\" value=\"" + data.ProductNotificationList[i].ProductNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ProductNotificationList[i].ProductNotificationURL + "\"><img src='" + data.ProductNotificationList[i].ProductImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ProductNotificationList[i].ProductNotificationDescription + "</a></li>");
+                            $("#ProductNotifications").append("<li class=\"ToRemove\" value=\"" + data.ProductNotificationList[i].ProductNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ProductNotificationList[i].ProductNotificationURL + "\"><img src='" + data.ProductNotificationList[i].ProductImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ProductNotificationList[i].ProductNotificationDescription + "<small class=\"pull-right small\">" + data.ProductNotificationList[i].Days + " Days Ago</small></a></li>");
                         }
                         $("#ProductNotifications").append("<li class=\"ToRemove\"\><a class=\"list-group-item list-group-item-action text-right\" href= \"@Url.Action("ProductNotifications", "Notification")\">View all...</a></li>");
 
                         $("#ShopNotifications").append("<li class=\"list-group-item active ToRemove\">Shop Notifications</li>");
                         for (var i = 0; i < data.ShopNotificationList.length; i++) {
-                            $("#ShopNotifications").append("<li class=\"ToRemove\" value=\"" + data.ShopNotificationList[i].ShopNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ShopNotificationList[i].ShopNotificationURL + "\"><img src='" + data.ShopNotificationList[i].ShopLogo.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ShopNotificationList[i].ShopNotificationDescription + "</a></li>");
+                            $("#ShopNotifications").append("<li class=\"ToRemove\" value=\"" + data.ShopNotificationList[i].ShopNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.ShopNotificationList[i].ShopNotificationURL + "\"><img src='" + data.ShopNotificationList[i].ShopLogo.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.ShopNotificationList[i].ShopNotificationDescription + "<small class=\"pull-right small\">" + data.ShopNotificationList[i].Days + " Days Ago</small></a></li>");
                         }
                         $("#ShopNotifications").append("<li class=\"ToRemove\"\><a class=\"list-group-item list-group-item-action text-right\" href= \"@Url.Action("ShopNotifications", "Notification")\">View all...</a></li>");
                         
                         $("#CustomerNotifications").append("<li class=\"list-group-item active ToRemove\">Customer Notifications</li>");
                         for (var i = 0; i < data.CustomerNotificationList.length; i++) {
-                            $("#CustomerNotifications").append("<li class=\"ToRemove\" value=\"" + data.CustomerNotificationList[i].CustomerNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.CustomerNotificationList[i].CustomerNotificationURL + "\"><img src='" + data.CustomerNotificationList[i].CustomerImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.CustomerNotificationList[i].CustomerNotificationDescription + "</a></li>");
+                            $("#CustomerNotifications").append("<li class=\"ToRemove\" value=\"" + data.CustomerNotificationList[i].CustomerNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.CustomerNotificationList[i].CustomerNotificationURL + "\"><img src='" + data.CustomerNotificationList[i].CustomerImage.replace(/~/g, '') + "' alt=\"\" height=\"35\" width=\"35\" />" + data.CustomerNotificationList[i].CustomerNotificationDescription + "<small class=\"pull-right small\">" + data.CustomerNotificationList[i].Days + " Days Ago</small></a></li>");
                         }
                         $("#CustomerNotifications").append("<li class=\"ToRemove\"\><a class=\"list-group-item list-group-item-action text-right\" href= \"@Url.Action("CustomerNotifications", "Notification")\">View all...</a></li>");
                     }
@@ -162,7 +162,7 @@
                         $(".ToRemove").remove();
                         $("#OrderNotifications").append("<li class=\"list-group-item active ToRemove \">Order Notifications</li>");
                         for (var i = 0; i < data.OrderNotificationList.length; i++) {
-                            $("#OrderNotifications").append("<li class=\"ToRemove\" value=\"" + data.OrderNotificationList[i].OrderNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.OrderNotificationList[i].OrderNotificationURL + "\">" + data.OrderNotificationList[i].OrderNotificationDescription + "</a></li>");
+                            $("#OrderNotifications").append("<li class=\"ToRemove\" value=\"" + data.OrderNotificationList[i].OrderNotificationID + "\"><a class=\"list-group-item list-group-item-action\" href= \"" + data.OrderNotificationList[i].OrderNotificationURL + "\">" + data.OrderNotificationList[i].OrderNotificationDescription + "<small class=\"pull-right small\">" + data.OrderNotificationList[i].Days + " Days Ago</small></a></li>");
                         }
                         $("#OrderNotifications").append("<li class=\"ToRemove\"\><a class=\"list-group-item list-group-item-action text-right\" href= \"@Url.Action("OrderNotifications", "Notification")\">View all...</a></li>");
                     }

@@ -47,5 +47,6 @@ namespace MobileMart.DB.Model
         public virtual DbSet<SupplierNotification> SupplierNotifications { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     }
 }
