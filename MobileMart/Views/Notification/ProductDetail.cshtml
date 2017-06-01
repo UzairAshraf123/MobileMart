@@ -53,7 +53,7 @@
                                 </tr>
                                 <tr>
                                     <td>@Html.DisplayNameFor(model => model.ProductShop.ShopName):</td>
-                                    <td><a href="@Url.Action("Notification","ShopDetail", new { Model.ProductShop.ShopID})">@Html.DisplayFor(model => model.ProductShop.ShopName)</a></td>
+                                    <td><a href="@Url.Action("ShopDetail","Notification", new { Model.ProductShop.ShopID})">@Html.DisplayFor(model => model.ProductShop.ShopName)</a></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace MobileMart.DB.ViewModel
     {
         [Required(ErrorMessage = "Profile Photo is required.")]
         [Display(Name = "Profile Picture")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProfilePhotoPath { get; set; }
 
         [Required]

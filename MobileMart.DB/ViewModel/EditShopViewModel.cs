@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace MobileMart.DB.ViewModel
         public string Mobile { get; set; }
         [Required]
         [Display(Name = "Profile Picture")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProfilePhoto { get; set; }
 
         public string ProfilePhotoPath { get; set; }

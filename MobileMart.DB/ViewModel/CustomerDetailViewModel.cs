@@ -1,4 +1,5 @@
-﻿using MobileMart.DB.Model;
+﻿using MobileMart.DB.CustomValidators;
+using MobileMart.DB.Model;
 using MobileMart.Services;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace MobileMart.DB.ViewModel
         public string ProfilePicturePath { get; set; }
 
         [Display(Name = "Profile Photo")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProfilePicture { get; set; }
 
         [Display(Name = "Address")]
@@ -45,7 +48,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-        [Display(Name = "State")]
+        [Display(Name = "Province")]
         public string State { get; set; }
 
         [Display(Name = "City")]

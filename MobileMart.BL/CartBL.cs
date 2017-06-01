@@ -24,6 +24,7 @@ namespace MobileMart.BL
             viewmodel.ProductDetail = item.ProductDetails;
             viewmodel.Color = item.ProductColor;
             viewmodel.Price = item.Price;
+            viewmodel.Quantity = item.Quantity;
             return viewmodel;
         }
         public decimal GetCartTotal(IEnumerable<CartSessionViewModel> cartList)

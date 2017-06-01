@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,21 +38,29 @@ namespace MobileMart.DB.ViewModel
         public string ProductName { get; set; }
 
         [Required(ErrorMessage = "Required")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProductImage1 { get; set; }
 
         public string ProductImagePath1 { get; set; }
         
         [Required(ErrorMessage = "Required")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProductImage2 { get; set; }
 
         public string ProductImagePath2 { get; set; }
 
         [Required(ErrorMessage = "Required")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProductImage3 { get; set; }
 
         public string ProductImagePath3 { get; set; }
 
         [Required(ErrorMessage = "Required")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProductImage4 { get; set; }
 
         public string ProductImagePath4 { get; set; }

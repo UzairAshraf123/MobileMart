@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace MobileMart.DB.ViewModel
         public string OwnerProfilePath { get; set; }
 
         [Display(Name = "Profile Picture")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase OwnerProfilePhoto { get; set; }
 
         [Required]
@@ -55,6 +58,8 @@ namespace MobileMart.DB.ViewModel
         public string ShopLogo { get; set; }
 
         [Display(Name = "Profile Picture")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ShopImage { get; set; }
 
         [Required]
@@ -71,7 +76,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Country")]
         public int? Country { get; set; }
         [Required]
-        [Display(Name = "State")]
+        [Display(Name = "Province")]
         public int? State { get; set; }
         [Required]
         [Display(Name = "City")]

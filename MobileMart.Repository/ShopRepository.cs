@@ -73,8 +73,15 @@ namespace MobileMart.Repository
 
         public int GetShopIDByOwnerID(int id)
         {
-            _context = new MobileMartEntities();
-            return _context.Shops.FirstOrDefault(s => s.OwnerID == id).ShopID;
+            try
+            {
+                _context = new MobileMartEntities();
+                return _context.Shops.FirstOrDefault(s => s.OwnerID == id).ShopID;
+            }
+            catch
+            {
+                return 0;
+            }
         }
         public void Update(Shop entity)
         {

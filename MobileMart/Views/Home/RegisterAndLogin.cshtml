@@ -5,6 +5,10 @@
     ViewBag.Title = "RegisterAndLogin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (ViewBag.Message!=null)
+{
+    <div class="alert text-center text-warning"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>@ViewBag.Message</div>
+}
 <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
 <div id="page-content" class="page-wrapper">
     <!-- LOGIN SECTION START -->
@@ -60,7 +64,7 @@
                                             <div class="col-md-11">
                                                 @Html.DropDownListFor(m => m.State,
                                                  new SelectList(string.Empty, "Value", "Text"),
-                                                 "--Select State--",
+                                                 "--Select Province--",
                                                  new { @class = "form-control custom-select", @id = "States" })
                                             </div>
                                         </div>

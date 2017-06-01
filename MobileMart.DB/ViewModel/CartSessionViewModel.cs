@@ -11,6 +11,7 @@ namespace MobileMart.DB.ViewModel
     {
         public int ProductID { get; set; }
         public int Quantity { get; set; }
+        public string Message { get; set; }
         public ProductDetailViewModel ProductDetail { get; set; } 
     }
     public class CartDisplayViewModel

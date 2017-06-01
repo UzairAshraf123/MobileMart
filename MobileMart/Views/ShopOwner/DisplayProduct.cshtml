@@ -20,14 +20,14 @@
                     <label for="From" style="cursor:pointer">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </label>
-                    @Html.TextBoxFor(m => m.From, new { @class = "form-control", @placeholder = "From", @hidden = "hidden" })
+                    @Html.TextBoxFor(m => m.From, new { @class = "form-control", @placeholder = "From" })
                     @Html.ValidationMessageFor(m => m.From, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-5">
                     <label for="To" style="cursor:pointer">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </label>
-                    @Html.TextBoxFor(m => m.To, new { @class = "form-control", @placeholder = "To", @max = DateTime.Now })
+                    @Html.TextBoxFor(m => m.To, new { @class = "form-control", @placeholder = "To" })
                     @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-2">
@@ -81,6 +81,9 @@
                         IMEI
                     </th>
                     <th>
+                        Quantity
+                    </th>
+                    <th>
                         New
                     </th>
                     <th>
@@ -126,6 +129,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.IMEI)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
                         </td>
                         <td>
                             @if (item.New == true)
@@ -204,6 +210,18 @@
                 return date;
             }
         });
+    //$(function () {
+    //    $("#From").datepicker({
+    //        changeMonth: true,
+    //        changeYear: true
+    //    });
+    //});
+    //$(function () {
+    //    $("#To").datepicker({
+    //        changeMonth: true,
+    //        changeYear: true
+    //    });
+    //});
         $(document).ready(function () {
             $("#From").val("");
             $("#To").val("");
@@ -245,12 +263,12 @@
                 success: function (data) {
                     debugger;
                     if (data =="True") {
-                        $("#ToFeature_"+id).empty();
-                        $("#ToFeature_" + id).append("Yes");
+                        $("#ToFeature_" + id).empty();
+                        $("#ToFeature_" + id).html("Yes");
                     }
                     else{
                         $("#ToFeature_" + id).empty();
-                        $("#ToFeature_" + id).append("No");
+                        $("#ToFeature_" + id).html("No");
                     }
                 }
             });

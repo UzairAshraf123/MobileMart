@@ -206,6 +206,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\AdminAuthorize.cs" />
     <Compile Include="Utility\IdentityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +358,7 @@
     <Content Include="Scripts\bootstrap-toggle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\custom-validators.js" />
     <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.11.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />

@@ -50,8 +50,15 @@ namespace MobileMart.Repository
         }
         public int GetOwnerIDByUserID(string userID)
         {
-            _context = new MobileMartEntities();
-            return _context.Owners.FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
+            try
+            {
+                _context = new MobileMartEntities();
+                return _context.Owners.FirstOrDefault(s => s.AspNetUserID == userID).OwnerID;
+            } catch
+            {
+                return 0;
+            }
+            
         }
 
         public Owner GetOwnerByShopID(int? shopID)

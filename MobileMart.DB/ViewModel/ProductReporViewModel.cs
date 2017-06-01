@@ -12,12 +12,11 @@ namespace MobileMart.DB.ViewModel
         public IEnumerable<DisplayProductViewModel> Products { get; set; }
 
         [Required]
-        [DataType(DataType.Date, ErrorMessage = "Field must be date.")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        //[DataType(DataType.Date, ErrorMessage = "Field must be date.")]
         public DateTime From { get; set; }
 
-        [DataType(DataType.Date, ErrorMessage = "Field must be date.")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Required]
+        //[DataType(DataType.Date, ErrorMessage = "Field must be date.")]
         public DateTime To { get; set; }
 
     }

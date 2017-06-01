@@ -43,6 +43,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name ="Price")]
         public decimal price { get; set; }
 
+        public int? Quantity { get; set; }
         public string IMEI { get; set; }
 
         [Display(Name ="Created")]

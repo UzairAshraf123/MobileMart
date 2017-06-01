@@ -17,6 +17,8 @@ namespace MobileMart.DB.ViewModel
 
         public string Color { get; set; }
 
+        public int? Quantity { get; set; }
+
         [Display(Name ="Product Name")]
         public string ProductName { get; set; }
 

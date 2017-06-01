@@ -13,6 +13,7 @@ namespace MobileMart.DB.ViewModel
         public string ShopName { get; set; }
         public string ShopAddress { get; set; }
         public string Country { get; set; }
+        [Display(Name = "Province")]
         public string State { get; set; }
         public string City { get; set; }
         public string Logo { get; set; }

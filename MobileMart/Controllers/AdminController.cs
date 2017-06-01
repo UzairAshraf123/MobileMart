@@ -11,10 +11,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MobileMart.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MobileMart.App.Admin.Utility;
 
 namespace MobileMart.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [AdminAuthorize(Roles = "Admin")]
     public class AdminController : AdminBaseController
     {
         AdminBL adminBL = new AdminBL();

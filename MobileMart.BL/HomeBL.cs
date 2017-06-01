@@ -30,6 +30,7 @@ namespace MobileMart.BL
                 IndexViewModel viewmodel = new IndexViewModel();
                 viewmodel.ProductID = item.ProductID;
                 viewmodel.ProductName = item.ProductName;
+                viewmodel.Quantity = item.Quantity;
                 viewmodel.OwnerID = owners.FirstOrDefault().OwnerID;
                 viewmodel.OwnerName = owners.FirstOrDefault().OwnerName;
                 viewmodel.ShopID = shops.FirstOrDefault().ShopID;
@@ -96,7 +97,7 @@ namespace MobileMart.BL
             viewmodel.ProductImage2 = products.ProductImage2;
             viewmodel.ProductImage3 = products.ProductImage3;
             viewmodel.ProductImage4 = products.ProductImage4;
-
+            viewmodel.Quantity = products.Quantity;
             return viewmodel;
 
         }
@@ -321,7 +322,7 @@ namespace MobileMart.BL
 
         public IEnumerable<IndexViewModel> GetNewProducts()
         {
-            return new ProductRepository().Get().Where(s => s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s => s.IsOld == false && s.IsActive == true &&  s.CreatedOn >= DateTime.Now.AddDays(-7) && s.Quantity > 0).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,

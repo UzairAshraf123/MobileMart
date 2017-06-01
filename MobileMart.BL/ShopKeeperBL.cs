@@ -105,6 +105,7 @@ namespace MobileMart.BL
                 viewmodel.New = item.IsOld;
                 viewmodel.IsActive = item.IsActive;
                 viewmodel.IsFeatured = item.IsFeature;
+                viewmodel.Quantity = item.Quantity;
                 viewmodellist.Add(viewmodel);
             }
             return viewmodellist;
@@ -307,12 +308,12 @@ namespace MobileMart.BL
             entity.ProductID = productID;
             return productRepo.ChangeActiveStatus(entity);
         }
-        public bool ChangeFeatureState(int productID, bool? IsFeature)
+        public bool? ChangeFeatureState(int productID, bool? IsFeature)
         {
             var entity = productRepo.Get().FirstOrDefault(s => s.ProductID == productID);
             entity.IsFeature = IsFeature;
             entity.ProductID = productID;
-            return productRepo.ChangeActiveStatus(entity);
+            return productRepo.ChangeFeatureStatus(entity);
         }
         public IEnumerable<Supplier> GetSuppliersByShopID(int shopID)
         {

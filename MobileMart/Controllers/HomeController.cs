@@ -21,7 +21,7 @@ namespace MobileMart.Controllers
             return View(model);
         }
        
-        public ActionResult RegisterAndLogin()
+        public ActionResult RegisterAndLogin(string message)
         {
             AdminBL adminBL = new AdminBL();
             var countries = adminBL.GetCountries().Select(s => new
@@ -29,6 +29,7 @@ namespace MobileMart.Controllers
                 Text = s.name,
                 Value = s.id
             }).ToList();
+            ViewBag.Message = message;
             ViewBag.CountryDropDown = new SelectList(countries, "Value", "Text");
             return View();
         }
@@ -243,7 +244,7 @@ namespace MobileMart.Controllers
                 if (companyID != null)
                 {
                     ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
-                    return View(new HomeBL().GetProductByCompanyID(companyID));
+                    return View(new HomeBL().GetProductByCompanyID(companyID).Where(s => s.Quantity > 0));
                 }
                 else
                 {
@@ -286,7 +287,7 @@ namespace MobileMart.Controllers
             {
                 if (categoryID!=null)
                 {
-                    return View(new HomeBL().GetNewTablets(categoryID));
+                    return View(new HomeBL().GetNewTablets(categoryID).Where(s => s.Quantity > 0));
                 }
                 else
                 {
@@ -306,7 +307,7 @@ namespace MobileMart.Controllers
             {
                 if (categoryID !=null && subCategoryID!=null)
                 {
-                    return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID));
+                    return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID).Where(s => s.Quantity > 0));
                 }
                 else
                 {
@@ -413,7 +414,7 @@ namespace MobileMart.Controllers
                 {
                     AdminBL adminBL = new AdminBL();
                     var shopID = adminBL.CreateShopGetID(viewModel);
-                    return RedirectToAction("Login", "ShopKeeper", new { message = "Login to see your panel..." });
+                    return RedirectToAction("Login", "ShopOwner", new { message = "Login to see your panel..." });
                 }
                 else
                 {

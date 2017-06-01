@@ -42,7 +42,7 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.CompanyID,
                (SelectList)ViewBag.CompanyDropDown,
-               "--Select Category--",
+               "--Select Company--",
                new { @class = "form-control", @id = "SelectedCompany" })
                 @Html.ValidationMessageFor(model => model.CompanyID, "", new { @class = "text-danger" })
             </div>

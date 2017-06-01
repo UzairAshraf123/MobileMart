@@ -26,6 +26,7 @@ namespace MobileMart
                         "~/Scripts/plugins.js",
                         "~/Scripts/main.js",
                         "~/Scripts/jquery.validate*",
+                        "~/Scripts/custom-validators.js",
                         "~/Scripts/alertify.min.js"
                         ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

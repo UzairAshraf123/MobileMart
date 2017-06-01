@@ -1,4 +1,5 @@
-﻿ using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace MobileMart.DB.ViewModel
         public string CompanyName { get; set; }
         [Required]
         [Display(Name = "Company Logo")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase CompanyLogo { get; set; }
     }
 }

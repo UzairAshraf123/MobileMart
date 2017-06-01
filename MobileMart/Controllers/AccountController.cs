@@ -74,7 +74,7 @@ namespace MobileMart.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("RegisterAndLogin", "Home");
+                return RedirectToAction("RegisterAndLogin", "Home",new { message = "Invalid Email or Password..."});
             }
 
             // This doesn't count login failures towards account lockout

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Country")]
         public int? Country { get; set; }
         [Required]
-        [Display(Name = "State")]
+        [Display(Name = "Province")]
         public int? State { get; set; }
         [Required]
         [Display(Name = "City")]
@@ -33,6 +34,8 @@ namespace MobileMart.DB.ViewModel
 
         [Required(ErrorMessage = "Logo is required.")]
         [Display(Name = "Shop Logo")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ShopLogo { get; set; }
 
         public DateTime CreatedOn { get; set; }

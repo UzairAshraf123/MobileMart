@@ -302,6 +302,7 @@
                                 <li><a href="@Url.Action("AllProducts","Home")">Products</a></li>
                                 <li><a href="@Url.Action("About","Home")">About us</a></li>
                                 <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                                <li><a href="@Url.Action("CreateOwner","Home")"><b>Sell With Us.</b></a></li>
                             </ul>
                         </div>
                     </div>
@@ -426,8 +427,16 @@
                                 count = count + data[i].Quantity;
                             }
                             //Cart Quantity  increment
-                            $(".cart-quantity").html(count);
-                            alertify.success("Item successfully added...");
+                            debugger;
+                            var previousCount = $(".cart-quantity").text();
+                            if (parseInt(previousCount) == count) {
+                                $(".cart-quantity").html(count);
+                                alertify.success("Item is OUT OF STOCK.");
+                            }
+                            else {
+                                $(".cart-quantity").html(count);
+                                alertify.success("Item successfully added...");
+                            }
                             //Updating Cart Total
                             $("#CartTotal").html(total);
                         } else {

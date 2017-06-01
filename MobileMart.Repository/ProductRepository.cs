@@ -41,7 +41,12 @@ namespace MobileMart.Repository
                 _context.Products.Add(entity);
                 _context.SaveChanges();
         }
-
+        public void MinusQuantityByID(int? productID, int? Quantity)
+        {
+            var product = GetProductByID(productID);
+            product.Quantity = product.Quantity - Quantity;
+            _context.SaveChanges();
+        }
         public void update(Product entity)
         { 
             _context.Entry(entity).State = EntityState.Modified;

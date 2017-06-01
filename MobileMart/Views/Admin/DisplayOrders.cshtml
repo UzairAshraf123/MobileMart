@@ -41,6 +41,10 @@
             <thead>
                 <tr role="row">
                     <th>
+                        Order #
+                    </th>
+                    <th>PayPal Reference #</th>
+                    <th>
                         Customer
                     </th>
                     <th>
@@ -67,6 +71,12 @@
                 @foreach (var item in Model.Orders)
                 {
                     <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PayPalReference)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CustomerName)
                         </td>

@@ -18,7 +18,7 @@
         <div class="featured-product container">
             <div class="row active-featured-product slick-arrow-2">
                 <!-- product-item start -->
-                @foreach (var item in Model.Where(s => s.IsFeature == true))
+                @foreach (var item in Model.Where(s => s.IsFeature == true && s.Quantity > 0))
                 {
                     <div class="col-xs-12">
                         <div class="product-item">

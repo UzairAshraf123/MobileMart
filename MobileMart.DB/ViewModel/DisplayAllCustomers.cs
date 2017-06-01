@@ -38,7 +38,7 @@ namespace MobileMart.DB.ViewModel
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-        [Display(Name = "State")]
+        [Display(Name = "Province")]
         public string State { get; set; }
 
         [Display(Name ="City")]

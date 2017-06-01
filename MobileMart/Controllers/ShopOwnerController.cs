@@ -6,10 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MobileMart.Utility;
+using MobileMart.App.Admin.Utility;
 
 namespace MobileMart.Controllers
 {
-    [Authorize(Roles = "ShopKeeper")]
+    [ShopAuthorize(Roles = "ShopKeeper")]
     public class ShopOwnerController : ShopOwnerBaseController
     {
         // GET: ShopOwner
@@ -443,7 +444,7 @@ namespace MobileMart.Controllers
                 return shopBL.ChangeProductStateTo(productID, IsActive);
             }
         }
-        public bool MakeFeature(int productID)
+        public bool? MakeFeature(int productID)
         {
             var shopID = User.Identity.GetShopID();
             var isFeature = shopBL.IsFeature(productID, shopID);

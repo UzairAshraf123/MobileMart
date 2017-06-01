@@ -50,11 +50,15 @@ namespace MobileMart.Controllers
             //add if session is empty
             if (Session["Cart"] == null)
             {
-                cartSessionVM.ProductID = productID;
-                cartSessionVM.Quantity = quantity;
-                cartSessionVM.ProductDetail = ajaxBL.GetProductByID(productID);
-                list1.Add(cartSessionVM);
-                Session["Cart"] = list1 as List<CartSessionViewModel>;
+                var product = ajaxBL.GetProductByID(productID);
+                if (product.Quantity>0)
+                {
+                    cartSessionVM.ProductID = productID;
+                    cartSessionVM.Quantity = quantity;
+                    cartSessionVM.ProductDetail = product;
+                    list1.Add(cartSessionVM);
+                    Session["Cart"] = list1 as List<CartSessionViewModel>;
+                }
             }
             else
             {
@@ -62,20 +66,28 @@ namespace MobileMart.Controllers
                 var list2 = GetCartItems();
                 if (list2.Exists(s => s.ProductID == productID))
                 {
-                    list2.Where(s => s.ProductID == productID).Select(w => w.Quantity = quantity + w.Quantity).ToList();
-                    Session["Cart"] = list2 as List<CartSessionViewModel>;
+                    var product = ajaxBL.GetProductByID(productID);
+                    if (product.Quantity>0 && product.Quantity > list2.Where(s=> s.ProductID == productID).FirstOrDefault().Quantity)
+                    {
+                        list2.Where(s => s.ProductID == productID).Select(w => w.Quantity = quantity + w.Quantity).ToList();
+                        Session["Cart"] = list2 as List<CartSessionViewModel>;
+                    }
                 }
                 else
                 {
-                    //add if product is different
-                    cartSessionVM.ProductID = productID;
-                    cartSessionVM.Quantity = quantity;
-                    cartSessionVM.ProductDetail = ajaxBL.GetProductByID(productID);
-                    list2.Add(cartSessionVM);
-                    Session["Cart"] = list2 as List<CartSessionViewModel>;
+                    var product = ajaxBL.GetProductByID(productID);
+                    if (product.Quantity > 0)
+                    {
+                        //add if product is different
+                        cartSessionVM.ProductID = productID;
+                        cartSessionVM.Quantity = quantity;
+                        cartSessionVM.ProductDetail = product;
+                        list2.Add(cartSessionVM);
+                        Session["Cart"] = list2 as List<CartSessionViewModel>;
+                    }
                 }
             }
-            return Json(Session["Cart"] as List<CartSessionViewModel>, JsonRequestBehavior.AllowGet);
+            return Json(Session["Cart"] as List<CartSessionViewModel> , JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -229,6 +241,13 @@ namespace MobileMart.Controllers
                 orderNE.Timestamp = DateTime.Now;
                 orderNE.URL = "/Notification/OrderDetail?orderID=" + orderID;
                 orderNR.Insert(orderNE);
+
+                //orderDetailBL.GetProductIDByOrderID(order.OrderID);
+                var productIDs =  order.OrderDetails.Select(s => new {ProductID = s.ProductID , Quantity = s.Quantity});
+                foreach (var item in productIDs)
+                {
+                    new ProductRepository().MinusQuantityByID(item.ProductID,item.Quantity);
+                }
                 // Get PayPal API Context using configuration from web.config
                 var apiContext = GetApiContext();
                 // Set the payer for the payment

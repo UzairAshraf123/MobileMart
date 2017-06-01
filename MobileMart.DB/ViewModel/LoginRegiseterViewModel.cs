@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileMart.DB.CustomValidators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -45,6 +46,8 @@ namespace MobileMart.DB.ViewModel
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Profile Photo is Required")]
+        [MinimumFileSizeValidator(0.0001)]
+        [MaximumFileSizeValidator(3.0)]
         public HttpPostedFileBase ProfilePicture { get; set; }
 
         [Required(ErrorMessage = "First name is Required")]
@@ -72,7 +75,7 @@ namespace MobileMart.DB.ViewModel
         public int? Country { get; set; }
 
         [Required(ErrorMessage = "State is Required")]
-        [Display(Name = "State")]
+        [Display(Name = "Province")]
         public int? State { get; set; }
 
         [Required(ErrorMessage = "City is Required")]

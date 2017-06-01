@@ -65,6 +65,7 @@
                                         <div role="tabpanel" class="tab-pane active" id="description">
                                             <p>Price : @Model.Price Rs</p>
                                             <p>Detail : @Model.ProductDetail</p>
+                                            <p>Quantity in stock : @Model.Quantity</p>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@
                                         <ul class="action-button">
                                             <li>
                                                 <h4>Quantity</h4>
-                                                <input type="number" id="NumberField_@Model.ProductID" value="" min="1" class="numberfield">
+                                                <input type="number" id="NumberField_@Model.ProductID" value="" min="1" max="@Model.Quantity" class="numberfield">
                                             </li>
                                             <li class="btn-hover-2">
                                                 <button title="Wishlist" value="@Model.ProductID" class="single_add_to_cart_button"><i class="glyphicon glyphicon-heart"></i>Add to Wish list</button>

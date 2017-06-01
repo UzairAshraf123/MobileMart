@@ -34,7 +34,7 @@ namespace MobileMart.BL
                 CreatedON = i.Timestamp,
                 Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CustomerImage = customerRepo.Get().Where(s => s.CustomerID == i.CusotmerID).Select(s => s.ProfilePicture).FirstOrDefault(),
-            }).ToList();
+            }).ToList().OrderByDescending(w => w.CreatedON);
 
             IEnumerable<OrderNotification> orderNotification = orderNR.GetUnSeen();
             IEnumerable<OrderNotificationViewModel> orderNL = orderNotification.Select(i => new OrderNotificationViewModel
@@ -46,7 +46,7 @@ namespace MobileMart.BL
                 OrderNotificationURL = i.URL,
                 Days = (DateTime.Now - i.Timestamp.Value).Days,
                 CreatedON = i.Timestamp,
-            }).ToList();
+            }).ToList().OrderByDescending(w=>w.CreatedON);
 
             IEnumerable<ProductNotification> productNotification = productNR.GetUnSeen();
             IEnumerable<ProductNotificationViewModel> productNL = productNotification.Select(i => new ProductNotificationViewModel

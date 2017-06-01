@@ -19,7 +19,7 @@ namespace MobileMart.Repository
         public IEnumerable<ShopNotification> GetUnSeen()
         {
             _Context = new MobileMartEntities();
-            return _Context.ShopNotifications.Where(s=>s.IsSeen == false).Take(5).ToList().OrderByDescending(s => s.Timestamp); ;
+            return _Context.ShopNotifications.Where(s=>s.IsSeen == false).OrderByDescending(w=>w.Timestamp).Take(5).ToList();
         }
         public void ChangeIsSeenByID(int shopID)
         {

@@ -482,6 +482,7 @@ namespace MobileMart.BL
                 ProductImage3 = w.ProductImage3,
                 ProductImage4 = w.ProductImage4,
                 ProductName = w.ProductName,
+                Quantity = w.Quantity
             });
         }
         public IEnumerable<DisplayProductViewModel> GetProductByID(int? shopID)
@@ -511,6 +512,7 @@ namespace MobileMart.BL
                 viewmodel.price = item.Price;
                 viewmodel.Company = item.Company.CompanyName;
                 viewmodel.Category = item.Category.CategoryName;
+                viewmodel.Quantity = item.Quantity;
                 viewmodellist.Add(viewmodel);
             }
             return viewmodellist;

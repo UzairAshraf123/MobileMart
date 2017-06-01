@@ -74,7 +74,7 @@
                                                     <div class="col-sm-6">
                                                         @Html.DropDownListFor(Model => Model.StateID,
                                                                                          new SelectList(string.Empty, "Value", "Text"),
-                                                                                         "--Select State--",
+                                                                                         "--Select Province--",
                                                                                          new { @class = "custom-select", @id = "States" })
                                                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                                                     </div>
