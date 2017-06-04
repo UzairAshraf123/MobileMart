@@ -303,7 +303,7 @@ namespace MobileMart.BL
 
         public IEnumerable<IndexViewModel> GetProductByCompanyID(int? companyID)
         {
-            return new ProductRepository().Get().Where(s => s.CompanyID == companyID).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s => s.CompanyID == companyID && s.Quantity > 0).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,
@@ -350,7 +350,7 @@ namespace MobileMart.BL
 
         public IEnumerable<IndexViewModel> GetNewTablets(int? categoryID)
         {
-            return new ProductRepository().Get().Where(s => s.SubCategoryID == categoryID && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s => s.CategoryID == categoryID && s.Quantity > 0 && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,
@@ -368,7 +368,7 @@ namespace MobileMart.BL
         
         public IEnumerable<IndexViewModel> GetNewTabletsByCategory(int? categoryID, int? subCategoryID)
         {
-            return new ProductRepository().Get().Where(s => s.CategoryID == categoryID && s.SubCategoryID == subCategoryID && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s => s.CategoryID == categoryID && s.Quantity > 0 && s.SubCategoryID == subCategoryID && s.IsOld == false && s.IsActive == true).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,
@@ -386,7 +386,7 @@ namespace MobileMart.BL
 
         public IEnumerable<IndexViewModel> GetOldItems()
         {
-            return new ProductRepository().Get().Where(s => s.IsOld == true && s.IsActive == true).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s => s.IsOld == true && s.IsActive == true && s.Quantity>0).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,
@@ -404,7 +404,7 @@ namespace MobileMart.BL
 
         public IEnumerable<IndexViewModel> GetOldItemsByCategoryID(int? categoryID)
         {
-            return new ProductRepository().Get().Where(s =>s.SubCategoryID==categoryID && s.IsOld == true && s.IsActive == true).Select(w => new IndexViewModel
+            return new ProductRepository().Get().Where(s =>s.CategoryID==categoryID && s.IsOld == true && s.IsActive == true && s.Quantity > 0).Select(w => new IndexViewModel
             {
                 Category = w.Category.CategoryName,
                 Color = w.ProductColor,

@@ -244,7 +244,7 @@ namespace MobileMart.Controllers
                 if (companyID != null)
                 {
                     ViewBag.Brand = new HomeBL().GetCompanyByID(companyID);
-                    return View(new HomeBL().GetProductByCompanyID(companyID).Where(s => s.Quantity > 0));
+                    return View(new HomeBL().GetProductByCompanyID(companyID));
                 }
                 else
                 {
@@ -287,7 +287,7 @@ namespace MobileMart.Controllers
             {
                 if (categoryID!=null)
                 {
-                    return View(new HomeBL().GetNewTablets(categoryID).Where(s => s.Quantity > 0));
+                    return View(new HomeBL().GetNewTablets(categoryID));
                 }
                 else
                 {
@@ -307,7 +307,7 @@ namespace MobileMart.Controllers
             {
                 if (categoryID !=null && subCategoryID!=null)
                 {
-                    return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID).Where(s => s.Quantity > 0));
+                    return View(new HomeBL().GetNewTabletsByCategory(categoryID, subCategoryID));
                 }
                 else
                 {
